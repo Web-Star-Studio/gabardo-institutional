@@ -49,98 +49,104 @@ export interface ScrapedContent {
   };
 }
 
-// Dados extraídos do site Hub Plural
+// Dados extraídos do site Gabardo Transportes
 export const hubPluralContent: ScrapedContent = {
   "hero": {
-    "title": "Hub Plural - Coworking e Escritórios Compartilhados",
-    "description": "Esqueça aquele antigo modelo de escritório e tenha uma nova experiência de viver e trabalhar. Transforme sua forma de trabalhar em um ambiente colaborativo, inspirador e produtivo.",
+    "title": "Transportes Gabardo – Transporte de Veículos",
+    "description": "Atendimento em todo território nacional e países do Mercosul. Seguro total do seu veículo, frota com veículos novos e tecnologia embarcada, profissionais treinados e capacitados, serviço de coleta e entrega (pátio a pátio).",
     "images": []
   },
   "services": [
     {
-      "title": "Coworking Plural",
-      "description": "Espaço colaborativo com estações de trabalho flexíveis e ambiente inspirador para profissionais e empresas.",
+      "title": "Transporte de Veículos",
+      "description": "Transporte seguro de carros, motos e caminhões com seguro total e rastreamento via satélite em tempo real.",
       "icon": null
     },
     {
-      "title": "Escritório Flexível",
-      "description": "Salas privadas com toda infraestrutura necessária para sua empresa crescer sem se preocupar com manutenção.",
+      "title": "Transporte em Prancha",
+      "description": "Transporte especializado em prancha para veículos de maior porte com toda segurança e cuidado.",
       "icon": null
     },
     {
-      "title": "Salas de Reunião",
-      "description": "Salas equipadas para reuniões, apresentações e eventos corporativos com toda tecnologia necessária.",
+      "title": "Armazenagem",
+      "description": "Serviços de armazenagem de frotas com segurança e controle total dos veículos.",
       "icon": null
     },
     {
-      "title": "Estação Fixa",
-      "description": "Sua própria estação de trabalho em ambiente colaborativo, garantindo seu espaço sempre disponível.",
+      "title": "Coleta e Entrega",
+      "description": "Serviço completo de coleta e entrega porta a porta em todo território nacional.",
       "icon": null
     },
     {
-      "title": "Caixa Postal",
-      "description": "Endereço comercial e serviços de correspondência para sua empresa ter presença profissional.",
+      "title": "Transporte Mercosul",
+      "description": "Atendimento especializado para países do Mercosul com toda documentação necessária.",
       "icon": null
     },
     {
-      "title": "Eventos Corporativos",
-      "description": "Espaços para eventos, workshops e networking em ambiente profissional e moderno.",
+      "title": "Rastreamento Satelital",
+      "description": "Sistema avançado de rastreamento via satélite para acompanhar sua carga em tempo real.",
       "icon": null
     }
   ],
   "locations": [
-    { "name": "Aflitos", "address": "Recife - PE", "description": "Unidade no bairro dos Aflitos, região central de fácil acesso" },
-    { "name": "Boa Viagem", "address": "Recife - PE", "description": "Unidade em Boa Viagem, próximo à praia e ao centro empresarial" },
-    { "name": "Ilha do Leite", "address": "Recife - PE", "description": "Unidade na Ilha do Leite, coração do Recife Antigo" },
-    { "name": "Várzea", "address": "Recife - PE", "description": "Unidade na Várzea, próximo à UFPE e centros acadêmicos" },
-    { "name": "Caruaru", "address": "Caruaru - PE", "description": "Expansão para o agreste pernambucano" },
-    { "name": "Fortaleza", "address": "Fortaleza - CE", "description": "Presença no Ceará, expandindo no Nordeste" },
-    { "name": "Petrolina", "address": "Petrolina - PE", "description": "Unidade no Vale do São Francisco" }
+    { "name": "Matriz Porto Alegre", "address": "Rua Vitor Valpírio, 715 - Anchieta - Porto Alegre/RS - CEP 90200-230", "description": "Sede da empresa com infraestrutura completa" },
+    { "name": "Iracemápolis", "address": "Rodovia Luiz Ometto - SP 306 - KM 44 - Iracemápolis/SP", "description": "Filial estratégica em São Paulo" },
+    { "name": "Jacareí", "address": "Rua Haroldo Barnsley Holland, 211 - Rio Abaixo - Jacareí/SP", "description": "Unidade no Vale do Paraíba" },
+    { "name": "Palhoça", "address": "Av. Gentil Reinaldo Cordioli, S/N - Jardim Eldorado - Palhoça/SC", "description": "Atendimento em Santa Catarina" },
+    { "name": "Cariacica", "address": "ROD GOVERNADOR MARIO COVAS GALPÃO 01 - Cariacica/ES", "description": "Presença no Espírito Santo" },
+    { "name": "Anápolis", "address": "Rua Via Primaria, S/N - Quadra 11-E - DAIA - Anápolis/GO", "description": "Centro-Oeste brasileiro" },
+    { "name": "Piracicaba", "address": "Via Mario Sergio Gabardo, 555 - Piracicaba/SP", "description": "Interior paulista estratégico" },
+    { "name": "Porto Real", "address": "Estrada Renato Monteiro, S/N - Tecnopolo Agroindustrial - Porto Real/RJ", "description": "Região do Vale do Paraíba fluminense" },
+    { "name": "Chuí", "address": "Rodovia BR 471, 3400 - Centro - Chuí/RS", "description": "Fronteira com Uruguai" },
+    { "name": "São Bernardo do Campo", "address": "Av. Robert Kennedy, 581 - Piraporinha - São Bernardo do Campo/SP", "description": "Grande São Paulo" },
+    { "name": "Duque de Caxias", "address": "Rodovia Washington Luiz, 6399 - Jardim Gramacho - Duque de Caxias/RJ", "description": "Grande Rio de Janeiro" },
+    { "name": "São José dos Pinhais", "address": "Rua Silvio Pinto Ribeiro, 707 - Jardim Quississana - São José dos Pinhais/PR", "description": "Região metropolitana de Curitiba" },
+    { "name": "Eusébio", "address": "Rua Dos Moraes, 1011 - Bairro Jabuti - Eusébio/CE", "description": "Presença no Nordeste" },
+    { "name": "Pátio Jaraguá", "address": "Estrada Turística do Jaraguá, 2989 - São Paulo/SP", "description": "Zona norte de São Paulo" }
   ],
   "testimonials": [
     {
-      "text": "O Hub se tornou uma família. A energia de toda a equipe somada com os ambientes aconchegantes fazem a gente se sentir em casa. Trazer a empresa para esse lugar nos fez trabalhar com mais entusiasmo e leveza!",
-      "author": "Equipe GF.Capital",
+      "text": "A Gabardo oferece serviços de transporte de veículos com excelência, segurança total e acompanhamento em tempo real. Profissionais capacitados e frota moderna.",
+      "author": "Cliente Montadora",
       "rating": 5
     },
     {
-      "text": "A experiência de conviver no Hub Plural tem sido diferenciada, pois além de proporcionar novas interações e trocas profissionais, nos oferece uma ótima estrutura.",
-      "author": "Gestor Empresarial",
+      "text": "Transportamos nossos veículos com total confiança. O rastreamento satelital e o seguro total nos dão a tranquilidade necessária.",
+      "author": "Concessionária Parceira", 
       "rating": 5
     },
     {
-      "text": "Estar em um ambiente que favorece a aproximação com outras empresas e empreendedores com visão de futuro tem sido fantástico. São muitas as excelentes pontes que se formaram através do Hub.",
-      "author": "Empreendedor Local",
+      "text": "Atendimento em todo território nacional com a qualidade e pontualidade que nossa empresa precisa. Recomendamos os serviços da Gabardo.",
+      "author": "Empresa do Setor Automotivo",
       "rating": 5
     }
   ],
   "about": {
-    "title": "Sobre o Hub Plural",
-    "description": "O Hub Plural é mais que um coworking, é um ecossistema de inovação e colaboração que conecta pessoas, ideias e oportunidades. Nossa missão é transformar a experiência de trabalho, oferecendo espaços inspiradores e uma comunidade vibrante.",
+    "title": "Sobre a Transportes Gabardo",
+    "description": "Fundada em 1989 por Sérgio Mário Gabardo em Porto Alegre/RS, a Transportes Gabardo é referência no transporte de veículos. Com frota moderna e tecnologia embarcada, oferece serviços seguros e eficientes em todo território nacional e países do Mercosul.",
     "values": [
-      "Colaboração",
-      "Inovação", 
-      "Sustentabilidade",
-      "Comunidade",
-      "Excelência"
+      "Segurança",
+      "Qualidade",
+      "Tecnologia",
+      "Confiabilidade", 
+      "Excelência no Atendimento"
     ]
   },
   "contact": {
-    "phone": "(81) 98135-2010",
-    "email": "contato@hubplural.com",
-    "address": "Múltiplas unidades em Recife, Caruaru, Fortaleza e Petrolina",
+    "phone": "+55 (51) 3373.3000",
+    "email": "gabardo@transgabardo.com.br",
+    "address": "Rua Vitor Valpírio, 715 - Anchieta - CEP 90200-230 - Porto Alegre/RS",
     "socialMedia": {
-      "whatsapp": "https://tintim.link/whatsapp/1aea14c7-c4ee-4de0-88d5-79f52f1ce4d8/69b4518f-9cad-4d40-b285-cde548172d5a",
-      "facebook": "https://www.facebook.com/hubplural/",
-      "instagram": "https://www.instagram.com/hubplural_oficial/",
-      "linkedin": "https://br.linkedin.com/company/hubplural"
+      "whatsapp": "https://wa.me/5551933733000",
+      "website": "https://www.transgabardo.com.br",
+      "email": "gabardo@transgabardo.com.br"
     }
   },
   "meta": {
-    "title": "Coworking e escritórios por assinaturas em Recife - Hub Plural",
-    "description": "Esqueça aquele antigo modelo de escritório e tenha uma nova experiência de viver e trabalhar. Conheça o Hub Plural."
+    "title": "Transportes Gabardo - Transporte de Veículos em todo Brasil e Mercosul",
+    "description": "Transporte seguro de veículos com frota moderna, seguro total e rastreamento satelital. Atendimento nacional e internacional."
   }
 };
 
 // Exportações específicas para facilitar o uso
-export const { hero, services, locations, testimonials, about, contact, meta } = hubPluralContent; 
+export const { hero, services, locations, testimonials, about, contact, meta } = hubPluralContent;
