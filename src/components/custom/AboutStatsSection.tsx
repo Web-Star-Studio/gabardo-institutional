@@ -4,13 +4,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { 
   Building2, 
-  Users, 
+  Truck, 
   Calendar, 
   Award, 
   MapPin, 
-  Coffee,
-  Briefcase,
-  Star
+  Shield,
+  Globe,
+  Zap
 } from 'lucide-react';
 
 interface Stat {
@@ -26,84 +26,44 @@ interface Stat {
 
 const stats: Stat[] = [
   {
-    id: 'units',
-    icon: <Building2 className="w-8 h-8" />,
-    number: 15,
-    suffix: '',
-    title: 'UNIDADES',
-    description: 'Espaços estrategicamente localizados em Recife',
+    id: 'years',
+    icon: <Calendar className="w-8 h-8" />,
+    number: 35,
+    suffix: '+',
+    title: 'ANOS DE EXPERIÊNCIA',
+    description: 'Tradição e expertise no transporte de veículos',
     color: 'blue',
     duration: 2000
   },
   {
-    id: 'members',
-    icon: <Users className="w-8 h-8" />,
-    number: 5000,
-    suffix: '+',
-    title: 'MEMBROS ATIVOS',
-    description: 'Profissionais conectados em nossa comunidade',
+    id: 'units',
+    icon: <Building2 className="w-8 h-8" />,
+    number: 14,
+    suffix: '',
+    title: 'UNIDADES NO BRASIL',
+    description: 'Cobertura estratégica em todo território nacional',
     color: 'amber',
-    duration: 3000
+    duration: 2500
   },
   {
-    id: 'years',
-    icon: <Calendar className="w-8 h-8" />,
-    number: 12,
+    id: 'countries',
+    icon: <Globe className="w-8 h-8" />,
+    number: 6,
     suffix: '',
-    title: 'ANOS DE EXPERIÊNCIA',
-    description: 'Liderando o mercado de coworking no Nordeste',
+    title: 'PAÍSES MERCOSUL',
+    description: 'Representações na Argentina, Uruguai, Paraguai, Chile, Bolívia e Peru',
     color: 'emerald',
-    duration: 2500
+    duration: 2000
   },
   {
-    id: 'satisfaction',
-    icon: <Star className="w-8 h-8" />,
-    number: 98,
+    id: 'tracking',
+    icon: <Zap className="w-8 h-8" />,
+    number: 100,
     suffix: '%',
-    title: 'SATISFAÇÃO',
-    description: 'Índice de satisfação dos nossos membros',
+    title: 'FROTA RASTREADA',
+    description: 'Sistema de rastreamento via satélite em tempo real',
     color: 'purple',
-    duration: 2000
-  },
-  {
-    id: 'events',
-    icon: <Award className="w-8 h-8" />,
-    number: 500,
-    suffix: '+',
-    title: 'EVENTOS REALIZADOS',
-    description: 'Networking, workshops e palestras',
-    color: 'rose',
     duration: 2500
-  },
-  {
-    id: 'cities',
-    icon: <MapPin className="w-8 h-8" />,
-    number: 8,
-    suffix: '',
-    title: 'CIDADES',
-    description: 'Presença em múltiplas cidades do Nordeste',
-    color: 'cyan',
-    duration: 2000
-  },
-  {
-    id: 'meetings',
-    icon: <Briefcase className="w-8 h-8" />,
-    number: 10000,
-    suffix: '+',
-    title: 'REUNIÕES REALIZADAS',
-    description: 'Espaços para negócios importantes',
-    color: 'indigo',
-    duration: 3500
-  },
-  {
-    id: 'coffee',
-    icon: <Coffee className="w-8 h-8" />,
-    number: 50000,
-    suffix: '+',
-    title: 'CAFÉS SERVIDOS',
-    description: 'Energia para manter a produtividade',
-    color: 'orange',
-    duration: 4000
   }
 ];
 
@@ -244,9 +204,9 @@ const AboutStatsSection: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.3 }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-white uppercase tracking-tight leading-tight"
           >
-            Impacto que
+            Números que
             <br />
-            <span className="text-white/80">Transforma</span>
+            <span className="text-white/80">Impressionam</span>
           </motion.h2>
 
           <motion.p
@@ -256,7 +216,7 @@ const AboutStatsSection: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="mt-6 text-lg md:text-xl text-white/70 font-light max-w-3xl mx-auto leading-relaxed"
           >
-            Mais de uma década construindo a maior comunidade de profissionais inovadores do Nordeste
+            Mais de três décadas transportando veículos com segurança e qualidade em toda América Latina
           </motion.p>
         </motion.div>
 
@@ -297,7 +257,7 @@ const AboutStatsSection: React.FC = () => {
                 <motion.span 
                   className={`text-4xl md:text-5xl font-bold ${getColorClasses(stat.color)} block leading-none`}
                 >
-                  {Math.floor(Math.random() * 100)}
+                  {counts[index]}{stat.suffix}
                 </motion.span>
               </div>
 
@@ -336,17 +296,17 @@ const AboutStatsSection: React.FC = () => {
         >
           <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-8 md:p-12 max-w-4xl mx-auto">
             <h3 className="text-2xl md:text-3xl font-bold text-white uppercase tracking-wide mb-4">
-              Faça Parte Desta Comunidade
+              Solicite Sua Cotação
             </h3>
             <p className="text-white/70 font-light text-lg leading-relaxed mb-8">
-              Junte-se a milhares de profissionais que escolheram o Hub Plural para impulsionar seus negócios
+              Confie na experiência da Transportes Gabardo para o transporte seguro do seu veículo
             </p>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="bg-red-600 rounded-md text-white px-8 py-4 font-bold uppercase tracking-wide hover:bg-red-700 transition-all duration-300"
             >
-              Conheça Nossos Planos
+              Solicitar Cotação
             </motion.button>
           </div>
         </motion.div>
