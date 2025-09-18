@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Eye, Target, Heart, Zap, Globe, Shield } from 'lucide-react';
+import { Eye, Target, Heart, Truck, Shield, Award } from 'lucide-react';
 
 interface MissionItem {
   id: string;
@@ -19,7 +19,7 @@ const missionItems: MissionItem[] = [
     icon: <Target className="w-10 h-10" />,
     title: 'MISSÃO',
     subtitle: 'Nosso Propósito',
-    description: 'Transformar espaços de trabalho tradicionais em ambientes colaborativos e inspiradores, conectando pessoas e impulsionando o crescimento profissional através de soluções flexíveis e inovadoras.',
+    description: 'Atender as necessidades de nossos clientes de forma segura, ágil, sustentável, com qualidade e tecnologia, sendo referência em soluções logísticas e no transporte de veículos.',
     color: 'amber'
   },
   {
@@ -27,7 +27,7 @@ const missionItems: MissionItem[] = [
     icon: <Eye className="w-10 h-10" />,
     title: 'VISÃO',
     subtitle: 'Nosso Futuro',
-    description: 'Ser a principal referência em espaços de trabalho flexíveis no Brasil, liderando a revolução do trabalho moderno e criando uma rede que conecta profissionais em todo o país.',
+    description: 'Ser reconhecida como a empresa mais confiável e inovadora no transporte de veículos da América Latina, sempre à frente das necessidades dos clientes com soluções tecnológicas avançadas.',
     color: 'blue'
   },
   {
@@ -35,26 +35,26 @@ const missionItems: MissionItem[] = [
     icon: <Heart className="w-10 h-10" />,
     title: 'VALORES',
     subtitle: 'Nossa Essência',
-    description: 'Colaboração, inovação, sustentabilidade e excelência. Acreditamos na força da comunidade, no poder da diversidade e na importância de criar um impacto positivo na sociedade.',
+    description: 'Segurança, qualidade, sustentabilidade, inovação e excelência no atendimento. Compromisso com a proteção ao meio ambiente e segurança viária em todas as nossas operações.',
     color: 'emerald'
   }
 ];
 
 const principles = [
   {
-    icon: <Zap className="w-6 h-6" />,
-    title: 'Inovação Constante',
-    description: 'Sempre buscando novas formas de melhorar a experiência dos nossos membros'
-  },
-  {
-    icon: <Globe className="w-6 h-6" />,
-    title: 'Sustentabilidade',
-    description: 'Compromisso com práticas ambientalmente responsáveis em todos os nossos espaços'
+    icon: <Truck className="w-6 h-6" />,
+    title: 'Transporte Seguro',
+    description: 'Segurança total dos veículos transportados com seguro completo e rastreamento'
   },
   {
     icon: <Shield className="w-6 h-6" />,
-    title: 'Excelência',
-    description: 'Padrão de qualidade superior em serviços, infraestrutura e atendimento'
+    title: 'Qualidade Certificada',
+    description: 'Certificados ISO 9001, 14001, 39001 e Carbono Neutro garantindo excelência'
+  },
+  {
+    icon: <Award className="w-6 h-6" />,
+    title: 'Tecnologia Avançada',
+    description: 'Sistema de rastreamento via satélite e frota com tecnologia embarcada'
   }
 ];
 
@@ -104,7 +104,7 @@ const AboutMissionSection: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-sm font-light tracking-[0.2em] text-neutral-500 mb-4 uppercase relative inline-block"
           >
-            Nossos Princípios
+            Nossos Compromissos
             <div className="absolute -bottom-1 left-0 w-8 h-px bg-amber-400"></div>
           </motion.div>
           

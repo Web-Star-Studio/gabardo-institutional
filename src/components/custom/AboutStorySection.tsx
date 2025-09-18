@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Building, Users, Lightbulb, Target } from 'lucide-react';
+import { Building, Truck, Zap, Globe } from 'lucide-react';
 
 interface TimelineItem {
   year: string;
@@ -14,32 +14,32 @@ interface TimelineItem {
 
 const timeline: TimelineItem[] = [
   {
-    year: '2012',
-    title: 'O Início da Jornada',
-    description: 'Nascemos com a visão de transformar o conceito de trabalho em Recife, criando o primeiro espaço de coworking da cidade com foco em inovação e colaboração.',
-    icon: <Lightbulb className="w-6 h-6" />,
-    image: 'https://hubplural.com/wp-content/uploads/2023/09/PASSAPORTE-02-1024x770.png'
+    year: '1982',
+    title: 'O Primeiro Passo',
+    description: 'Sérgio Mário Gabardo, natural de Nova Bassano, ingressou no transporte de veículos para atender à montadora gaúcha Miura, dando início a uma trajetória de sucesso no setor.',
+    icon: <Truck className="w-6 h-6" />,
+    image: '/images/co-01.jpg'
   },
   {
-    year: '2015',
-    title: 'Expansão e Crescimento',
-    description: 'Expandimos para múltiplas unidades, oferecendo diferentes formatos de espaços de trabalho para atender às necessidades diversas dos profissionais.',
+    year: '1989',
+    title: 'A Fundação',
+    description: 'A Transportes Gabardo foi oficialmente fundada na capital do Rio Grande do Sul por Sérgio Mário Gabardo, estabelecendo as bases sólidas da empresa em Porto Alegre.',
     icon: <Building className="w-6 h-6" />,
-    image: 'https://hubplural.com/wp-content/uploads/2024/07/HOME-SALA-DE-REUNIAO-01.png'
+    image: '/images/co-03.jpg'
   },
   {
-    year: '2018',
-    title: 'Comunidade Plural',
-    description: 'Consolidamos nossa comunidade com mais de 2.000 membros ativos, tornando-nos referência em networking e desenvolvimento profissional no Nordeste.',
-    icon: <Users className="w-6 h-6" />,
-    image: 'https://hubplural.com/wp-content/uploads/2024/07/HOME-SALA-DE-REUNIAO-02.png'
+    year: '2000s',
+    title: 'Era da Tecnologia',
+    description: 'Investimento em moderna estrutura logística com sistema de rastreamento via satélite, cobrindo toda a América Latina e oferecendo gerenciamento de informações integradas em tempo real.',
+    icon: <Zap className="w-6 h-6" />,
+    image: '/images/co-5.jpg'
   },
   {
-    year: '2024',
-    title: 'Liderança Regional',
-    description: 'Hoje somos a maior rede de coworking do Nordeste, com 15 unidades e mais de 5.000 membros, continuando nossa missão de transformar espaços e conectar pessoas.',
-    icon: <Target className="w-6 h-6" />,
-    image: 'https://hubplural.com/wp-content/uploads/2025/05/Captura-de-tela-2025-05-09-220312.png'
+    year: 'Hoje',
+    title: 'Liderança Continental',
+    description: 'Reconhecida como uma das principais empresas do setor, com 14 unidades no Brasil e representações em 6 países do Mercosul, mantendo compromisso com segurança, qualidade e inovação.',
+    icon: <Globe className="w-6 h-6" />,
+    image: '/images/Grupo-49.png'
   }
 ];
 
@@ -80,7 +80,7 @@ const AboutStorySection: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-sm font-light tracking-[0.2em] text-neutral-500 mb-4 uppercase relative inline-block"
           >
-            Nossa Trajetória
+            Nossa História
             <div className="absolute -bottom-1 left-0 w-8 h-px bg-amber-400"></div>
           </motion.div>
           
@@ -91,9 +91,9 @@ const AboutStorySection: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.3 }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-black uppercase tracking-tight leading-tight"
           >
-            Uma História de
+            35 Anos de
             <br />
-            <span className="text-neutral-600">Inovação e Crescimento</span>
+            <span className="text-neutral-600">Tradição e Excelência</span>
           </motion.h2>
         </motion.div>
 
@@ -186,11 +186,11 @@ const AboutStorySection: React.FC = () => {
           className="text-center mt-20 md:mt-24"
         >
           <blockquote className="text-2xl md:text-3xl font-light text-neutral-700 italic max-w-4xl mx-auto leading-relaxed">
-            "Acreditamos que os melhores negócios nascem quando pessoas talentosas se conectam 
-            em ambientes inspiradores. Esta é nossa missão há mais de uma década."
+            "Nossa missão é atender as necessidades de nossos clientes de forma segura, ágil e sustentável, 
+            sendo referência em soluções logísticas e no transporte de veículos."
           </blockquote>
           <div className="mt-6 text-sm font-medium text-neutral-500 tracking-wide uppercase">
-            — Equipe Hub Plural
+            — Transportes Gabardo
           </div>
         </motion.div>
       </div>

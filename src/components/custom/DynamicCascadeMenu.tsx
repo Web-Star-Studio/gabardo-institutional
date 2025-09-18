@@ -12,7 +12,8 @@ interface DynamicCascadeMenuProps {
 
 const navItems = [
   { id: 'home', name: 'HOME', href: '/' },
-  { id: 'sobre', name: 'SOBRE', href: '/sobre' },
+  { id: 'institucional', name: 'INSTITUCIONAL', href: '/institucional' },
+  { id: 'historia', name: 'HISTÓRIA', href: '/historia' },
   { id: 'blog', name: 'BLOG', href: '/blog' },
   { id: 'localizacao', name: 'LOCALIZAÇÃO', href: '/localizacao' },
   { id: 'contato', name: 'CONTATO', href: '/contato' },

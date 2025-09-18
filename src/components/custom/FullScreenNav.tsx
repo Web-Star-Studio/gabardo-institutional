@@ -469,7 +469,8 @@ const App = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const MOCK_MENU_ITEMS = [
     { id: 'home', label: 'HOME', href: '/', imageSrc: '/placeholder-home.jpg' },
-    { id: 'sobre', label: 'SOBRE', href: '/sobre', imageSrc: '/placeholder-sobre.jpg' },
+    { id: 'institucional', label: 'INSTITUCIONAL', href: '/institucional', imageSrc: '/placeholder-institucional.jpg' },
+    { id: 'historia', label: 'HISTÓRIA', href: '/historia', imageSrc: '/placeholder-historia.jpg' },
     { id: 'blog', label: 'BLOG', href: '/blog', imageSrc: '/placeholder-blog.jpg' },
     { id: 'localizacao', label: 'LOCALIZAÇÃO', href: '/localizacao', imageSrc: '/placeholder-localizacao.jpg' },
     { id: 'contato', label: 'CONTATO', href: '/contato', imageSrc: '/placeholder-contato.jpg' },
