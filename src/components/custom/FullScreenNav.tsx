@@ -193,7 +193,7 @@ const FullScreenNav: React.FC<FullScreenNavProps> = ({
                     <Link 
                       href={item.href}
                       onClick={onClose}
-                      className="flex items-center justify-between py-3 md:py-4 text-white hover:text-amber-400/80 transition-all duration-500 active:text-amber-400/80 touch-manipulation"
+                      className="flex items-center justify-between py-3 md:py-4 text-white hover-blue-80 transition-all duration-500 touch-manipulation"
                       onMouseEnter={() => !isMobile && setHoveredItemImage(item.imageSrc)}
                       onMouseLeave={() => !isMobile && setHoveredItemImage(defaultImageSrc)}
                       onTouchStart={() => isMobile && setHoveredItemImage(item.imageSrc)}
@@ -203,7 +203,7 @@ const FullScreenNav: React.FC<FullScreenNavProps> = ({
                       </span>
                       <ChevronRight 
                         size={isMobile ? 20 : 24} 
-                        className="opacity-70 md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 text-amber-400/80 flex-shrink-0 ml-4" 
+                        className="opacity-70 md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 flex-shrink-0 ml-4 text-blue-bright" 
                       />
                     </Link>
                   </motion.div>
@@ -220,7 +220,7 @@ const FullScreenNav: React.FC<FullScreenNavProps> = ({
                 <button
                   onClick={() => setActiveSection('services')}
                   className={`px-6 py-3 rounded-full border border-white/30 text-white transition-all duration-300 hover:bg-white/10 active:bg-white/20 touch-manipulation ${
-                    activeSection === 'services' ? 'bg-amber-400/80 text-black border-amber-400/80' : ''
+                    activeSection === 'services' ? 'bg-blue-80 text-white border-blue-80' : ''
                   }`}
                 >
                   Serviços
@@ -228,7 +228,7 @@ const FullScreenNav: React.FC<FullScreenNavProps> = ({
                 <button
                   onClick={() => setActiveSection('locations')}
                   className={`px-6 py-3 rounded-full border border-white/30 text-white transition-all duration-300 hover:bg-white/10 active:bg-white/20 touch-manipulation ${
-                    activeSection === 'locations' ? 'bg-amber-400/80 text-black border-amber-400/80' : ''
+                    activeSection === 'locations' ? 'bg-blue-80 text-white border-blue-80' : ''
                   }`}
                 >
                   Localizações
@@ -262,7 +262,7 @@ const FullScreenNav: React.FC<FullScreenNavProps> = ({
                           >
                             <div className="flex items-center justify-between">
                               <span className="text-base font-light">{service.label}</span>
-                              <ChevronRight size={16} className="transition-transform duration-300 text-amber-400/80" />
+                              <ChevronRight size={16} className="transition-transform duration-300 text-blue-bright" />
                             </div>
                           </Link>
                         </motion.div>
@@ -293,9 +293,9 @@ const FullScreenNav: React.FC<FullScreenNavProps> = ({
                             className="block p-4 rounded-lg bg-white/10 hover:bg-white/20 active:bg-white/25 transition-all duration-300 text-white group touch-manipulation"
                           >
                             <div className="flex items-center space-x-3">
-                              <MapPin size={16} className="text-amber-400/80 flex-shrink-0" />
+                              <MapPin size={16} className="flex-shrink-0 text-blue-bright" />
                               <span className="text-base font-light">{location.label}</span>
-                              <ChevronRight size={16} className="ml-auto transition-transform duration-300 text-amber-400/80" />
+                              <ChevronRight size={16} className="ml-auto transition-transform duration-300 text-blue-bright" />
                             </div>
                           </Link>
                         </motion.div>
@@ -387,7 +387,7 @@ const FullScreenNav: React.FC<FullScreenNavProps> = ({
                           className="block p-4 rounded-lg bg-white/10 hover:bg-white/20 transition-all duration-300 text-white group"
                         >
                           <div className="flex items-center space-x-3">
-                            <MapPin size={16} className="text-amber-400/80" />
+                            <MapPin size={16} className="text-blue-bright" />
                             <span className="text-lg font-light">{location.label}</span>
                             <ChevronRight size={16} className="ml-auto group-hover:translate-x-1 transition-transform duration-300" />
                           </div>
@@ -412,7 +412,7 @@ const FullScreenNav: React.FC<FullScreenNavProps> = ({
                         Há mais de 35 anos transportando veículos com segurança, tecnologia e excelência em todo o Brasil.
                       </p>
                       
-                      <div className="flex items-center space-x-3 text-amber-400/80 mb-4">
+                      <div className="flex items-center space-x-3 mb-4 text-blue-accent">
                         <Clock size={16} />
                         <span className="text-sm">Seg-Sex: 8h às 18h</span>
                       </div>
@@ -420,7 +420,7 @@ const FullScreenNav: React.FC<FullScreenNavProps> = ({
                       <Link
                         href="/contato"
                         onClick={onClose}
-                        className="inline-flex items-center space-x-2 text-amber-400/80 hover:text-white transition-colors duration-300"
+                        className="inline-flex items-center space-x-2 text-blue-accent hover:text-white transition-colors duration-300"
                       >
                         <span>Solicitar Cotação</span>
                         <ChevronRight size={16} />

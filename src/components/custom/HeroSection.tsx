@@ -65,13 +65,13 @@ export default function HeroSection() {
               <h1 className="font-primary text-3xl sm:text-5xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight mb-6">
                 Para cada cliente,
                 <br />
-                <span className="text-amber-400/70">uma Gabardo diferente.</span>
+                <span className="text-blue-accent">uma Gabardo diferente.</span>
               </h1>
               <p className="font-secondary mt-4 text-base sm:text-lg md:text-lg lg:text-xl font-light leading-relaxed mb-8">
                 Há mais de 35 anos, entendemos as necessidades dos nossos clientes para atendê-los de forma personalizada e eficiente no transporte de veículos.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <button className="font-secondary bg-amber-500/80 hover:bg-amber-600/80 text-black px-8 py-4 font-semibold uppercase tracking-wide transition-all duration-300 transform hover:scale-105">
+                <button className="font-secondary bg-blue-glow text-white px-8 py-4 font-semibold uppercase tracking-wide transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-blue-500/25">
                   Encontre seu serviço
                 </button>
                 <button className="font-secondary border-2 border-white text-white hover:bg-white hover:text-black px-8 py-4 font-semibold uppercase tracking-wide transition-all duration-300">

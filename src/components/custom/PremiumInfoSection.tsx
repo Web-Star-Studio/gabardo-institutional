@@ -131,7 +131,7 @@ const PremiumInfoSection: React.FC = () => {
               className="text-center space-y-6"
             >
               {/* Service Category */}
-              <h2 className="text-2xl md:text-3xl font-bold uppercase text-amber-400 mb-4 tracking-wide">
+              <h2 className="text-2xl md:text-3xl font-bold uppercase mb-4 tracking-wide text-blue-bright">
                 {activeItem.projectCategory}
               </h2>
               

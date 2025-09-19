@@ -53,6 +53,44 @@
   .text-balance {
     text-wrap: balance;
   }
+  
+  /* Enhanced electric blue effects for dark theme */
+  .hover-blue-70:hover {
+    color: #3b82f6d9 !important; /* Electric blue 85% opacity */
+  }
+  
+  .hover-blue-80:hover {
+    color: #3b82f6e6 !important; /* Electric blue 90% opacity */
+  }
+  
+  .bg-blue-80 {
+    background-color: #3b82f6e6; /* Electric blue 90% opacity */
+  }
+  
+  .bg-blue-70 {
+    background-color: #3b82f6d9; /* Electric blue 85% opacity */
+  }
+  
+  .hover-bg-blue-80:hover {
+    background-color: #3b82f6e6 !important;
+  }
+  
+  .text-blue-accent {
+    color: #60a5fa; /* Lighter blue for better contrast on dark */
+  }
+  
+  .text-blue-bright {
+    color: #3b82f6; /* Full electric blue */
+  }
+  
+  .bg-blue-glow {
+    background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  }
+  
+  .border-blue-accent {
+    border-color: #3b82f6;
+  }
 }
 
 /* @import "tw-animate-css"; */ /* Keep this commented for now */

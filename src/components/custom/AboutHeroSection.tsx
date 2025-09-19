@@ -118,7 +118,7 @@ export default function AboutHeroSection() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
-                className="text-xs sm:text-sm font-light tracking-[0.2em] text-amber-400 mb-4 md:mb-6 uppercase"
+                className="text-xs sm:text-sm font-light tracking-[0.2em] text-blue-400 mb-4 md:mb-6 uppercase"
               >
                 Sobre o Hub Plural
               </motion.div>
@@ -131,7 +131,7 @@ export default function AboutHeroSection() {
               >
                 Transformando Espaços,
                 <br />
-                <span className="text-amber-400">Conectando Pessoas</span>
+                <span className="text-blue-400">Conectando Pessoas</span>
               </motion.h1>
 
               <motion.p 
@@ -152,15 +152,15 @@ export default function AboutHeroSection() {
                 className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 md:gap-8"
               >
                 <div className="flex items-center space-x-2">
-                  <Dot className="w-3 h-3 text-amber-400 flex-shrink-0" />
+                  <Dot className="w-3 h-3 text-blue-400 flex-shrink-0" />
                   <span className="text-xs sm:text-sm font-light tracking-wide">Desde 2012</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Dot className="w-3 h-3 text-amber-400 flex-shrink-0" />
+                  <Dot className="w-3 h-3 text-blue-400 flex-shrink-0" />
                   <span className="text-xs sm:text-sm font-light tracking-wide">+5000 Membros</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Dot className="w-3 h-3 text-amber-400 flex-shrink-0" />
+                  <Dot className="w-3 h-3 text-blue-400 flex-shrink-0" />
                   <span className="text-xs sm:text-sm font-light tracking-wide">15 Unidades</span>
                 </div>
               </motion.div>
@@ -188,7 +188,7 @@ export default function AboutHeroSection() {
             <motion.div
               animate={{ height: [0, 16, 0], opacity: [0, 1, 0] }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              className="w-0.5 bg-amber-400 rounded-full mt-1"
+              className="w-0.5 bg-blue-400 rounded-full mt-1"
             />
           </motion.div>
         </motion.div>

@@ -69,7 +69,7 @@ export default function ContactMapSection() {
           >
             Fácil de
             <br />
-            <span className="text-amber-400">Chegar</span>
+            <span className="text-blue-400">Chegar</span>
           </motion.h2>
         </motion.div>
 
@@ -97,7 +97,7 @@ export default function ContactMapSection() {
                   <motion.div
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.3 }}
-                    className="w-20 h-20 bg-neutral-200 border-2 border-neutral-400 rounded-lg flex items-center justify-center mx-auto mb-6 group-hover:bg-amber-400 group-hover:border-amber-400 group-hover:text-black transition-all duration-300"
+                    className="w-20 h-20 bg-neutral-200 border-2 border-neutral-400 rounded-lg flex items-center justify-center mx-auto mb-6 group-hover:bg-blue-400 group-hover:border-blue-400 group-hover:text-black transition-all duration-300"
                   >
                     <MapPin className="w-10 h-10 text-neutral-600 group-hover:text-black" />
                   </motion.div>
@@ -123,7 +123,7 @@ export default function ContactMapSection() {
                 <motion.div
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="bg-white text-black px-6 py-3 font-semibold uppercase tracking-wide hover:bg-amber-400 transition-all duration-300 flex items-center space-x-2 border border-neutral-300"
+                  className="bg-white text-black px-6 py-3 font-semibold uppercase tracking-wide hover:bg-blue-400 transition-all duration-300 flex items-center space-x-2 border border-neutral-300"
                 >
                   <ExternalLink className="w-4 h-4" />
                   <span>Abrir no Google Maps</span>
@@ -131,7 +131,7 @@ export default function ContactMapSection() {
               </motion.div>
 
               {/* Minimal Decorative Elements */}
-              <div className="absolute top-4 right-4 w-2 h-2 bg-amber-400 rounded-full"></div>
+              <div className="absolute top-4 right-4 w-2 h-2 bg-blue-400 rounded-full"></div>
               <div className="absolute bottom-4 left-4 w-2 h-2 bg-neutral-400 rounded-full"></div>
             </motion.div>
 
@@ -141,10 +141,10 @@ export default function ContactMapSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="bg-neutral-900 text-white p-6 -mt-12 relative z-10 mx-4 border-l-4 border-amber-400"
+              className="bg-neutral-900 text-white p-6 -mt-12 relative z-10 mx-4 border-l-4 border-blue-400"
             >
               <div className="flex items-center space-x-4 mb-4">
-                <div className="w-12 h-12 bg-amber-400 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 bg-blue-400 flex items-center justify-center flex-shrink-0">
                   <Building className="w-6 h-6 text-black" />
                 </div>
                 
@@ -163,11 +163,11 @@ export default function ContactMapSection() {
               {/* Professional Info Grid */}
               <div className="grid grid-cols-2 gap-4 pt-4 border-t border-white/20">
                 <div>
-                  <p className="text-amber-400 font-medium text-xs uppercase tracking-wide mb-1">Horário</p>
+                  <p className="text-blue-400 font-medium text-xs uppercase tracking-wide mb-1">Horário</p>
                   <p className="text-white/80 text-sm">Seg-Sex: 8h às 18h</p>
                 </div>
                 <div>
-                  <p className="text-amber-400 font-medium text-xs uppercase tracking-wide mb-1">Acesso</p>
+                  <p className="text-blue-400 font-medium text-xs uppercase tracking-wide mb-1">Acesso</p>
                   <p className="text-white/80 text-sm">24h para membros</p>
                 </div>
               </div>
@@ -204,12 +204,12 @@ export default function ContactMapSection() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: 0.3 + (index * 0.1) }}
                     whileHover={{ x: 5 }}
-                    className="flex items-center space-x-4 p-6 bg-neutral-50 hover:bg-white hover:shadow-sm transition-all duration-300 border-l-4 border-neutral-200 hover:border-amber-400 group"
+                    className="flex items-center space-x-4 p-6 bg-neutral-50 hover:bg-white hover:shadow-sm transition-all duration-300 border-l-4 border-neutral-200 hover:border-blue-400 group"
                   >
                     <motion.div
                       whileHover={{ scale: 1.05 }}
                       transition={{ duration: 0.3 }}
-                      className="w-12 h-12 bg-neutral-200 border border-neutral-300 flex items-center justify-center text-neutral-600 group-hover:bg-amber-400 group-hover:border-amber-400 group-hover:text-black transition-all duration-300"
+                      className="w-12 h-12 bg-neutral-200 border border-neutral-300 flex items-center justify-center text-neutral-600 group-hover:bg-blue-400 group-hover:border-blue-400 group-hover:text-black transition-all duration-300"
                     >
                       {option.icon}
                     </motion.div>
@@ -258,7 +258,7 @@ export default function ContactMapSection() {
                     transition={{ duration: 0.5, delay: 0.3 + (index * 0.1) }}
                     className="flex items-center space-x-3 p-3 bg-white border border-neutral-200 hover:border-neutral-300 transition-all duration-300"
                   >
-                    <div className="w-2 h-2 bg-amber-400 flex-shrink-0"></div>
+                    <div className="w-2 h-2 bg-blue-400 flex-shrink-0"></div>
                     <span className="text-neutral-700 font-medium text-sm">{landmark}</span>
                   </motion.div>
                 ))}

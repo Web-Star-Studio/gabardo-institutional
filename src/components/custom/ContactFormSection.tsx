@@ -113,7 +113,7 @@ export default function ContactFormSection() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setSubmitted(false)}
-              className="bg-amber-400/80 text-black px-8 py-4 text-lg font-bold uppercase tracking-wide hover:bg-black hover:text-white transition-all duration-300"
+              className="bg-blue-glow text-white px-8 py-4 text-lg font-bold uppercase tracking-wide hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300"
             >
               Enviar Nova Mensagem
             </motion.button>
@@ -154,7 +154,7 @@ export default function ContactFormSection() {
           >
             Como Podemos
             <br />
-            <span className="text-amber-400/80">Ajudar?</span>
+            <span className="text-blue-accent">Ajudar?</span>
           </motion.h2>
         </motion.div>
 
@@ -203,7 +203,7 @@ export default function ContactFormSection() {
                   maxLength={100}
                   onFocus={() => setFocusedField('name')}
                   onBlur={() => setFocusedField(null)}
-                  className="w-full px-0 py-4 text-lg border-0 border-b-2 border-neutral-200 focus:border-amber-400 focus:outline-none transition-all duration-300 bg-transparent placeholder-neutral-400"
+                  className="w-full px-0 py-4 text-lg border-0 border-b-2 border-neutral-200 focus:border-blue-500 focus:outline-none transition-all duration-300 bg-transparent placeholder-neutral-400"
                   placeholder="Seu nome completo"
                   whileFocus={{ scale: 1.01 }}
                 />
@@ -211,7 +211,7 @@ export default function ContactFormSection() {
                   initial={{ width: 0 }}
                   animate={{ width: focusedField === 'name' ? '100%' : '0%' }}
                   transition={{ duration: 0.3 }}
-                  className="h-0.5 bg-amber-400/80"
+                  className="h-0.5 bg-blue-80"
                 />
               </motion.div>
 
@@ -234,7 +234,7 @@ export default function ContactFormSection() {
                   maxLength={150}
                   onFocus={() => setFocusedField('email')}
                   onBlur={() => setFocusedField(null)}
-                  className="w-full px-0 py-4 text-lg border-0 border-b-2 border-neutral-200 focus:border-amber-400 focus:outline-none transition-all duration-300 bg-transparent placeholder-neutral-400"
+                  className="w-full px-0 py-4 text-lg border-0 border-b-2 border-neutral-200 focus:border-blue-500 focus:outline-none transition-all duration-300 bg-transparent placeholder-neutral-400"
                   placeholder="seu@email.com"
                   whileFocus={{ scale: 1.01 }}
                 />
@@ -242,7 +242,7 @@ export default function ContactFormSection() {
                   initial={{ width: 0 }}
                   animate={{ width: focusedField === 'email' ? '100%' : '0%' }}
                   transition={{ duration: 0.3 }}
-                  className="h-0.5 bg-amber-400/80"
+                  className="h-0.5 bg-blue-80"
                 />
               </motion.div>
 
@@ -264,7 +264,7 @@ export default function ContactFormSection() {
                   maxLength={20}
                   onFocus={() => setFocusedField('phone')}
                   onBlur={() => setFocusedField(null)}
-                  className="w-full px-0 py-4 text-lg border-0 border-b-2 border-neutral-200 focus:border-amber-400 focus:outline-none transition-all duration-300 bg-transparent placeholder-neutral-400"
+                  className="w-full px-0 py-4 text-lg border-0 border-b-2 border-neutral-200 focus:border-blue-500 focus:outline-none transition-all duration-300 bg-transparent placeholder-neutral-400"
                   placeholder="(00) 0000-0000"
                   whileFocus={{ scale: 1.01 }}
                 />
@@ -272,7 +272,7 @@ export default function ContactFormSection() {
                   initial={{ width: 0 }}
                   animate={{ width: focusedField === 'phone' ? '100%' : '0%' }}
                   transition={{ duration: 0.3 }}
-                  className="h-0.5 bg-amber-400/80"
+                  className="h-0.5 bg-blue-80"
                 />
               </motion.div>
 
@@ -292,7 +292,7 @@ export default function ContactFormSection() {
                   name="interest"
                   onFocus={() => setFocusedField('interest')}
                   onBlur={() => setFocusedField(null)}
-                  className="w-full px-0 py-4 text-lg border-0 border-b-2 border-neutral-200 focus:border-amber-400 focus:outline-none transition-all duration-300 bg-transparent"
+                  className="w-full px-0 py-4 text-lg border-0 border-b-2 border-neutral-200 focus:border-blue-500 focus:outline-none transition-all duration-300 bg-transparent"
                   whileFocus={{ scale: 1.01 }}
                 >
                   <option value="">Selecione seu interesse</option>
@@ -304,7 +304,7 @@ export default function ContactFormSection() {
                   initial={{ width: 0 }}
                   animate={{ width: focusedField === 'interest' ? '100%' : '0%' }}
                   transition={{ duration: 0.3 }}
-                  className="h-0.5 bg-amber-400/80"
+                  className="h-0.5 bg-blue-80"
                 />
               </motion.div>
             </div>
@@ -332,7 +332,7 @@ export default function ContactFormSection() {
                   maxLength={150}
                   onFocus={() => setFocusedField('subject')}
                   onBlur={() => setFocusedField(null)}
-                  className="w-full px-0 py-4 text-lg border-0 border-b-2 border-neutral-200 focus:border-amber-400 focus:outline-none transition-all duration-300 bg-transparent placeholder-neutral-400"
+                  className="w-full px-0 py-4 text-lg border-0 border-b-2 border-neutral-200 focus:border-blue-500 focus:outline-none transition-all duration-300 bg-transparent placeholder-neutral-400"
                   placeholder="Qual o assunto da sua mensagem?"
                   whileFocus={{ scale: 1.01 }}
                 />
@@ -340,7 +340,7 @@ export default function ContactFormSection() {
                   initial={{ width: 0 }}
                   animate={{ width: focusedField === 'subject' ? '100%' : '0%' }}
                   transition={{ duration: 0.3 }}
-                  className="h-0.5 bg-amber-400/80"
+                  className="h-0.5 bg-blue-80"
                 />
               </motion.div>
 
@@ -364,7 +364,7 @@ export default function ContactFormSection() {
                   rows={6}
                   onFocus={() => setFocusedField('message')}
                   onBlur={() => setFocusedField(null)}
-                  className="w-full px-0 py-4 text-lg border-0 border-b-2 border-neutral-200 focus:border-amber-400 focus:outline-none transition-all duration-300 bg-transparent placeholder-neutral-400 resize-none"
+                  className="w-full px-0 py-4 text-lg border-0 border-b-2 border-neutral-200 focus:border-blue-500 focus:outline-none transition-all duration-300 bg-transparent placeholder-neutral-400 resize-none"
                   placeholder="Conte-nos mais sobre o que você precisa..."
                   whileFocus={{ scale: 1.01 }}
                 />
@@ -372,7 +372,7 @@ export default function ContactFormSection() {
                   initial={{ width: 0 }}
                   animate={{ width: focusedField === 'message' ? '100%' : '0%' }}
                   transition={{ duration: 0.3 }}
-                  className="h-0.5 bg-amber-400/80"
+                  className="h-0.5 bg-blue-80"
                 />
               </motion.div>
             </div>
@@ -390,7 +390,7 @@ export default function ContactFormSection() {
                 disabled={loading}
                 whileHover={{ scale: 1.05, x: 10 }}
                 whileTap={{ scale: 0.95 }}
-                className="group bg-black text-white px-12 py-4 text-lg font-bold uppercase tracking-wide hover:bg-amber-400/80 hover:text-black transition-all duration-300 flex items-center space-x-4 disabled:opacity-50 disabled:hover:scale-100 disabled:hover:x-0"
+                className="group bg-black text-white px-12 py-4 text-lg font-bold uppercase tracking-wide hover:bg-blue-glow hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300 flex items-center space-x-4 disabled:opacity-50 disabled:hover:scale-100 disabled:hover:x-0"
               >
                 {loading ? (
                   <>
