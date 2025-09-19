@@ -7,6 +7,11 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        'primary': ['Supermolot Neue', 'sans-serif'],
+        'secondary': ['Garet', 'sans-serif'],
+        'sans': ['Supermolot Neue', 'sans-serif'],
+      },
       colors: {
         'accent': {
           DEFAULT: '#c42723',

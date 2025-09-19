@@ -15,27 +15,27 @@ interface LocationData {
 }
 
 const locations: LocationData[] = [
-  { name: 'Aflitos', coordinates: [-34.8825, -8.0476], address: 'Rua dos Aflitos, 123 - Recife, PE', type: 'sede' },
-  { name: 'Boa Viagem', coordinates: [-34.8942, -8.1194], address: 'Av. Boa Viagem, 456 - Recife, PE', type: 'filial' },
-  { name: 'Caruaru', coordinates: [-35.9762, -8.2837], address: 'Rua Central, 789 - Caruaru, PE', type: 'filial' },
-  { name: 'Fortaleza', coordinates: [-38.5267, -3.7319], address: 'Av. Beira Mar, 321 - Fortaleza, CE', type: 'filial' },
-  { name: 'Ilha do Leite', coordinates: [-34.8731, -8.0389], address: 'Rua da Ilha, 654 - Recife, PE', type: 'filial' },
-  { name: 'Petrolina', coordinates: [-40.5019, -9.3891], address: 'Av. São Francisco, 987 - Petrolina, PE', type: 'filial' },
-  { name: 'Recife Antigo', coordinates: [-34.8711, -8.0631], address: 'Rua do Bom Jesus, 159 - Recife, PE', type: 'matriz' },
-  { name: 'Várzea', coordinates: [-34.9511, -8.0389], address: 'Av. Caxangá, 753 - Recife, PE', type: 'filial' },
+  { name: 'Porto Alegre', coordinates: [-51.2177, -30.0346], address: 'Matriz - Porto Alegre, RS', type: 'matriz' },
+  { name: 'São Paulo', coordinates: [-46.6333, -23.5505], address: 'Terminal Rodoviário - São Paulo, SP', type: 'filial' },
+  { name: 'Rio de Janeiro', coordinates: [-43.1729, -22.9068], address: 'Base Operacional - Rio de Janeiro, RJ', type: 'filial' },
+  { name: 'Belo Horizonte', coordinates: [-43.9378, -19.9208], address: 'Centro de Distribuição - Belo Horizonte, MG', type: 'filial' },
+  { name: 'Curitiba', coordinates: [-49.2731, -25.4244], address: 'Base Sul - Curitiba, PR', type: 'filial' },
+  { name: 'Goiânia', coordinates: [-49.2532, -16.6869], address: 'Hub Centro-Oeste - Goiânia, GO', type: 'filial' },
+  { name: 'Salvador', coordinates: [-38.5108, -12.9714], address: 'Base Nordeste - Salvador, BA', type: 'filial' },
+  { name: 'Brasília', coordinates: [-47.8825, -15.7942], address: 'Operação Federal - Brasília, DF', type: 'filial' },
 ];
 
 // Função para mapear nomes das localizações para IDs das páginas
 const getLocationId = (locationName: string): string => {
   const nameToIdMap: { [key: string]: string } = {
-    'Aflitos': 'aflitos',
-    'Boa Viagem': 'boa-viagem',
-    'Caruaru': 'caruaru',
-    'Fortaleza': 'fortaleza',
-    'Ilha do Leite': 'ilha-do-leite',
-    'Petrolina': 'petrolina',
-    'Recife Antigo': 'recife-antigo',
-    'Várzea': 'varzea',
+    'Porto Alegre': 'porto-alegre',
+    'São Paulo': 'sao-paulo',
+    'Rio de Janeiro': 'rio-de-janeiro',
+    'Belo Horizonte': 'belo-horizonte',
+    'Curitiba': 'curitiba',
+    'Goiânia': 'goiania',
+    'Salvador': 'salvador',
+    'Brasília': 'brasilia',
   };
   
   return nameToIdMap[locationName] || locationName.toLowerCase().replace(/\s+/g, '-');
@@ -79,8 +79,8 @@ const MapboxSection: React.FC = () => {
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
       style: 'mapbox://styles/mapbox/dark-v11',
-      center: [-35.5, -8.5], // Center on Pernambuco region
-      zoom: 6.5,
+      center: [-47.8825, -15.7942], // Center on Brazil
+      zoom: 4,
       attributionControl: false,
     });
 
@@ -198,7 +198,7 @@ const MapboxSection: React.FC = () => {
             transition={{ duration: 0.8 }}
             className="text-4xl md:text-5xl font-bold text-neutral-800 mb-4"
           >
-            em todos os lugares
+            Nossas Unidades
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -206,7 +206,7 @@ const MapboxSection: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-xl text-neutral-600 max-w-2xl mx-auto"
           >
-            Estamos presentes em diversas cidades para estar sempre perto de você
+            A Gabardo está presente nas principais cidades do Brasil para oferecer o melhor serviço de transporte de veículos
           </motion.p>
         </div>
 

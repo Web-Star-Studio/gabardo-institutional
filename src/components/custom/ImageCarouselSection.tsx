@@ -19,18 +19,18 @@ interface CarouselItemData {
   imageSrc: string;
 }
 
-const CITIES = ["RECIFE", "CARUARU", "FORTALEZA", "PETROLINA"] as const;
+const CITIES = ["PORTO ALEGRE", "SÃO PAULO", "RIO DE JANEIRO", "GOIÁS"] as const;
 type City = typeof CITIES[number];
 
-const PROJECT_CATEGORIES = ["MIM", "2 OU 6", "GENTE QUE SÓ"] as const;
+const PROJECT_CATEGORIES = ["TRANSPORTE", "LOGÍSTICA", "SEGURANÇA"] as const;
 type ProjectCategoryType = typeof PROJECT_CATEGORIES[number];
 
 // Definição dos gradientes para cada cidade
 const cityGradients: Record<City, { from: string; to: string }> = {
-  RECIFE: { from: '#0c2a4d', to: '#1c4a82' }, // Tons de azul escuro e profundo
-  CARUARU: { from: '#78350f', to: '#a15c27' }, // Tons terrosos, laranja queimado
-  FORTALEZA: { from: '#047857', to: '#059669' }, // Tons de verde mar profundo
-  PETROLINA: { from: '#785549', to: '#a17463' }, // Tons de marrom e bege
+  "PORTO ALEGRE": { from: '#0c2a4d', to: '#1c4a82' }, // Tons de azul escuro e profundo
+  "SÃO PAULO": { from: '#78350f', to: '#a15c27' }, // Tons terrosos, laranja queimado
+  "RIO DE JANEIRO": { from: '#047857', to: '#059669' }, // Tons de verde mar profundo
+  "GOIÁS": { from: '#785549', to: '#a17463' }, // Tons de marrom e bege
 };
 
 // Mock data - Certifique-se de que há itens para todas as combinações de cidade/categoria de projeto ou a lógica de fallback será mais crítica.
@@ -48,14 +48,21 @@ const generateMockItemsForCity = (city: City): CarouselItemData[] => {
       });
     }
   });
-  // Exemplo específico para garantir que "MIM" em "RECIFE" tenha o item conhecido
-  if (city === 'RECIFE') {
+  // Exemplo específico para garantir que "TRANSPORTE" em "PORTO ALEGRE" tenha os itens conhecidos
+  if (city === 'PORTO ALEGRE') {
     items.unshift({
-        id: `RECIFE-mim-1`,
-        title: '22 VIVIENDAS PROTECCIÓN PÚBLICA',
-        projectCategory: 'MIM',
-        location: `[RECIFE]`,
-        imageSrc: 'https://images.unsplash.com/photo-1606836576983-8b458e75221d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        id: `PORTO_ALEGRE-transporte-1`,
+        title: 'MOVIDOS POR INOVAÇÃO & SUSTENTABILIDADE',
+        projectCategory: 'TRANSPORTE',
+        location: `[PORTO ALEGRE]`,
+        imageSrc: '/gabardo-slide-1.jpg',
+      },
+      {
+        id: `PORTO_ALEGRE-transporte-2`,
+        title: 'TRANSPORTE SEGURO E EFICIENTE',
+        projectCategory: 'TRANSPORTE', 
+        location: `[PORTO ALEGRE]`,
+        imageSrc: '/gabardo-slide-2.jpg',
       }
     )
   }

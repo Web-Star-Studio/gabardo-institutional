@@ -18,18 +18,13 @@ const ArrowIcon = () => (
 export default function HeroSection() {
   return (
     <div className="relative w-full h-screen text-white overflow-hidden">
-      {/* Video Background */}
-      <video
-        className="absolute inset-0 w-full h-full object-cover"
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="metadata"
-      >
-        <source src="/Vídeo_Coworking_Moderno_Gerado.mp4" type="video/mp4" />
-        Seu navegador não suporta vídeos HTML5.
-      </video>
+      {/* Hero Image Background */}
+      <div 
+        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: 'url(/trucks-hero.jpg)'
+        }}
+      />
       
       <div className="absolute inset-0 bg-black bg-opacity-40"></div> {/* Overlay for better text contrast */}
 
@@ -67,12 +62,22 @@ export default function HeroSection() {
 
             {/* Text Content Block */}
             <div className="flex-grow max-w-4xl xl:max-w-5xl">
-              <h1 className="text-3xl sm:text-5xl md:text-5xl lg:text-6xl font-bold uppercase leading-tight tracking-tight">
-                A Maior rede de Coworking, Escritórios Flexíveis e Salas de Reunião em Recife
+              <h1 className="font-primary text-3xl sm:text-5xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight mb-6">
+                Para cada cliente,
+                <br />
+                <span className="text-amber-400/70">uma Gabardo diferente.</span>
               </h1>
-              <p className="mt-4 text-base sm:text-lg md:text-lg lg:text-xl font-light leading-relaxed">
-                Ambientes de trabalho inspiradores e produtivos para você e sua equipe.
+              <p className="font-secondary mt-4 text-base sm:text-lg md:text-lg lg:text-xl font-light leading-relaxed mb-8">
+                Há mais de 35 anos, entendemos as necessidades dos nossos clientes para atendê-los de forma personalizada e eficiente no transporte de veículos.
               </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <button className="font-secondary bg-amber-500/80 hover:bg-amber-600/80 text-black px-8 py-4 font-semibold uppercase tracking-wide transition-all duration-300 transform hover:scale-105">
+                  Encontre seu serviço
+                </button>
+                <button className="font-secondary border-2 border-white text-white hover:bg-white hover:text-black px-8 py-4 font-semibold uppercase tracking-wide transition-all duration-300">
+                  Seja nosso parceiro
+                </button>
+              </div>
             </div>
 
             {/* Arrow Icon, aligned to the far right */}

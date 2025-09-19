@@ -20,34 +20,34 @@ interface BlogPost {
 const blogPosts: BlogPost[] = [
   {
     id: '1',
-    title: 'O Futuro do Trabalho Híbrido: Tendências para 2025',
-    excerpt: 'Explore como o modelo híbrido está revolucionando o mercado de trabalho e transformando a cultura empresarial moderna.',
-    category: 'Futuro do Trabalho',
+    title: 'Tecnologia no Transporte de Veículos: Inovações 2025',
+    excerpt: 'Descubra como a tecnologia embarcada e rastreamento satelital estão revolucionando o transporte seguro de veículos.',
+    category: 'Tecnologia',
     date: '15 Jan 2025',
     readTime: '5 min',
-    author: 'Dr. Ana Silva',
-    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    author: 'Equipe Gabardo',
+    image: 'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
     featured: true
   },
   {
     id: '2',
-    title: 'Coworking: Mais que um Espaço, uma Revolução',
-    excerpt: 'Descubra como os espaços de coworking estão redefinindo produtividade, networking e inovação no ambiente corporativo.',
-    category: 'Coworking',
+    title: 'Segurança no Transporte: Nosso Compromisso Total',
+    excerpt: 'Conheça os protocolos de segurança e tecnologias que garantem a proteção total dos veículos durante o transporte.',
+    category: 'Segurança',
     date: '12 Jan 2025',
     readTime: '7 min',
-    author: 'João Santos',
-    image: 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    author: 'Equipe Técnica',
+    image: 'https://images.unsplash.com/photo-1586953208448-b95a79798f07?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
     featured: false
   },
   {
     id: '3',
-    title: 'Sustentabilidade e Espaços de Trabalho Conscientes',
-    excerpt: 'Como construir ambientes de trabalho que respeitam o meio ambiente e promovem bem-estar corporativo.',
+    title: 'Sustentabilidade na Logística de Transporte',
+    excerpt: 'Como a Gabardo implementa práticas sustentáveis no transporte de veículos, reduzindo impacto ambiental.',
     category: 'Sustentabilidade',
     date: '10 Jan 2025',
     readTime: '4 min',
-    author: 'Maria Costa',
+    author: 'Gabardo Transportes',
     image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
     featured: false
   },
@@ -99,7 +99,7 @@ const BlogSection: React.FC = () => {
             className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium text-white mb-6 border border-white/20"
           >
             <Sparkles className="w-4 h-4" />
-            <span className="uppercase tracking-wider">Blog Hub Plural</span>
+            <span className="uppercase tracking-wider">Blog Gabardo</span>
           </motion.div>
 
           {/* Main Title */}
@@ -110,9 +110,9 @@ const BlogSection: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.3 }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6"
           >
-            <span className="block">CONECTE-SE COM</span>
-            <span className="block text-white/70">O FUTURO</span>
-            <span className="block">DO TRABALHO</span>
+            <span className="block">NOVIDADES DO</span>
+            <span className="block text-white/70">TRANSPORTE</span>
+            <span className="block">DE VEÍCULOS</span>
           </motion.h2>
 
           {/* Subtitle */}
@@ -123,7 +123,7 @@ const BlogSection: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto"
           >
-            Insights, tendências e reflexões sobre o mundo do trabalho moderno
+            Insights, tecnologias e novidades do setor de transporte de veículos
           </motion.p>
         </motion.div>
 

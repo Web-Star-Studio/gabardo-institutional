@@ -2,15 +2,14 @@ import { Header } from "@/components/layout/Header"; // Assuming @ is configured
 import HeroSection from "@/components/custom/HeroSection";
 import { cityData, City } from "@/data/cityData"; // CategoryImage type might not be needed here anymore
 import CategoryImageViewer from "@/components/custom/CategoryImageViewer"; // Import the new component
-import ImageCarouselSection from "@/components/custom/ImageCarouselSection";
+import PremiumInfoSection from "@/components/custom/PremiumInfoSection";
 // import InfiniteHorizontalGallery from "@/components/custom/InfiniteHorizontalGallery"; // Old import
 import InfiniteMasonryGallery from "@/components/custom/InfiniteMasonryGallery"; // New import
-import ProjectGallery from "@/components/custom/ProjectGallery"; // Added import
-import TestimonialsSection from "@/components/custom/TestimonialsSection";
-import ServicesSection from "@/components/custom/ServicesSection"; // Added import
+import GabardoProjectGallery from "@/components/custom/GabardoProjectGallery";
+import JSLInspiredServicesSection from "@/components/custom/JSLInspiredServicesSection";
 import MapboxSection from "@/components/custom/MapboxSection"; // Added import
-import FiscalAddressSection from '@/components/custom/FiscalAddressSection';
 import CompaniesStatsSection from '@/components/custom/CompaniesStatsSection';
+import StatsSection from '@/components/custom/StatsSection';
 import BlogSection from '@/components/custom/BlogSection';
 import Footer from '@/components/layout/Footer';
 
@@ -19,10 +18,10 @@ export default function HomePage() {
     <main className="relative">
       <Header />
       <HeroSection />
-      <ServicesSection />
-      <ProjectGallery />
-      <TestimonialsSection />
-      <FiscalAddressSection />
+      <JSLInspiredServicesSection />
+      <PremiumInfoSection />
+      <GabardoProjectGallery />
+      <StatsSection />
       <CompaniesStatsSection />
       <BlogSection />
       <MapboxSection />

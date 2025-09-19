@@ -126,7 +126,7 @@ const AboutValuesSection: React.FC = () => {
   const getColorClasses = (color: string) => {
     const colors = {
       blue: 'text-blue-500 bg-blue-50 border-blue-200 hover:border-blue-500',
-      amber: 'text-amber-500 bg-amber-50 border-amber-200 hover:border-amber-500',
+      amber: 'text-amber-500/80 bg-amber-50 border-amber-200 hover:border-amber-500/80',
       emerald: 'text-emerald-500 bg-emerald-50 border-emerald-200 hover:border-emerald-500',
       purple: 'text-purple-500 bg-purple-50 border-purple-200 hover:border-purple-500'
     };
@@ -136,7 +136,7 @@ const AboutValuesSection: React.FC = () => {
   const getActiveColorClasses = (color: string) => {
     const colors = {
       blue: 'bg-blue-500 text-white border-blue-500',
-      amber: 'bg-amber-500 text-white border-amber-500',
+      amber: 'bg-amber-500/80 text-white border-amber-500/80',
       emerald: 'bg-emerald-500 text-white border-emerald-500',
       purple: 'bg-purple-500 text-white border-purple-500'
     };
@@ -165,7 +165,7 @@ const AboutValuesSection: React.FC = () => {
             className="text-sm font-light tracking-[0.2em] text-neutral-500 mb-4 uppercase relative inline-block"
           >
             Nossa Cultura
-            <div className="absolute -bottom-1 left-0 w-8 h-px bg-amber-400"></div>
+            <div className="absolute -bottom-1 left-0 w-8 h-px bg-amber-400/80"></div>
           </motion.div>
           
           <motion.h2
@@ -261,7 +261,7 @@ const AboutValuesSection: React.FC = () => {
                     transition={{ duration: 0.4, delay: index * 0.1 }}
                     className="flex items-center text-neutral-700"
                   >
-                    <div className="w-2 h-2 bg-amber-400 rounded-full mr-3 flex-shrink-0"></div>
+                    <div className="w-2 h-2 bg-amber-400/80 rounded-full mr-3 flex-shrink-0"></div>
                     {detail}
                   </motion.li>
                 ))}

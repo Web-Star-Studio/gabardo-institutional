@@ -113,7 +113,7 @@ export default function ContactFormSection() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setSubmitted(false)}
-              className="bg-amber-400 text-black px-8 py-4 text-lg font-bold uppercase tracking-wide hover:bg-black hover:text-white transition-all duration-300"
+              className="bg-amber-400/80 text-black px-8 py-4 text-lg font-bold uppercase tracking-wide hover:bg-black hover:text-white transition-all duration-300"
             >
               Enviar Nova Mensagem
             </motion.button>
@@ -154,7 +154,7 @@ export default function ContactFormSection() {
           >
             Como Podemos
             <br />
-            <span className="text-amber-400">Ajudar?</span>
+            <span className="text-amber-400/80">Ajudar?</span>
           </motion.h2>
         </motion.div>
 
@@ -211,7 +211,7 @@ export default function ContactFormSection() {
                   initial={{ width: 0 }}
                   animate={{ width: focusedField === 'name' ? '100%' : '0%' }}
                   transition={{ duration: 0.3 }}
-                  className="h-0.5 bg-amber-400"
+                  className="h-0.5 bg-amber-400/80"
                 />
               </motion.div>
 
@@ -242,7 +242,7 @@ export default function ContactFormSection() {
                   initial={{ width: 0 }}
                   animate={{ width: focusedField === 'email' ? '100%' : '0%' }}
                   transition={{ duration: 0.3 }}
-                  className="h-0.5 bg-amber-400"
+                  className="h-0.5 bg-amber-400/80"
                 />
               </motion.div>
 
@@ -272,7 +272,7 @@ export default function ContactFormSection() {
                   initial={{ width: 0 }}
                   animate={{ width: focusedField === 'phone' ? '100%' : '0%' }}
                   transition={{ duration: 0.3 }}
-                  className="h-0.5 bg-amber-400"
+                  className="h-0.5 bg-amber-400/80"
                 />
               </motion.div>
 
@@ -304,7 +304,7 @@ export default function ContactFormSection() {
                   initial={{ width: 0 }}
                   animate={{ width: focusedField === 'interest' ? '100%' : '0%' }}
                   transition={{ duration: 0.3 }}
-                  className="h-0.5 bg-amber-400"
+                  className="h-0.5 bg-amber-400/80"
                 />
               </motion.div>
             </div>
@@ -340,7 +340,7 @@ export default function ContactFormSection() {
                   initial={{ width: 0 }}
                   animate={{ width: focusedField === 'subject' ? '100%' : '0%' }}
                   transition={{ duration: 0.3 }}
-                  className="h-0.5 bg-amber-400"
+                  className="h-0.5 bg-amber-400/80"
                 />
               </motion.div>
 
@@ -372,7 +372,7 @@ export default function ContactFormSection() {
                   initial={{ width: 0 }}
                   animate={{ width: focusedField === 'message' ? '100%' : '0%' }}
                   transition={{ duration: 0.3 }}
-                  className="h-0.5 bg-amber-400"
+                  className="h-0.5 bg-amber-400/80"
                 />
               </motion.div>
             </div>
@@ -390,7 +390,7 @@ export default function ContactFormSection() {
                 disabled={loading}
                 whileHover={{ scale: 1.05, x: 10 }}
                 whileTap={{ scale: 0.95 }}
-                className="group bg-black text-white px-12 py-4 text-lg font-bold uppercase tracking-wide hover:bg-amber-400 hover:text-black transition-all duration-300 flex items-center space-x-4 disabled:opacity-50 disabled:hover:scale-100 disabled:hover:x-0"
+                className="group bg-black text-white px-12 py-4 text-lg font-bold uppercase tracking-wide hover:bg-amber-400/80 hover:text-black transition-all duration-300 flex items-center space-x-4 disabled:opacity-50 disabled:hover:scale-100 disabled:hover:x-0"
               >
                 {loading ? (
                   <>

@@ -6,12 +6,13 @@ import { useState, useEffect } from 'react';
 import { Menu as MenuIcon } from 'lucide-react'; // Renamed to avoid conflict if a Menu component is made later
 import FullScreenNav from '@/components/custom/FullScreenNav'; // New menu
 
-const MOCK_FULL_SCREEN_NAV_ITEMS = [
-  { id: 'home', label: 'HOME', href: '/', imageSrc: 'https://hubplural.com/wp-content/uploads/2025/05/Captura-de-tela-2025-05-09-220312.png' },
-  { id: 'sobre', label: 'SOBRE', href: '/sobre', imageSrc: 'https://hubplural.com/wp-content/uploads/2024/07/HOME-SALA-DE-REUNIAO-03.png' },
-  { id: 'blog', label: 'BLOG', href: '/blog', imageSrc: 'https://hubplural.com/wp-content/uploads/2024/07/HOME-SALA-DE-REUNIAO-01.png' },
-  { id: 'localizacao', label: 'LOCALIZAÇÃO', href: '/localizacao', imageSrc: 'https://hubplural.com/wp-content/uploads/2024/07/HOME-SALA-DE-REUNIAO-02.png' },
-  { id: 'contato', label: 'CONTATO', href: '/contato', imageSrc: 'https://hubplural.com/wp-content/uploads/2023/09/PASSAPORTE-02-1024x770.png' },
+const GABARDO_FULL_SCREEN_NAV_ITEMS = [
+  { id: 'home', label: 'HOME', href: '/', imageSrc: '/gabardo-slide-1.jpg' },
+  { id: 'servicos', label: 'SERVIÇOS', href: '/servicos', imageSrc: '/gabardo-slide-2.jpg' },
+  { id: 'sobre', label: 'SOBRE', href: '/sobre', imageSrc: '/gabardo-slide-1.jpg' },
+  { id: 'blog', label: 'BLOG', href: '/blog', imageSrc: '/gabardo-slide-2.jpg' },
+  { id: 'localizacao', label: 'NOSSAS UNIDADES', href: '/localizacao', imageSrc: '/gabardo-slide-1.jpg' },
+  { id: 'contato', label: 'CONTATO', href: '/contato', imageSrc: '/gabardo-slide-2.jpg' },
 ];
 
 const HeaderRevised = () => {
@@ -46,21 +47,25 @@ const HeaderRevised = () => {
           <div className="flex justify-between items-center">
             <Link 
               href="/" 
-              className="text-2xl font-semibold tracking-wider touch-manipulation"
-              aria-label="Hub Plural - Página inicial"
+              className="flex items-center text-2xl font-semibold tracking-wider touch-manipulation"
+              aria-label="Gabardo Distribuidora - Página inicial"
             >
               <Image
-                src="/hub-plural-logo-branca.png"
-                alt="Hub Plural Logo"
-                width={isMobile ? 140 : 180}
-                height={isMobile ? 37 : 48}
+                src="/gabardo-logo.png"
+                alt="Gabardo Logo"
+                width={isMobile ? 120 : 150}
+                height={isMobile ? 40 : 50}
                 priority
                 className="h-auto w-auto"
+                style={{ 
+                  filter: 'brightness(2) contrast(1.5) opacity(0.95)',
+                  WebkitFilter: 'brightness(2) contrast(1.5) opacity(0.95)'
+                }}
               />
             </Link>
             <button
               onClick={toggleMenu} // This button opens the menu
-              className="text-white hover:opacity-80 active:opacity-60 transition-opacity duration-200 touch-manipulation p-2 -m-2"
+              className="flex items-center justify-center text-white hover:opacity-80 active:opacity-60 transition-opacity duration-200 touch-manipulation p-2 -m-2"
               aria-label="Abrir menu de navegação"
               aria-expanded={isMenuOpen}
             >
@@ -73,7 +78,7 @@ const HeaderRevised = () => {
       <FullScreenNav
         isOpen={isMenuOpen}
         onClose={closeMenu}
-        menuItems={MOCK_FULL_SCREEN_NAV_ITEMS}
+        menuItems={GABARDO_FULL_SCREEN_NAV_ITEMS}
       />
     </>
   );

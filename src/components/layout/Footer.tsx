@@ -18,10 +18,10 @@ const Footer: React.FC = () => {
     {
       title: 'Serviços',
       links: [
-        'Coworking',
-        'Escritórios Privados',
-        'Salas de Reunião',
-        'Endereço Fiscal'
+        'Transporte de Veículos',
+        'Transporte em Prancha',
+        'Armazenagem',
+        'Logística Integrada'
       ]
     },
     {
@@ -52,9 +52,9 @@ const Footer: React.FC = () => {
   ];
 
   const contactInfo = [
-    { icon: MapPin, text: 'Av. Dom Luís, 500 - Aldeota, Fortaleza' },
-    { icon: Phone, text: '+55 (85) 3456-7890' },
-    { icon: Mail, text: 'contato@hubplural.com.br' }
+    { icon: MapPin, text: 'Matriz - Porto Alegre, RS' },
+    { icon: Phone, text: '+55 (51) 3373-3000' },
+    { icon: Mail, text: 'gabardo@transgabardo.com.br' }
   ];
 
   return (
@@ -66,7 +66,7 @@ const Footer: React.FC = () => {
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-16">
             
             {/* Brand Section */}
-            <div className="lg:col-span-4 space-y-6">
+            <div className="lg:col-span-3 space-y-6">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -75,15 +75,19 @@ const Footer: React.FC = () => {
               >
                 <div className="mb-4">
                   <Image
-                    src="/hub-plural-logo-preta.png"
-                    alt="Hub Plural Logo"
-                    width={1536}
-                    height={1024}
-                    className="h-48 w-auto md:absolute md:bottom-64"
+                    src="/gabardo-logo.png"
+                    alt="Gabardo Logo"
+                    width={132}
+                    height={44}
+                    className="h-auto w-auto"
+                    style={{ 
+                      filter: 'brightness(0) saturate(100%)',
+                      WebkitFilter: 'brightness(0) saturate(100%)'
+                    }}
                   />
                 </div>
                 <p className="text-neutral-600 leading-relaxed md:mt-16 max-w-sm">
-                  Conectando pessoas, ideias e negócios no futuro do trabalho.
+                  Distribuindo soluções e conectando negócios para o futuro.
                 </p>
               </motion.div>
 
@@ -105,7 +109,7 @@ const Footer: React.FC = () => {
             </div>
 
             {/* Links Sections */}
-            <div className="lg:col-span-6">
+            <div className="lg:col-span-7">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {footerSections.map((section, sectionIndex) => (
                   <motion.div
@@ -175,7 +179,7 @@ const Footer: React.FC = () => {
         >
           <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
             <p className="text-sm text-neutral-500">
-              © 2025 Hub Plural. Todos os direitos reservados.
+              2025 Gabardo Distribuidora. Todos os direitos reservados.
             </p>
             <div className="flex space-x-6 text-sm">
               <a href="#" className="text-neutral-500 hover:text-accent transition-colors duration-200">

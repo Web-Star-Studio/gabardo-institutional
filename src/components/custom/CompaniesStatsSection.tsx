@@ -8,24 +8,24 @@ import Image from 'next/image';
 const CompaniesStatsSection: React.FC = () => {
   const stats = [
     {
-      percentage: "80%",
-      description: "aumentaram sua produtividade",
-      metric: "Produtividade"
+      percentage: "98%",
+      description: "dos clientes recomendam nossos serviços",
+      metric: "Satisfação"
     },
     {
-      percentage: "60%",
-      description: "já fizeram negócios entre si",
-      metric: "Networking"
+      percentage: "35+",
+      description: "anos de experiência no mercado",
+      metric: "Experiência"
     },
     {
-      percentage: "78%",
-      description: "conseguiram reter talentos com nossa ajuda",
-      metric: "Retenção"
+      percentage: "100%",
+      description: "dos veículos transportados com seguro",
+      metric: "Segurança"
     },
     {
-      percentage: "62%",
-      description: "atribuem seu crescimento ao novo modelo de escritório",
-      metric: "Crescimento"
+      percentage: "24/7",
+      description: "monitoramento e rastreamento",
+      metric: "Monitoramento"
     }
   ];
 
@@ -61,7 +61,7 @@ const CompaniesStatsSection: React.FC = () => {
                 className="inline-flex items-center space-x-2 bg-white px-4 py-2 rounded-full text-sm font-medium text-neutral-700 shadow-md border border-neutral-200"
               >
                 <Users className="w-4 h-4" />
-                <span className="uppercase tracking-wider">Comunidade Empresarial</span>
+                <span className="uppercase tracking-wider">Clientes Gabardo</span>
               </motion.div>
 
               {/* Main Title */}
@@ -73,8 +73,8 @@ const CompaniesStatsSection: React.FC = () => {
                 className="text-4xl md:text-5xl lg:text-6xl font-bold text-black leading-tight"
               >
                 <span className="block">E AS EMPRESAS</span>
-                <span className="block">QUE ESTÃO</span>
-                <span className="block text-neutral-600">POR AQUI?!</span>
+                <span className="block">QUE CONFIAM</span>
+                <span className="block text-neutral-600">NA GABARDO?!</span>
               </motion.h2>
 
               {/* Decorative Element */}
@@ -103,7 +103,7 @@ const CompaniesStatsSection: React.FC = () => {
               <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-white p-4">
                 <Image
                   src="/images/Grupo-49.png"
-                  alt="Empresas parceiras do Hub Plural"
+                  alt="Empresas clientes da Gabardo"
                   width={600}
                   height={400}
                   className="w-full h-auto rounded-lg"
@@ -120,8 +120,8 @@ const CompaniesStatsSection: React.FC = () => {
                 className="absolute -top-4 -right-4 bg-black text-white p-4 rounded-xl shadow-lg"
               >
                 <div className="text-center">
-                  <div className="text-2xl font-bold">500+</div>
-                  <div className="text-xs uppercase tracking-wide opacity-80">Empresas</div>
+                  <div className="text-2xl font-bold">1000+</div>
+                  <div className="text-xs uppercase tracking-wide opacity-80">Veículos</div>
                 </div>
               </motion.div>
             </motion.div>
@@ -146,9 +146,9 @@ const CompaniesStatsSection: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-3xl md:text-4xl lg:text-5xl font-bold text-black mb-6"
             >
-              E O QUE ELAS
+              O QUE NOSSOS
               <br />
-              <span className="text-neutral-600">ESTÃO COMENTANDO?!</span>
+              <span className="text-neutral-600">CLIENTES DIZEM?!</span>
             </motion.h3>
             
             <motion.p
@@ -158,7 +158,7 @@ const CompaniesStatsSection: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="text-lg text-neutral-600 max-w-2xl mx-auto"
             >
-              Resultados reais de empresas que escolheram o Hub Plural como seu novo modelo de trabalho
+              Resultados reais de empresas que confiam na Gabardo para o transporte de seus veículos
             </motion.p>
           </motion.div>
 
@@ -226,8 +226,8 @@ const CompaniesStatsSection: React.FC = () => {
             <p className="text-lg text-neutral-600 mb-8 font-medium">
               Quer fazer parte dessas estatísticas?
             </p>
-            <button className="bg-accent text-white px-10 py-4 rounded-xl font-semibold transition-all duration-300 hover:bg-accent-800 hover:scale-105 hover:shadow-xl uppercase tracking-wide text-sm">
-              Agendar Visita
+            <button className="bg-amber-500/80 hover:bg-amber-600/80 text-black px-10 py-4 rounded-xl font-semibold transition-all duration-300 hover:scale-105 hover:shadow-xl uppercase tracking-wide text-sm">
+              Solicitar Cotação
             </button>
           </motion.div>
         </div>
