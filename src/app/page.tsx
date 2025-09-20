@@ -6,6 +6,7 @@ import PremiumInfoSection from "@/components/custom/PremiumInfoSection";
 // import InfiniteHorizontalGallery from "@/components/custom/InfiniteHorizontalGallery"; // Old import
 import InfiniteMasonryGallery from "@/components/custom/InfiniteMasonryGallery"; // New import
 import JSLInspiredServicesSection from "@/components/custom/JSLInspiredServicesSection";
+import FourPillarsSection from "@/components/custom/FourPillarsSection";
 import MapboxSection from "@/components/custom/MapboxSection"; // Added import
 import CompaniesStatsSection from '@/components/custom/CompaniesStatsSection';
 import BlogSection from '@/components/custom/BlogSection';
@@ -17,6 +18,7 @@ export default function HomePage() {
       <Header />
       <HeroSection />
       <JSLInspiredServicesSection />
+      <FourPillarsSection />
       <PremiumInfoSection />
       <CompaniesStatsSection />
       <BlogSection />

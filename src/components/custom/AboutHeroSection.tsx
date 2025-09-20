@@ -5,7 +5,7 @@ import { Dot, Mouse } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
-// Background images for About section
+// Background images for About section - Reverting to original working images
 const backgroundImages = [
   '/images/co-01.jpg',
   '/images/co-03.jpg', 
@@ -82,7 +82,7 @@ export default function AboutHeroSection() {
           >
             <Image
               src={img}
-              alt="Hub Plural - Sobre Nós"
+              alt="Gabardo Distribuidora - Transporte de Veículos"
               fill
               className="object-cover object-center"
               priority={index === 0}
@@ -120,7 +120,7 @@ export default function AboutHeroSection() {
                 transition={{ duration: 0.6, delay: 0.3 }}
                 className="text-xs sm:text-sm font-light tracking-[0.2em] text-blue-400 mb-4 md:mb-6 uppercase"
               >
-                Sobre o Hub Plural
+                Sobre a Gabardo
               </motion.div>
 
               <motion.h1 
@@ -129,9 +129,9 @@ export default function AboutHeroSection() {
                 transition={{ duration: 0.8, delay: 0.5 }}
                 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold uppercase leading-tight tracking-tight mb-4 md:mb-6"
               >
-                Transformando Espaços,
+                Transportando Veículos,
                 <br />
-                <span className="text-blue-400">Conectando Pessoas</span>
+                <span className="text-blue-400">Construindo Confiança</span>
               </motion.h1>
 
               <motion.p 
@@ -140,8 +140,8 @@ export default function AboutHeroSection() {
                 transition={{ duration: 0.6, delay: 0.8 }}
                 className="text-sm sm:text-base md:text-lg lg:text-xl font-light leading-relaxed max-w-full md:max-w-3xl mb-6 md:mb-8"
               >
-                Há mais de uma década, o Hub Plural revoluciona o conceito de trabalho em Recife, 
-                criando ambientes que inspiram inovação, colaboração e crescimento profissional.
+                Desde 1989, a Gabardo Distribuidora carrega o legado de Sérgio Mário Gabardo, 
+                revolutionando o transporte rodoviário de veículos com tecnologia, segurança e excelência.
               </motion.p>
 
               {/* Enhanced stats section for mobile */}
@@ -153,15 +153,15 @@ export default function AboutHeroSection() {
               >
                 <div className="flex items-center space-x-2">
                   <Dot className="w-3 h-3 text-blue-400 flex-shrink-0" />
-                  <span className="text-xs sm:text-sm font-light tracking-wide">Desde 2012</span>
+                  <span className="text-xs sm:text-sm font-light tracking-wide">Desde 1989</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Dot className="w-3 h-3 text-blue-400 flex-shrink-0" />
-                  <span className="text-xs sm:text-sm font-light tracking-wide">+5000 Membros</span>
+                  <span className="text-xs sm:text-sm font-light tracking-wide">1.4M+ Veículos</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Dot className="w-3 h-3 text-blue-400 flex-shrink-0" />
-                  <span className="text-xs sm:text-sm font-light tracking-wide">15 Unidades</span>
+                  <span className="text-xs sm:text-sm font-light tracking-wide">14 Unidades</span>
                 </div>
               </motion.div>
             </div>

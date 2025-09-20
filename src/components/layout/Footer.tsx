@@ -157,7 +157,7 @@ const Footer: React.FC = () => {
                     <a
                       key={social.label}
                       href={social.href}
-                      className="w-9 h-9 border border-neutral-200 rounded-lg flex items-center justify-center hover:border-accent hover:bg-accent hover:text-white transition-all duration-200 group"
+                      className="w-9 h-9 bg-black border border-black rounded-lg flex items-center justify-center hover:bg-accent hover:border-accent text-white transition-all duration-200 group"
                       aria-label={social.label}
                     >
                       <social.icon className="w-4 h-4" />

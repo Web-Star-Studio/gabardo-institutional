@@ -96,28 +96,70 @@ const PremiumInfoSection: React.FC = () => {
           <AnimatePresence mode="wait">
             <motion.div
               key={`main-${activeItem.id}`}
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -40 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="space-y-8"
             >
-              {/* Service Category */}
-              <h2 className="font-primary text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-                <span className="text-blue-accent">{activeItem.projectCategory}</span>
-              </h2>
+              {/* Service Category - Slide from Left */}
+              <motion.div
+                className="w-full flex justify-center"
+              >
+                <motion.h2 
+                  initial={{ opacity: 0, x: -60, y: 10 }}
+                  animate={{ 
+                    opacity: 1, 
+                    x: 0, 
+                    y: 0
+                  }}
+                  exit={{ opacity: 0, x: -60, y: 10 }}
+                  transition={{ 
+                    duration: 1.2, 
+                    ease: [0.25, 0.1, 0.25, 1], // Premium smooth easing
+                    delay: 0.1 
+                  }}
+                  whileHover={{ x: 2, transition: { duration: 0.3, ease: "easeOut" } }}
+                  className="font-primary text-3xl md:text-4xl lg:text-5xl font-black leading-tight mb-6 relative"
+                >
+                  <span className="text-blue-accent font-black uppercase tracking-[0.2em]">
+                    {activeItem.projectCategory}
+                  </span>
+                </motion.h2>
+              </motion.div>
               
               {/* Service Description */}
-              <p className="font-secondary text-xl md:text-2xl text-white/80 font-light leading-relaxed">
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
+                className="font-secondary text-xl md:text-2xl text-white/80 font-light leading-relaxed"
+              >
                 {activeItem.title}
-              </p>
+              </motion.p>
               
-              {/* Location Badge */}
-              <div className="inline-flex items-center px-8 py-4 bg-black/20 backdrop-blur-sm border border-white/20 rounded-full">
-                <span className="text-base font-medium uppercase tracking-widest text-white/90">
+              {/* Location Badge - Slide from Right with Creative Pop */}
+              <motion.div 
+                initial={{ opacity: 0, x: -60, y: 10 }}
+                animate={{ 
+                  opacity: 1, 
+                  x: 0, 
+                  y: 0
+                }}
+                exit={{ opacity: 0, x: -60, y: 10 }}
+                transition={{ 
+                  duration: 1.2, 
+                  ease: [0.25, 0.1, 0.25, 1], // Premium smooth easing
+                  delay: 0.5 
+                }}
+                whileHover={{ x: 2, transition: { duration: 0.3, ease: "easeOut" } }}
+                className="flex items-center justify-center relative w-full"
+              >
+                <span className="text-2xl md:text-3xl lg:text-4xl font-black uppercase tracking-[0.2em] text-blue-accent">
                   {activeItem.location}
                 </span>
-              </div>
+              </motion.div>
             </motion.div>
           </AnimatePresence>
         </div>
@@ -140,11 +182,11 @@ const PremiumInfoSection: React.FC = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12">
             {[
               { number: '35+', label: 'Anos de Experiência', description: 'Mercado consolidado', type: 'text' },
               { number: '500+', label: 'Clientes Atendidos', description: 'Confiança nacional', type: 'text' },
-              { number: '24/7', label: 'Suporte Disponível', description: 'Sempre conectados', type: 'text' },
+              { number: '1.4M+', label: 'Veículos Transportados', description: '2020 - 2024', type: 'text' },
               { number: '98%', label: 'Satisfação', description: 'Excelência comprovada', type: 'star' }
             ].map((stat, index) => (
               <motion.div
@@ -155,10 +197,17 @@ const PremiumInfoSection: React.FC = () => {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="text-center group"
               >
-                <div className="text-4xl lg:text-5xl font-black text-white mb-2 hover-blue-80 transition-colors duration-300 flex items-center justify-center gap-2">
-                  {stat.number}
+                <div className="text-4xl lg:text-5xl font-black text-white mb-2 hover-blue-80 transition-colors duration-300 flex items-center justify-center gap-2 relative">
+                  {stat.number.includes('+') ? (
+                    <>
+                      {stat.number.replace('+', '')}
+                      <span className="text-blue-accent font-black">+</span>
+                    </>
+                  ) : (
+                    stat.number
+                  )}
                   {stat.type === 'star' && (
-                    <span className="w-8 h-8 lg:w-10 lg:h-10 inline-block text-blue-bright">★</span>
+                    <span className="w-8 h-8 lg:w-10 lg:h-10 inline-flex items-center justify-center text-blue-accent font-black" style={{ transform: 'translateY(-0.1em)' }}>★</span>
                   )}
                 </div>
                 <div className="text-lg font-bold text-white/90 mb-1">

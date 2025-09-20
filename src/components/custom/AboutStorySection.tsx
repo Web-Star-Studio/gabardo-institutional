@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Building, Users, Lightbulb, Target } from 'lucide-react';
+import { Building, Users, Truck, Target } from 'lucide-react';
 
 interface TimelineItem {
   year: string;
@@ -14,32 +14,32 @@ interface TimelineItem {
 
 const timeline: TimelineItem[] = [
   {
-    year: '2012',
-    title: 'O Início da Jornada',
-    description: 'Nascemos com a visão de transformar o conceito de trabalho em Recife, criando o primeiro espaço de coworking da cidade com foco em inovação e colaboração.',
-    icon: <Lightbulb className="w-6 h-6" />,
-    image: 'https://hubplural.com/wp-content/uploads/2023/09/PASSAPORTE-02-1024x770.png'
+    year: '1989',
+    title: 'Fundação da Gabardo',
+    description: 'Sérgio Mário Gabardo funda a empresa com visão pioneira no transporte rodoviário de veículos, estabelecendo os primeiros padrões de qualidade e segurança do setor.',
+    icon: <Building className="w-6 h-6" />,
+    image: '/images/co-01.jpg'
+  },
+  {
+    year: '2000',
+    title: 'Expansão Nacional',
+    description: 'Expansão para múltiplos estados, consolidando nossa presença nacional com investimentos em tecnologia embarcada e rastreamento por satélite.',
+    icon: <Truck className="w-6 h-6" />,
+    image: '/images/co-03.jpg'
   },
   {
     year: '2015',
-    title: 'Expansão e Crescimento',
-    description: 'Expandimos para múltiplas unidades, oferecendo diferentes formatos de espaços de trabalho para atender às necessidades diversas dos profissionais.',
-    icon: <Building className="w-6 h-6" />,
-    image: 'https://hubplural.com/wp-content/uploads/2024/07/HOME-SALA-DE-REUNIAO-01.png'
-  },
-  {
-    year: '2018',
-    title: 'Comunidade Plural',
-    description: 'Consolidamos nossa comunidade com mais de 2.000 membros ativos, tornando-nos referência em networking e desenvolvimento profissional no Nordeste.',
-    icon: <Users className="w-6 h-6" />,
-    image: 'https://hubplural.com/wp-content/uploads/2024/07/HOME-SALA-DE-REUNIAO-02.png'
+    title: 'Inovação Tecnológica',
+    description: 'Implementação do sistema digital PDI (Pré-Delivery Inspection) e modernização da frota com modelos Volvo FH 460, Scania R410 e VW Constellation.',
+    icon: <Target className="w-6 h-6" />,
+    image: '/images/co-5.jpg'
   },
   {
     year: '2024',
-    title: 'Liderança Regional',
-    description: 'Hoje somos a maior rede de coworking do Nordeste, com 15 unidades e mais de 5.000 membros, continuando nossa missão de transformar espaços e conectar pessoas.',
-    icon: <Target className="w-6 h-6" />,
-    image: 'https://hubplural.com/wp-content/uploads/2025/05/Captura-de-tela-2025-05-09-220312.png'
+    title: 'Liderança no Mercado',
+    description: 'Consolidamos nossa posição como referência no transporte de veículos com mais de 1,4 milhões de veículos transportados, 14 unidades e parcerias com principais montadoras.',
+    icon: <Users className="w-6 h-6" />,
+    image: '/images/co-01.jpg'
   }
 ];
 
@@ -91,9 +91,9 @@ const AboutStorySection: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.3 }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-black uppercase tracking-tight leading-tight"
           >
-            Uma História de
+            35 Anos de
             <br />
-            <span className="text-neutral-600">Inovação e Crescimento</span>
+            <span className="text-neutral-600">Excelência e Confiança</span>
           </motion.h2>
         </motion.div>
 
@@ -186,11 +186,11 @@ const AboutStorySection: React.FC = () => {
           className="text-center mt-20 md:mt-24"
         >
           <blockquote className="text-2xl md:text-3xl font-light text-neutral-700 italic max-w-4xl mx-auto leading-relaxed">
-            "Acreditamos que os melhores negócios nascem quando pessoas talentosas se conectam 
-            em ambientes inspiradores. Esta é nossa missão há mais de uma década."
+            "Ao longo de seus 35 anos, a Gabardo procura entender as necessidades dos clientes para 
+            atendê-los de forma personalizada e eficiente. Nossa missão é transportar mais que veículos."
           </blockquote>
           <div className="mt-6 text-sm font-medium text-neutral-500 tracking-wide uppercase">
-            — Equipe Hub Plural
+            — Sérgio Mário Gabardo, Fundador
           </div>
         </motion.div>
       </div>
