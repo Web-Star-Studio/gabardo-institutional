@@ -75,7 +75,7 @@ const allCityItems: Record<City, CarouselItemData[]> = CITIES.reduce((acc, city)
 }, {} as Record<City, CarouselItemData[]>);
 
 const ImageCarouselSection: React.FC = () => {
-  const [selectedCity, setSelectedCity] = useState<City>(CITIES[0]);
+  const selectedCity: City = "PORTO ALEGRE"; // Fixed to Porto Alegre
   const [selectedProjectCategory, setSelectedProjectCategory] = useState<ProjectCategoryType>(PROJECT_CATEGORIES[0]);
   const [currentItems, setCurrentItems] = useState<CarouselItemData[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -88,7 +88,7 @@ const ImageCarouselSection: React.FC = () => {
 
   useEffect(() => {
     setBgGradient(cityGradients[selectedCity]);
-  }, [selectedCity]);
+  }, []);
 
   const onSelect = useCallback(() => {
     if (!api) return;
@@ -131,7 +131,7 @@ const ImageCarouselSection: React.FC = () => {
     if (api) {
       api.scrollTo(0, false); 
     }
-  }, [selectedCity, selectedProjectCategory, api]); // Removido allCityItems daqui pois é constante após a inicialização
+  }, [selectedProjectCategory, api]); // Removido selectedCity pois é constante e allCityItems daqui pois é constante após a inicialização
 
   useEffect(() => {
     if (!api) return;
@@ -308,23 +308,6 @@ const ImageCarouselSection: React.FC = () => {
               </AnimatePresence>
               
               <div className="flex flex-col items-end gap-3">
-                <nav className="flex gap-2" role="tablist" aria-label="City selection">
-                  {CITIES.map((city) => (
-                    <button
-                      key={city}
-                      onClick={() => {
-                        setSelectedCity(city);
-                        // Ao mudar de cidade, a selectedProjectCategory é mantida (conforme definido no useEffect de filtro).
-                        // O useEffect cuidará de atualizar currentItems e, se necessário, a selectedProjectCategory por fallback.
-                      }}
-                      role="tab"
-                      aria-selected={selectedCity === city}
-                      className={`px-3 py-1 text-xs font-medium transition-all duration-200 rounded-sm ${selectedCity === city ? 'bg-white text-black shadow-lg' : 'bg-neutral-800/80 hover:bg-neutral-700 text-neutral-300 hover:text-white'}`}
-                    >
-                      {city}
-                    </button>
-                  ))}
-                </nav>
                 <nav className="flex gap-2" role="tablist" aria-label="Project Category selection">
                   {PROJECT_CATEGORIES.map((projCategory) => (
                     <button
@@ -332,7 +315,7 @@ const ImageCarouselSection: React.FC = () => {
                       onClick={() => setSelectedProjectCategory(projCategory)} // Apenas atualiza, não alterna
                       role="tab"
                       aria-selected={selectedProjectCategory === projCategory}
-                      className={`px-3 py-1 text-xs font-medium transition-all duration-200 rounded-sm ${selectedProjectCategory === projCategory ? 'bg-accent text-white shadow-lg' : 'bg-neutral-800/80 hover:bg-neutral-700 text-neutral-300 hover:text-white'}`}
+                      className={`px-3 py-1 text-xs font-medium transition-all duration-200 rounded-sm ${selectedProjectCategory === projCategory ? 'bg-white text-black shadow-lg' : 'bg-neutral-800/80 hover:bg-neutral-700 text-neutral-300 hover:text-white'}`}
                     >
                       {projCategory}
                     </button>

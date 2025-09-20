@@ -116,7 +116,7 @@ const FullScreenNav: React.FC<FullScreenNavProps> = ({
             >
               <Image
                 src={hoveredItemImage}
-                alt="Gabardo Distribuidora"
+                alt="Gabardo Transportes"
                 fill
                 className="object-cover"
                 priority
@@ -150,24 +150,24 @@ const FullScreenNav: React.FC<FullScreenNavProps> = ({
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: -100, opacity: 0 }}
               transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="w-full md:w-3/5 lg:w-1/2 h-full flex flex-col justify-center p-6 md:p-12 lg:p-16 overflow-y-auto"
+              className="w-full md:w-3/5 lg:w-1/2 h-full flex flex-col justify-start pt-6 md:pt-8 p-4 md:p-8 lg:p-10 overflow-y-auto"
             >
               {/* Logo */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="mb-8 md:mb-12 mt-16 md:mt-24"
+                className="mb-6 md:mb-8 mt-2 md:mt-0 px-3 md:px-2"
               >
-                <Link href="/" onClick={onClose} className="inline-block">
-                  <div className="flex items-center">
+                <Link href="/" onClick={onClose} className="inline-block w-full">
+                  <div className="flex items-center justify-start overflow-hidden">
                     <Image
                       src="/gabardo-logo.png"
                       alt="Gabardo Logo"
-                      width={isMobile ? 140 : 180}
-                      height={isMobile ? 37 : 48}
+                      width={isMobile ? 120 : 160}
+                      height={isMobile ? 32 : 43}
                       priority
-                      className="h-auto w-auto"
+                      className="h-auto w-auto max-w-[90%] object-contain"
                       style={{ 
                         filter: 'brightness(2) contrast(1.5) opacity(0.95)',
                         WebkitFilter: 'brightness(2) contrast(1.5) opacity(0.95)'
@@ -178,7 +178,7 @@ const FullScreenNav: React.FC<FullScreenNavProps> = ({
               </motion.div>
 
               {/* Main Navigation */}
-              <nav className="space-y-1 md:space-y-2 mb-8 md:mb-0">
+              <nav className="space-y-1 md:space-y-1 mb-6 md:mb-0">
                 {menuItems.map((item, index) => (
                   <motion.div
                     key={item.id}
@@ -190,17 +190,17 @@ const FullScreenNav: React.FC<FullScreenNavProps> = ({
                     <Link 
                       href={item.href}
                       onClick={onClose}
-                      className="flex items-center justify-between py-3 md:py-4 text-white hover-blue-80 transition-all duration-500 touch-manipulation"
+                      className="flex items-center justify-between py-2 md:py-3 text-white hover-blue-80 transition-all duration-500 touch-manipulation"
                       onMouseEnter={() => !isMobile && setHoveredItemImage(item.imageSrc)}
                       onMouseLeave={() => !isMobile && setHoveredItemImage(defaultImageSrc)}
                       onTouchStart={() => isMobile && setHoveredItemImage(item.imageSrc)}
                     >
-                      <span className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-light tracking-tight">
+                      <span className="text-xl md:text-2xl lg:text-3xl xl:text-4xl font-light tracking-tight">
                         {item.label}
                       </span>
                       <ChevronRight 
-                        size={isMobile ? 20 : 24} 
-                        className="opacity-70 md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 flex-shrink-0 ml-4 text-blue-bright" 
+                        size={isMobile ? 16 : 20} 
+                        className="opacity-70 md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 flex-shrink-0 ml-3 text-blue-bright" 
                       />
                     </Link>
                   </motion.div>
@@ -212,11 +212,11 @@ const FullScreenNav: React.FC<FullScreenNavProps> = ({
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.8 }}
-                className="mt-8 md:mt-16 flex flex-col md:flex-row gap-4"
+                className="mt-6 md:mt-10 flex flex-col md:flex-row gap-3"
               >
                 <button
                   onClick={() => setActiveSection('services')}
-                  className={`px-6 py-3 rounded-full border border-white/30 text-white transition-all duration-300 hover:bg-white/10 active:bg-white/20 touch-manipulation ${
+                  className={`px-4 py-2 text-sm rounded-full border border-white/30 text-white transition-all duration-300 hover:bg-white/10 active:bg-white/20 touch-manipulation ${
                     activeSection === 'services' ? 'bg-blue-80 text-white border-blue-80' : ''
                   }`}
                 >
@@ -224,7 +224,7 @@ const FullScreenNav: React.FC<FullScreenNavProps> = ({
                 </button>
                 <button
                   onClick={() => setActiveSection('locations')}
-                  className={`px-6 py-3 rounded-full border border-white/30 text-white transition-all duration-300 hover:bg-white/10 active:bg-white/20 touch-manipulation ${
+                  className={`px-4 py-2 text-sm rounded-full border border-white/30 text-white transition-all duration-300 hover:bg-white/10 active:bg-white/20 touch-manipulation ${
                     activeSection === 'locations' ? 'bg-blue-80 text-white border-blue-80' : ''
                   }`}
                 >
@@ -233,7 +233,7 @@ const FullScreenNav: React.FC<FullScreenNavProps> = ({
               </motion.div>
 
               {/* Mobile Dynamic Content */}
-              <div className="md:hidden mt-8">
+              <div className="md:hidden mt-6">
                 <AnimatePresence mode="wait">
                   {activeSection === 'services' && (
                     <motion.div
@@ -242,9 +242,9 @@ const FullScreenNav: React.FC<FullScreenNavProps> = ({
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -20 }}
                       transition={{ duration: 0.4 }}
-                      className="space-y-4"
+                      className="space-y-3"
                     >
-                      <h3 className="text-xl font-light text-white mb-6">Nossos Serviços</h3>
+                      <h3 className="text-lg font-light text-white mb-4">Nossos Serviços</h3>
                       {KEY_SERVICES.map((service, index) => (
                         <motion.div
                           key={service.id}
@@ -255,11 +255,11 @@ const FullScreenNav: React.FC<FullScreenNavProps> = ({
                           <Link
                             href={service.href}
                             onClick={onClose}
-                            className="block p-4 rounded-lg bg-white/10 hover:bg-white/20 active:bg-white/25 transition-all duration-300 text-white group touch-manipulation"
+                            className="block p-3 rounded-lg bg-white/10 hover:bg-white/20 active:bg-white/25 transition-all duration-300 text-white group touch-manipulation"
                           >
                             <div className="flex items-center justify-between">
-                              <span className="text-base font-light">{service.label}</span>
-                              <ChevronRight size={16} className="transition-transform duration-300 text-blue-bright" />
+                              <span className="text-sm font-light">{service.label}</span>
+                              <ChevronRight size={14} className="transition-transform duration-300 text-blue-bright" />
                             </div>
                           </Link>
                         </motion.div>
@@ -274,9 +274,9 @@ const FullScreenNav: React.FC<FullScreenNavProps> = ({
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -20 }}
                       transition={{ duration: 0.4 }}
-                      className="space-y-4"
+                      className="space-y-3"
                     >
-                      <h3 className="text-xl font-light text-white mb-6">Nossas Unidades</h3>
+                      <h3 className="text-lg font-light text-white mb-4">Nossas Unidades</h3>
                       {KEY_LOCATIONS.map((location, index) => (
                         <motion.div
                           key={location.id}
@@ -287,12 +287,12 @@ const FullScreenNav: React.FC<FullScreenNavProps> = ({
                           <Link
                             href={location.href}
                             onClick={onClose}
-                            className="block p-4 rounded-lg bg-white/10 hover:bg-white/20 active:bg-white/25 transition-all duration-300 text-white group touch-manipulation"
+                            className="block p-3 rounded-lg bg-white/10 hover:bg-white/20 active:bg-white/25 transition-all duration-300 text-white group touch-manipulation"
                           >
-                            <div className="flex items-center space-x-3">
-                              <MapPin size={16} className="flex-shrink-0 text-blue-bright" />
-                              <span className="text-base font-light">{location.label}</span>
-                              <ChevronRight size={16} className="ml-auto transition-transform duration-300 text-blue-bright" />
+                            <div className="flex items-center space-x-2">
+                              <MapPin size={14} className="flex-shrink-0 text-blue-bright" />
+                              <span className="text-sm font-light">{location.label}</span>
+                              <ChevronRight size={14} className="ml-auto transition-transform duration-300 text-blue-bright" />
                             </div>
                           </Link>
                         </motion.div>
@@ -309,21 +309,21 @@ const FullScreenNav: React.FC<FullScreenNavProps> = ({
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: 100, opacity: 0 }}
               transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.2 }}
-              className="hidden md:flex w-2/5 lg:w-1/2 h-full flex-col justify-center p-8 md:p-12 lg:p-16 bg-white/5 backdrop-blur-md"
+              className="hidden md:flex w-2/5 lg:w-1/2 h-full flex-col justify-center p-6 md:p-8 lg:p-10 bg-white/5 backdrop-blur-md"
             >
               {/* Desktop Close Button */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
-                className="absolute top-8 right-8"
+                className="absolute top-6 right-6"
               >
                 <button
                   onClick={onClose}
-                  className="w-12 h-12 rounded-full border border-white/30 text-white hover:bg-white/10 transition-all duration-300 flex items-center justify-center group"
+                  className="w-10 h-10 rounded-full border border-white/30 text-white hover:bg-white/10 transition-all duration-300 flex items-center justify-center group"
                   aria-label="Close menu"
                 >
-                  <X size={20} className="group-hover:rotate-90 transition-transform duration-300" />
+                  <X size={18} className="group-hover:rotate-90 transition-transform duration-300" />
                 </button>
               </motion.div>
 
@@ -338,7 +338,7 @@ const FullScreenNav: React.FC<FullScreenNavProps> = ({
                     transition={{ duration: 0.4 }}
                     className="space-y-6"
                   >
-                    <h3 className="text-2xl font-light text-white mb-8">Nossos Serviços</h3>
+                    <h3 className="text-lg font-light text-white mb-6">Nossos Serviços</h3>
                     {KEY_SERVICES.map((service, index) => (
                       <motion.div
                         key={service.id}
@@ -349,11 +349,11 @@ const FullScreenNav: React.FC<FullScreenNavProps> = ({
                         <Link
                           href={service.href}
                           onClick={onClose}
-                          className="block p-4 rounded-lg bg-white/10 hover:bg-white/20 transition-all duration-300 text-white group"
+                          className="block p-3 rounded-lg bg-white/10 hover:bg-white/20 transition-all duration-300 text-white group"
                         >
                           <div className="flex items-center justify-between">
-                            <span className="text-lg font-light">{service.label}</span>
-                            <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform duration-300" />
+                            <span className="text-base font-light">{service.label}</span>
+                            <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
                           </div>
                         </Link>
                       </motion.div>
@@ -370,7 +370,7 @@ const FullScreenNav: React.FC<FullScreenNavProps> = ({
                     transition={{ duration: 0.4 }}
                     className="space-y-6"
                   >
-                    <h3 className="text-2xl font-light text-white mb-8">Nossas Unidades</h3>
+                    <h3 className="text-lg font-light text-white mb-6">Nossas Unidades</h3>
                     {KEY_LOCATIONS.map((location, index) => (
                       <motion.div
                         key={location.id}
@@ -381,12 +381,12 @@ const FullScreenNav: React.FC<FullScreenNavProps> = ({
                         <Link
                           href={location.href}
                           onClick={onClose}
-                          className="block p-4 rounded-lg bg-white/10 hover:bg-white/20 transition-all duration-300 text-white group"
+                          className="block p-3 rounded-lg bg-white/10 hover:bg-white/20 transition-all duration-300 text-white group"
                         >
-                          <div className="flex items-center space-x-3">
-                            <MapPin size={16} className="text-blue-bright" />
-                            <span className="text-lg font-light">{location.label}</span>
-                            <ChevronRight size={16} className="ml-auto group-hover:translate-x-1 transition-transform duration-300" />
+                          <div className="flex items-center space-x-2">
+                            <MapPin size={14} className="text-blue-bright" />
+                            <span className="text-base font-light">{location.label}</span>
+                            <ChevronRight size={14} className="ml-auto group-hover:translate-x-1 transition-transform duration-300" />
                           </div>
                         </Link>
                       </motion.div>
@@ -401,16 +401,16 @@ const FullScreenNav: React.FC<FullScreenNavProps> = ({
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.4 }}
-                    className="space-y-8"
+                    className="space-y-6"
                   >
                     <div className="text-white/80">
-                      <h3 className="text-2xl font-light mb-4">Gabardo Transportes</h3>
-                      <p className="text-lg font-light leading-relaxed mb-6">
+                      <h3 className="text-lg font-light mb-3">Gabardo Transportes</h3>
+                      <p className="text-base font-light leading-relaxed mb-4">
                         Há mais de 35 anos transportando veículos com segurança, tecnologia e excelência em todo o Brasil.
                       </p>
                       
-                      <div className="flex items-center space-x-3 mb-4 text-blue-accent">
-                        <Clock size={16} />
+                      <div className="flex items-center space-x-2 mb-3 text-blue-accent">
+                        <Clock size={14} />
                         <span className="text-sm">Seg-Sex: 8h às 18h</span>
                       </div>
                       
@@ -419,40 +419,40 @@ const FullScreenNav: React.FC<FullScreenNavProps> = ({
                         onClick={onClose}
                         className="inline-flex items-center space-x-2 text-blue-accent hover:text-white transition-colors duration-300"
                       >
-                        <span>Solicitar Cotação</span>
-                        <ChevronRight size={16} />
+                        <span className="text-sm">Solicitar Cotação</span>
+                        <ChevronRight size={14} />
                       </Link>
                     </div>
 
                     {/* Social Links */}
-                    <div className="flex space-x-4 pt-8 border-t border-white/20">
+                    <div className="flex space-x-3 pt-6 border-t border-white/20">
                       <Link 
                         href="http://fb.com/transgabardo" 
                         target="_blank"
-                        className="w-10 h-10 rounded-full border border-white/30 text-white hover:bg-white/10 transition-all duration-300 flex items-center justify-center"
+                        className="w-8 h-8 rounded-full border border-white/30 text-white hover:bg-white/10 transition-all duration-300 flex items-center justify-center"
                       >
                         <span className="sr-only">Facebook</span>
-                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                         </svg>
                       </Link>
                       <Link 
                         href="#" 
                         target="_blank"
-                        className="w-10 h-10 rounded-full border border-white/30 text-white hover:bg-white/10 transition-all duration-300 flex items-center justify-center"
+                        className="w-8 h-8 rounded-full border border-white/30 text-white hover:bg-white/10 transition-all duration-300 flex items-center justify-center"
                       >
                         <span className="sr-only">Instagram</span>
-                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987 6.62 0 11.987-5.367 11987-11.987C24.014 5.367 18.637.001 12.017.001zM8.449 16.988c-1.297 0-2.348-1.051-2.348-2.348 0-1.297 1.051-2.348 2.348-2.348 1.297 0 2.348 1.051 2.348 2.348 0 1.297-1.051 2.348-2.348 2.348zm7.718 0c-1.297 0-2.348-1.051-2.348-2.348 0-1.297 1.051-2.348 2.348-2.348 1.297 0 2.348 1.051 2.348 2.348 0 1.297-1.051 2.348-2.348 2.348z"/>
                         </svg>
                       </Link>
                       <Link 
                         href="https://www.linkedin.com/company/transportes-gabardo/" 
                         target="_blank"
-                        className="w-10 h-10 rounded-full border border-white/30 text-white hover:bg-white/10 transition-all duration-300 flex items-center justify-center"
+                        className="w-8 h-8 rounded-full border border-white/30 text-white hover:bg-white/10 transition-all duration-300 flex items-center justify-center"
                       >
                         <span className="sr-only">LinkedIn</span>
-                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                         </svg>
                       </Link>

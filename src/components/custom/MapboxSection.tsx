@@ -218,16 +218,16 @@ const MapboxSection: React.FC = () => {
             transition={{ duration: 0.8 }}
             className="lg:col-span-8"
           >
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-white border border-gray-200">
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-neutral-900">
               <div
                 ref={mapContainerRef}
                 className="map-container h-[500px] w-full"
               >
                 {!mapLoaded && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+                  <div className="absolute inset-0 flex items-center justify-center bg-neutral-900">
                     <div className="text-center">
-                      <div className="w-8 h-8 border-2 border-gray-300 border-t-blue-600 rounded-full animate-spin mx-auto mb-4"></div>
-                      <p className="text-gray-600">Carregando mapa...</p>
+                      <div className="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin mx-auto mb-4"></div>
+                      <p className="text-white/60">Carregando mapa...</p>
                     </div>
                   </div>
                 )}
@@ -262,7 +262,7 @@ const MapboxSection: React.FC = () => {
                   <p className="text-neutral-600 mb-6">{selectedLocation.address}</p>
                   <button
                     onClick={handleExploreLocation}
-                    className="w-full bg-blue-600 text-white py-3 px-6 rounded-xl font-medium hover:bg-blue-700 transition-colors"
+                    className="w-full bg-neutral-900 text-white py-3 px-6 rounded-xl font-medium hover:bg-neutral-800 transition-colors"
                   >
                     Explorar Unidade
                   </button>
