@@ -5,11 +5,11 @@ import { Star, TrendingUp, Users, Shield, Clock } from 'lucide-react';
 
 const StatsSection: React.FC = () => {
   return (
-    <section className="py-16 md:py-20 lg:py-24 bg-gradient-to-br from-black via-neutral-900 to-black relative overflow-hidden">
+    <section className="py-16 md:py-20 lg:py-24 bg-gradient-to-br from-white via-gray-50 to-gray-100 relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-10 w-64 h-64 bg-gradient-to-br from-blue-500/10 to-blue-600/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-10 w-80 h-80 bg-gradient-to-br from-blue-400/5 to-blue-500/10 rounded-full blur-3xl" />
+        <div className="absolute top-1/4 left-10 w-64 h-64 bg-gradient-to-br from-blue-100/40 to-blue-200/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-10 w-80 h-80 bg-gradient-to-br from-blue-50/50 to-blue-100/30 rounded-full blur-3xl" />
       </div>
       
       <div className="container mx-auto px-4 md:px-8 lg:px-16 relative z-10">
@@ -17,22 +17,22 @@ const StatsSection: React.FC = () => {
           {/* Section Header */}
           <div className="text-center mb-16 md:mb-20">
             <div className="inline-flex items-center gap-3 mb-6">
-              <div className="w-16 h-px bg-gradient-to-r from-transparent to-white/40" />
-              <span className="text-sm font-mono text-white/70 tracking-[0.3em] uppercase bg-white/5 px-4 py-2 rounded-full border border-white/10">
+              <div className="w-16 h-px bg-gradient-to-r from-transparent to-gray-400/60" />
+              <span className="text-sm font-mono text-gray-600 tracking-[0.3em] uppercase bg-gray-100 px-4 py-2 rounded-full border border-gray-200">
                 Números que Falam
               </span>
-              <div className="w-16 h-px bg-gradient-to-l from-transparent to-white/40" />
+              <div className="w-16 h-px bg-gradient-to-l from-transparent to-gray-400/60" />
             </div>
             
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
               <span className="block">RESULTADOS QUE</span>
-              <span className="block text-blue-accent bg-gradient-to-r from-blue-400 to-blue-300 bg-clip-text text-transparent">
+              <span className="block bg-gradient-to-r from-blue-600 to-blue-500 bg-clip-text text-transparent">
                 COMPROVAM NOSSA
               </span>
               <span className="block">EXCELÊNCIA</span>
             </h2>
             
-            <p className="text-lg md:text-xl text-white/70 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Mais de três décadas de excelência no transporte de veículos com resultados que falam por si só
             </p>
           </div>
@@ -48,7 +48,7 @@ const StatsSection: React.FC = () => {
                 key={index}
                 className="group relative"
               >
-                <div className="bg-black/40 backdrop-blur-sm border border-white/10 rounded-2xl p-8 md:p-10 h-full transition-all duration-500 hover:bg-black/50 hover:border-white/20 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/10 relative overflow-hidden">
+                <div className="bg-white/80 backdrop-blur-sm border border-gray-200 rounded-2xl p-8 md:p-10 h-full transition-all duration-500 hover:bg-white hover:border-gray-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-gray-500/10 relative overflow-hidden">
                   
                   {/* Background Glow */}
                   <div className={`absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-10 transition-opacity duration-500 ${
@@ -77,21 +77,21 @@ const StatsSection: React.FC = () => {
                   
                   {/* Number */}
                   <div className="text-center mb-4">
-                    <div className="text-5xl md:text-6xl font-black text-white mb-2 group-hover:text-blue-300 transition-colors duration-300">
+                    <div className="text-5xl md:text-6xl font-black text-gray-900 mb-2 group-hover:text-blue-600 transition-colors duration-300">
                       {stat.number}
                     </div>
                   </div>
                   
                   {/* Label */}
                   <div className="text-center mb-3">
-                    <h3 className="text-lg md:text-xl font-bold text-white/90 leading-tight">
+                    <h3 className="text-lg md:text-xl font-bold text-gray-800 leading-tight">
                       {stat.label}
                     </h3>
                   </div>
                   
                   {/* Description */}
                   <div className="text-center">
-                    <p className="text-sm md:text-base text-white/60 font-light leading-relaxed">
+                    <p className="text-sm md:text-base text-gray-600 font-light leading-relaxed">
                       {stat.description}
                     </p>
                   </div>
@@ -110,7 +110,7 @@ const StatsSection: React.FC = () => {
         </div>
         
         {/* Bottom Accent Line */}
-        <div className="mt-16 md:mt-20 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+        <div className="mt-16 md:mt-20 h-px bg-gradient-to-r from-transparent via-gray-300/60 to-transparent" />
       </div>
     </section>
   );

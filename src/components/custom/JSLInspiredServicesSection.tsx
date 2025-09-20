@@ -66,7 +66,7 @@ const services: Service[] = [
 
 const JSLInspiredServicesSection: React.FC = () => {
   return (
-    <section className="py-20 md:py-32 bg-neutral-900">
+    <section className="py-20 md:py-32 bg-gradient-to-br from-gray-50 via-white to-gray-100">
       <div className="container mx-auto px-4 md:px-8 lg:px-16">
         
         {/* Header Section */}
@@ -78,25 +78,25 @@ const JSLInspiredServicesSection: React.FC = () => {
           className="text-center mb-16 md:mb-24"
         >
           <div className="inline-flex items-center gap-3 mb-6">
-            <div className="w-12 h-px bg-white/30"></div>
-            <span className="text-sm font-mono text-white/60 tracking-[0.3em] uppercase">
+            <div className="w-12 h-px bg-gray-400/60"></div>
+            <span className="text-sm font-mono text-gray-600 tracking-[0.3em] uppercase">
               Portfólio de Serviços
             </span>
-            <div className="w-12 h-px bg-white/30"></div>
+            <div className="w-12 h-px bg-gray-400/60"></div>
           </div>
           
-          <h2 className="font-primary text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+          <h2 className="font-primary text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
             Conheça a
             <br />
-            <span className="text-blue-accent">Gabardo</span>
+            <span className="text-blue-600">Gabardo</span>
           </h2>
           
-          <p className="font-secondary text-xl md:text-2xl text-white/80 font-light max-w-4xl mx-auto leading-relaxed">
+          <p className="font-secondary text-xl md:text-2xl text-gray-700 font-light max-w-4xl mx-auto leading-relaxed">
             A Gabardo é uma empresa 100% brasileira especializada em transporte de veículos. 
             Tem o maior e mais integrado portfólio de serviços e, sabe o porquê?
           </p>
           
-          <p className="font-secondary text-lg text-white/60 max-w-3xl mx-auto mt-6 leading-relaxed">
+          <p className="font-secondary text-lg text-gray-600 max-w-3xl mx-auto mt-6 leading-relaxed">
             Ao longo de seus 35 anos, procura entender as necessidades dos clientes para atendê-los 
             de forma personalizada e eficiente. Saiba mais sobre cada serviço. Vamos nessa?
           </p>
@@ -116,20 +116,20 @@ const JSLInspiredServicesSection: React.FC = () => {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="group cursor-pointer"
               >
-                <div className="bg-black/20 backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-500 hover:bg-black/30 hover:-translate-y-2 p-8 h-full">
+                <div className="bg-white/80 backdrop-blur-sm border border-gray-200 hover:border-gray-300 transition-all duration-500 hover:bg-white hover:-translate-y-2 hover:shadow-xl p-8 h-full rounded-xl">
                   
                   {/* Icon */}
-                  <div className="w-16 h-16 rounded-sm bg-white/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-white/15 transition-all duration-300">
-                    <IconComponent className="w-8 h-8 text-white/80 hover-blue-80 transition-colors duration-300" />
+                  <div className="w-16 h-16 rounded-xl bg-blue-50 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-blue-100 transition-all duration-300">
+                    <IconComponent className="w-8 h-8 text-blue-600 transition-colors duration-300" />
                   </div>
                   
                   {/* Title */}
-                  <h3 className="text-2xl font-bold text-white mb-4 hover-blue-80 transition-colors duration-300">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-blue-700 transition-colors duration-300">
                     {service.title}
                   </h3>
                   
                   {/* Description */}
-                  <p className="text-white/70 leading-relaxed mb-6 text-base">
+                  <p className="text-gray-600 leading-relaxed mb-6 text-base">
                     {service.description}
                   </p>
                   
@@ -137,14 +137,14 @@ const JSLInspiredServicesSection: React.FC = () => {
                   <ul className="space-y-3 mb-8">
                     {service.features.map((feature, featureIndex) => (
                       <li key={featureIndex} className="flex items-start gap-3">
-                        <div className="w-1 h-1 rounded-full bg-white/40 mt-3 flex-shrink-0"></div>
-                        <span className="text-sm text-white/60 leading-relaxed">{feature}</span>
+                        <div className="w-1 h-1 rounded-full bg-blue-400 mt-3 flex-shrink-0"></div>
+                        <span className="text-sm text-gray-500 leading-relaxed">{feature}</span>
                       </li>
                     ))}
                   </ul>
                   
                   {/* CTA */}
-                  <div className="flex items-center gap-2 text-white/80 font-semibold group-hover:gap-4 hover-blue-80 transition-all duration-300">
+                  <div className="flex items-center gap-2 text-blue-600 font-semibold group-hover:gap-4 group-hover:text-blue-700 transition-all duration-300">
                     <span className="text-sm uppercase tracking-wider">Saiba mais</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
                   </div>
@@ -162,23 +162,23 @@ const JSLInspiredServicesSection: React.FC = () => {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="text-center mt-20 md:mt-32"
         >
-          <div className="bg-black text-white p-12 md:p-16 max-w-4xl mx-auto">
+          <div className="bg-blue-600 text-white p-12 md:p-16 max-w-4xl mx-auto rounded-2xl shadow-2xl">
             <h3 className="text-3xl md:text-4xl font-bold mb-6 leading-tight">
               Pronto para encontrar a solução ideal 
               <br />
-              <span className="block text-blue-accent">para o seu negócio?</span>
+              <span className="block text-blue-200">para o seu negócio?</span>
             </h3>
             
-            <p className="text-xl text-white/80 font-light mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-white/90 font-light mb-8 max-w-2xl mx-auto">
               Nossa equipe está preparada para entender suas necessidades e criar 
               uma solução personalizada de transporte de veículos.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-blue-glow text-white px-10 py-4 font-semibold uppercase tracking-wide transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/25">
+              <button className="bg-white text-blue-600 px-10 py-4 font-semibold uppercase tracking-wide transition-all duration-300 hover:scale-105 hover:shadow-xl hover:bg-blue-50 rounded-lg">
                 Solicitar Orçamento
               </button>
-              <button className="border-2 border-white text-white hover:bg-white hover:text-black px-8 py-4 font-semibold uppercase tracking-wide transition-all duration-300">
+              <button className="border-2 border-white text-white hover:bg-white hover:text-blue-600 px-8 py-4 font-semibold uppercase tracking-wide transition-all duration-300 rounded-lg">
                 Falar com Especialista
               </button>
             </div>

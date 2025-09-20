@@ -157,15 +157,15 @@ const FullScreenNav: React.FC<FullScreenNavProps> = ({
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="mb-12 md:mb-16 mt-4 md:mt-0"
+                className="mb-8 md:mb-12 mt-16 md:mt-24"
               >
                 <Link href="/" onClick={onClose} className="inline-block">
-                  <div className="flex items-center space-x-3">
+                  <div className="flex items-center">
                     <Image
                       src="/gabardo-logo.png"
                       alt="Gabardo Logo"
-                      width={isMobile ? 180 : 220}
-                      height={isMobile ? 48 : 60}
+                      width={isMobile ? 140 : 180}
+                      height={isMobile ? 37 : 48}
                       priority
                       className="h-auto w-auto"
                       style={{ 
@@ -173,9 +173,6 @@ const FullScreenNav: React.FC<FullScreenNavProps> = ({
                         WebkitFilter: 'brightness(2) contrast(1.5) opacity(0.95)'
                       }}
                     />
-                    <span className="text-lg md:text-xl font-light text-white uppercase tracking-widest">
-                      DISTRIBUIDORA
-                    </span>
                   </div>
                 </Link>
               </motion.div>
