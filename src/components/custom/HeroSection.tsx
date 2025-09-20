@@ -23,16 +23,57 @@ export default function HeroSection() {
 
   useEffect(() => {
     const video = videoRef.current;
-    if (video) {
-      // Try to play the video, catch any errors silently
-      const playPromise = video.play();
-      if (playPromise !== undefined) {
-        playPromise.catch((error) => {
-          // Auto-play was prevented, video will show poster image
-          console.log('Auto-play prevented:', error);
-        });
+    if (!video) return;
+
+    const attemptPlay = async () => {
+      try {
+        video.muted = true; // Ensure muted for autoplay
+        await video.play();
+        console.log('Video autoplay successful');
+      } catch (error) {
+        console.log('Autoplay failed, setting up fallback:', error);
+        setupFallbackPlay();
       }
-    }
+    };
+
+    const setupFallbackPlay = () => {
+      // Try to play on any user interaction
+      const playOnInteraction = async () => {
+        try {
+          await video.play();
+          document.removeEventListener('touchstart', playOnInteraction);
+          document.removeEventListener('click', playOnInteraction);
+          document.removeEventListener('scroll', playOnInteraction);
+        } catch (error) {
+          console.log('Manual play failed:', error);
+        }
+      };
+
+      document.addEventListener('touchstart', playOnInteraction, { once: true });
+      document.addEventListener('click', playOnInteraction, { once: true });
+      document.addEventListener('scroll', playOnInteraction, { once: true });
+    };
+
+    // Use Intersection Observer to play when video is visible
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && video.paused) {
+            attemptPlay();
+          }
+        });
+      },
+      { threshold: 0.25 }
+    );
+
+    observer.observe(video);
+
+    // Initial play attempt
+    attemptPlay();
+
+    return () => {
+      observer.disconnect();
+    };
   }, []);
 
   return (
@@ -46,9 +87,11 @@ export default function HeroSection() {
         muted
         playsInline
         webkit-playsinline="true"
-        preload="auto"
+        x-webkit-airplay="allow"
+        preload="metadata"
         controls={false}
         poster="/trucks-hero.jpg"
+        style={{ backgroundColor: 'transparent' }}
       >
         <source src="/hero-video.mp4" type="video/mp4" />
         {/* Fallback image if video fails to load */}
