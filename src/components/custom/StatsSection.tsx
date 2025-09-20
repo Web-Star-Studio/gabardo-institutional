@@ -1,62 +1,116 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Star } from 'lucide-react';
+import { Star, TrendingUp, Users, Shield, Clock } from 'lucide-react';
 
 const StatsSection: React.FC = () => {
   return (
-    <section className="py-16 md:py-20 bg-black">
-      <div className="px-8">
+    <section className="py-16 md:py-20 lg:py-24 bg-gradient-to-br from-black via-neutral-900 to-black relative overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-1/4 left-10 w-64 h-64 bg-gradient-to-br from-blue-500/10 to-blue-600/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-10 w-80 h-80 bg-gradient-to-br from-blue-400/5 to-blue-500/10 rounded-full blur-3xl" />
+      </div>
+      
+      <div className="container mx-auto px-4 md:px-8 lg:px-16 relative z-10">
         <div className="max-w-7xl mx-auto">
           {/* Section Header */}
-          <div className="text-center mb-16">
+          <div className="text-center mb-16 md:mb-20">
             <div className="inline-flex items-center gap-3 mb-6">
-              <div className="w-12 h-px bg-white/30"></div>
-              <span className="text-sm font-mono text-white/60 tracking-[0.3em] uppercase">
+              <div className="w-16 h-px bg-gradient-to-r from-transparent to-white/40" />
+              <span className="text-sm font-mono text-white/70 tracking-[0.3em] uppercase bg-white/5 px-4 py-2 rounded-full border border-white/10">
                 Números que Falam
               </span>
-              <div className="w-12 h-px bg-white/30"></div>
+              <div className="w-16 h-px bg-gradient-to-l from-transparent to-white/40" />
             </div>
+            
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+              <span className="block">RESULTADOS QUE</span>
+              <span className="block text-blue-accent bg-gradient-to-r from-blue-400 to-blue-300 bg-clip-text text-transparent">
+                COMPROVAM NOSSA
+              </span>
+              <span className="block">EXCELÊNCIA</span>
+            </h2>
+            
+            <p className="text-lg md:text-xl text-white/70 max-w-3xl mx-auto leading-relaxed">
+              Mais de três décadas de excelência no transporte de veículos com resultados que falam por si só
+            </p>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12"
-          >
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
             {[
-              { number: '35+', label: 'Anos de Experiência', description: 'Mercado consolidado', type: 'text' },
-              { number: '500+', label: 'Clientes Atendidos', description: 'Confiança nacional', type: 'text' },
-              { number: '24/7', label: 'Suporte Disponível', description: 'Sempre conectados', type: 'text' },
-              { number: '98%', label: 'Satisfação', description: 'Excelência comprovada', type: 'star' }
+              { number: '35+', label: 'Anos de Experiência', description: 'Décadas de tradição e confiança', type: 'clock', icon: Clock, color: 'blue' },
+              { number: '1.000+', label: 'Veículos Transportados', description: 'Mensalmente com segurança', type: 'trending', icon: TrendingUp, color: 'green' },
+              { number: '500+', label: 'Clientes Ativos', description: 'Empresas que confiam na Gabardo', type: 'users', icon: Users, color: 'purple' },
+              { number: '98%', label: 'Satisfação dos Clientes', description: 'Excelência comprovada', type: 'star', icon: Star, color: 'yellow' }
             ].map((stat, index) => (
-              <motion.div
+              <div
                 key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="text-center group"
+                className="group relative"
               >
-                <div className="text-4xl lg:text-5xl font-black text-white mb-2 hover-blue-80 transition-colors duration-300 flex items-center justify-center gap-2">
-                  {stat.number}
-                  {stat.type === 'star' && (
-                    <Star className="w-8 h-8 lg:w-10 lg:h-10 stroke-2 text-blue-bright" style={{fill: '#3b82f644'}} />
-                  )}
+                <div className="bg-black/40 backdrop-blur-sm border border-white/10 rounded-2xl p-8 md:p-10 h-full transition-all duration-500 hover:bg-black/50 hover:border-white/20 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/10 relative overflow-hidden">
+                  
+                  {/* Background Glow */}
+                  <div className={`absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-10 transition-opacity duration-500 ${
+                    stat.color === 'blue' ? 'from-blue-500 to-blue-600' :
+                    stat.color === 'green' ? 'from-green-500 to-green-600' :
+                    stat.color === 'purple' ? 'from-purple-500 to-purple-600' :
+                    'from-yellow-500 to-yellow-600'
+                  }`} />
+                  
+                  {/* Icon */}
+                  <div className="flex justify-center mb-6">
+                    <div className={`w-16 h-16 rounded-full bg-gradient-to-br flex items-center justify-center group-hover:scale-110 transition-transform duration-300 ${
+                      stat.color === 'blue' ? 'from-blue-500/20 to-blue-600/30 shadow-blue-500/20' :
+                      stat.color === 'green' ? 'from-green-500/20 to-green-600/30 shadow-green-500/20' :
+                      stat.color === 'purple' ? 'from-purple-500/20 to-purple-600/30 shadow-purple-500/20' :
+                      'from-yellow-500/20 to-yellow-600/30 shadow-yellow-500/20'
+                    } shadow-lg`}>
+                      <stat.icon className={`w-8 h-8 ${
+                        stat.color === 'blue' ? 'text-blue-400' :
+                        stat.color === 'green' ? 'text-green-400' :
+                        stat.color === 'purple' ? 'text-purple-400' :
+                        'text-yellow-400'
+                      }`} />
+                    </div>
+                  </div>
+                  
+                  {/* Number */}
+                  <div className="text-center mb-4">
+                    <div className="text-5xl md:text-6xl font-black text-white mb-2 group-hover:text-blue-300 transition-colors duration-300">
+                      {stat.number}
+                    </div>
+                  </div>
+                  
+                  {/* Label */}
+                  <div className="text-center mb-3">
+                    <h3 className="text-lg md:text-xl font-bold text-white/90 leading-tight">
+                      {stat.label}
+                    </h3>
+                  </div>
+                  
+                  {/* Description */}
+                  <div className="text-center">
+                    <p className="text-sm md:text-base text-white/60 font-light leading-relaxed">
+                      {stat.description}
+                    </p>
+                  </div>
+                  
+                  {/* Decorative line */}
+                  <div className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-1 bg-gradient-to-r transition-all duration-500 group-hover:w-full ${
+                    stat.color === 'blue' ? 'from-blue-500 to-blue-400' :
+                    stat.color === 'green' ? 'from-green-500 to-green-400' :
+                    stat.color === 'purple' ? 'from-purple-500 to-purple-400' :
+                    'from-yellow-500 to-yellow-400'
+                  }`} />
                 </div>
-                <div className="text-lg font-bold text-white/90 mb-1">
-                  {stat.label}
-                </div>
-                <div className="text-sm text-white/60 font-light">
-                  {stat.description}
-                </div>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
+        
+        {/* Bottom Accent Line */}
+        <div className="mt-16 md:mt-20 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
       </div>
     </section>
   );

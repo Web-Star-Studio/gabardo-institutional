@@ -1,40 +1,73 @@
-import { Dot, Mouse } from 'lucide-react';
+'use client';
+
+import { Mouse, ArrowDown } from 'lucide-react';
 
 const ScrollDownIcon = () => (
-  <div className="flex flex-col items-center space-y-2">
-    <Mouse className="w-8 h-8" />
-    <span className="text-xs font-light tracking-widest uppercase" style={{ writingMode: 'vertical-rl' }}>
+  <div 
+    className="flex flex-col items-center space-y-3 group cursor-pointer"
+    onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+  >
+    <div className="group-hover:text-blue-300 transition-colors duration-300">
+      <Mouse className="w-7 h-7" />
+    </div>
+    <span 
+      className="text-xs font-light tracking-widest uppercase group-hover:text-blue-300 transition-colors duration-300" 
+      style={{ writingMode: 'vertical-rl' }}
+    >
       Role para baixo
     </span>
   </div>
 );
 
 const ArrowIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-12 h-12 md:w-16 md:h-16 text-white">
-    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0V18" /> {/* Adjusted arrow to better match V shape from image corner*/}
-  </svg>
+  <div className="group cursor-pointer">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.2} stroke="currentColor" className="w-12 h-12 md:w-16 md:h-16 text-white group-hover:text-blue-300 transition-colors duration-300">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0V18" />
+    </svg>
+  </div>
 );
 
 export default function HeroSection() {
   return (
-    <div className="relative w-full h-screen text-white overflow-hidden">
-      {/* Hero Image Background */}
-      <div 
-        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
+    <div className="relative w-full min-h-screen text-white overflow-hidden">
+      {/* Hero Video Background */}
+      <video 
+        className="absolute inset-0 w-full h-full object-cover"
         style={{
-          backgroundImage: 'url(/trucks-hero.jpg)'
+          minWidth: '100%',
+          minHeight: '100%',
+          width: 'auto',
+          height: 'auto',
+          objectFit: 'cover',
+          objectPosition: 'center center'
         }}
-      />
+        autoPlay
+        muted
+        loop
+        playsInline
+        poster="/trucks-hero.jpg"
+      >
+        <source src="/hero-video.mp4" type="video/mp4" />
+        <source src="/hero-video.webm" type="video/webm" />
+        {/* Fallback for browsers that don't support video */}
+        <div 
+          className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: 'url(/trucks-hero.jpg)'
+          }}
+        />
+      </video>
       
-      <div className="absolute inset-0 bg-black bg-opacity-40"></div> {/* Overlay for better text contrast */}
+      <div className="absolute inset-0 bg-gradient-to-br from-black/50 via-black/40 to-black/60"></div> {/* Enhanced gradient overlay */}
+      <div className="absolute inset-0 bg-blue-900/10"></div> {/* Subtle blue tint */}
 
       {/* Content container */}
-      <div className="relative z-10 flex flex-col justify-between h-full p-8 md:p-16">
+      <div className="relative z-10 flex flex-col justify-between min-h-screen p-6 sm:p-8 md:p-12 lg:p-16">
         {/* Top spacer for header, or header can be outside this component and positioned absolutely */}
         <div></div> {/* This div is a placeholder if header spacing is managed here, currently header is absolute so it's fine*/}
 
         {/* Left Scroll Indicator - positioned absolutely relative to this container */}
-        <div className="absolute top-1/2 left-8 md:left-16 transform -translate-y-1/2">
+        <div className="absolute top-1/2 left-6 sm:left-8 md:left-12 lg:left-16 transform -translate-y-1/2 hidden sm:block">
           <ScrollDownIcon />
         </div>
 
@@ -43,46 +76,46 @@ export default function HeroSection() {
         <div className="flex flex-col justify-end h-full">
           {/* This row contains the spacer, text, and arrow */}
           <div className="flex items-end w-full mb-16 md:mb-8">
-            {/* Spacer to push text away from left edge / scroll indicator.
-                Scroll indicator is left-8 (2rem from p-8 edge) / left-16 (4rem from p-16 edge).
-                Icon width is w-8 (2rem).
-                Desired clearance from scroll icon:
-                Small screens: left-padding-of-parent (p-8) + scroll_icon_left (8px / 0.5rem in tailwind terms, actual 2rem from viewport edge effectively)
-                               + scroll_icon_width (w-8 / 2rem) + buffer (e.g. 2rem).
-                               The spacer is *inside* the p-8/p-16. So it should account for where the scroll icon is relative to this inner flow.
-                               If scroll icon is left-8 (from content box edge), and w-8 wide, it occupies up to left-16 (4rem).
-                               Let's use w-20 (5rem) on smallest, md:w-24 (6rem), lg:w-28 (7rem) for the spacer.
-                               This is relative to the start of the flex container which is already padded by p-8/p-16.
-                               The scroll icon itself is `left-8` (from the `p-8` boundary) so it starts 2rem in. Its width is 2rem. It ends 4rem in.
-                               A spacer of `w-20` (5rem) should provide a 1rem gap.
-                               On `md`: `left-16` (4rem in). Width 2rem. Ends 6rem in. `md:w-24` (6rem) spacer would be flush. Needs to be larger.
-                               Let's try: `w-24` (6rem) for sm, `md:w-32` (8rem) for md+.
-            */}
-            <div className="flex-shrink-0 w-24 md:w-32"></div>
+            {/* Spacer for scroll indicator - only on larger screens */}
+            <div className="hidden sm:block flex-shrink-0 w-20 md:w-28 lg:w-32"></div>
 
             {/* Text Content Block */}
             <div className="flex-grow max-w-4xl xl:max-w-5xl">
-              <h1 className="font-primary text-3xl sm:text-5xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight mb-6">
+              <h1 className="font-primary text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight tracking-tight mb-6">
                 Para cada cliente,
                 <br />
-                <span className="text-blue-accent">uma Gabardo diferente.</span>
+                <span className="text-blue-accent bg-gradient-to-r from-blue-400 to-blue-300 bg-clip-text text-transparent">
+                  uma Gabardo diferente.
+                </span>
               </h1>
-              <p className="font-secondary mt-4 text-base sm:text-lg md:text-lg lg:text-xl font-light leading-relaxed mb-8">
+              <p className="font-secondary mt-4 text-sm sm:text-base md:text-lg lg:text-xl font-light leading-relaxed mb-8 max-w-3xl text-gray-100">
                 Há mais de 35 anos, entendemos as necessidades dos nossos clientes para atendê-los de forma personalizada e eficiente no transporte de veículos.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <button className="font-secondary bg-blue-glow text-white px-8 py-4 font-semibold uppercase tracking-wide transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-blue-500/25">
+                <button className="font-secondary bg-blue-glow text-white px-6 py-3 text-sm font-semibold uppercase tracking-wide transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-blue-500/25 rounded-sm">
                   Encontre seu serviço
                 </button>
-                <button className="font-secondary border-2 border-white text-white hover:bg-white hover:text-black px-8 py-4 font-semibold uppercase tracking-wide transition-all duration-300">
+                <button className="font-secondary border-2 border-white text-white hover:bg-white hover:text-black px-6 py-3 text-sm font-semibold uppercase tracking-wide transition-all duration-300 rounded-sm backdrop-blur-sm">
                   Seja nosso parceiro
                 </button>
               </div>
             </div>
 
             {/* Arrow Icon, aligned to the far right */}
-            <div className="hidden md:block md:ml-auto pl-4 md:pl-8">
+            <div className="hidden lg:block md:ml-auto pl-4 md:pl-8">
               <ArrowIcon />
+            </div>
+            
+          </div>
+          
+          {/* Mobile Scroll Indicator */}
+          <div className="sm:hidden flex justify-center mt-8">
+            <div
+              className="flex flex-col items-center space-y-2 cursor-pointer group"
+              onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+            >
+              <ArrowDown className="w-6 h-6 group-hover:text-blue-300 transition-colors duration-300" />
+              <span className="text-xs uppercase tracking-widest group-hover:text-blue-300 transition-colors duration-300">Role</span>
             </div>
           </div>
         </div>
