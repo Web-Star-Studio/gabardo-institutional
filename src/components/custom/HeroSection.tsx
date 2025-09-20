@@ -1,3 +1,5 @@
+'use client';
+
 import { Dot, Mouse } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 
