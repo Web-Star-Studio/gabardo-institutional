@@ -1,4 +1,5 @@
 import { Dot, Mouse } from 'lucide-react';
+import { useEffect, useRef } from 'react';
 
 const ScrollDownIcon = () => (
   <div className="flex flex-col items-center space-y-2">
@@ -16,15 +17,36 @@ const ArrowIcon = () => (
 );
 
 export default function HeroSection() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video) {
+      // Try to play the video, catch any errors silently
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((error) => {
+          // Auto-play was prevented, video will show poster image
+          console.log('Auto-play prevented:', error);
+        });
+      }
+    }
+  }, []);
+
   return (
     <div className="relative w-full h-screen text-white overflow-hidden">
       {/* Hero Video Background */}
       <video
+        ref={videoRef}
         className="absolute inset-0 w-full h-full object-cover"
         autoPlay
         loop
         muted
         playsInline
+        webkit-playsinline="true"
+        preload="auto"
+        controls={false}
+        poster="/trucks-hero.jpg"
       >
         <source src="/hero-video.mp4" type="video/mp4" />
         {/* Fallback image if video fails to load */}
