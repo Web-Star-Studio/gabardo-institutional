@@ -52,7 +52,7 @@ const CompaniesStatsSection: React.FC = () => {
               >
                 <span className="block">E AS EMPRESAS</span>
                 <span className="block">QUE CONFIAM</span>
-                <span className="block text-gabardo-light-blue">NA GABARDO?!</span>
+                <span className="block text-gabardo-light-blue">NA GABARDO?</span>
               </motion.h2>
 
               {/* Decorative Element */}
@@ -92,20 +92,6 @@ const CompaniesStatsSection: React.FC = () => {
                   priority
                 />
               </div>
-
-              {/* Floating Counter */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.8 }}
-                className="absolute -top-4 -right-4 text-white p-4 rounded-xl shadow-lg bg-blue-glow"
-              >
-                <div className="text-center">
-                  <div className="text-2xl font-bold">1000+</div>
-                  <div className="text-xs uppercase tracking-wide opacity-80">Veículos</div>
-                </div>
-              </motion.div>
             </motion.div>
           </div>
         </div>

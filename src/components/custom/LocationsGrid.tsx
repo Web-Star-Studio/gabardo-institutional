@@ -174,7 +174,7 @@ const LocationsGrid: React.FC = () => {
     <section className="py-20 bg-neutral-50">
       <div className="container mx-auto px-4">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-16 relative">
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -183,6 +183,58 @@ const LocationsGrid: React.FC = () => {
           >
             nossas unidades
           </motion.h2>
+          
+          {/* Flag Icons */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="absolute top-0 right-0 md:right-8 flex items-center space-x-1"
+          >
+            {/* Brazil */}
+            <div className="w-6 h-6 rounded-full overflow-hidden shadow-md bg-green-500 flex items-center justify-center relative">
+              <div className="absolute inset-0 bg-gradient-to-b from-green-500 via-yellow-400 to-blue-500"></div>
+              <div className="w-4 h-3 bg-yellow-400 rounded-full flex items-center justify-center relative z-10">
+                <div className="w-3 h-2 bg-blue-600 rounded-full"></div>
+              </div>
+            </div>
+            
+            {/* Argentina */}
+            <div className="w-6 h-6 rounded-full overflow-hidden shadow-md bg-sky-400 flex items-center justify-center relative">
+              <div className="absolute inset-0 bg-gradient-to-b from-sky-400 via-white to-sky-400"></div>
+              <div className="text-yellow-500 text-xs relative z-10">☀</div>
+            </div>
+            
+            {/* Uruguay */}
+            <div className="w-6 h-6 rounded-full overflow-hidden shadow-md bg-white flex flex-col relative">
+              <div className="flex-1 bg-white"></div>
+              <div className="h-0.5 bg-blue-500"></div>
+              <div className="flex-1 bg-white"></div>
+              <div className="h-0.5 bg-blue-500"></div>
+              <div className="flex-1 bg-white"></div>
+              <div className="absolute top-0.5 left-0.5 w-2 h-2 bg-white flex items-center justify-center">
+                <div className="text-yellow-500 text-xs">☀</div>
+              </div>
+            </div>
+            
+            {/* Chile */}
+            <div className="w-6 h-6 rounded-full overflow-hidden shadow-md bg-white flex flex-col relative">
+              <div className="h-1/2 flex">
+                <div className="w-1/2 bg-blue-600 flex items-center justify-center">
+                  <div className="text-white text-xs">★</div>
+                </div>
+                <div className="w-1/2 bg-white"></div>
+              </div>
+              <div className="h-1/2 bg-red-600"></div>
+            </div>
+            
+            {/* Bolivia */}
+            <div className="w-6 h-6 rounded-full overflow-hidden shadow-md bg-red-600 flex flex-col">
+              <div className="flex-1 bg-red-600"></div>
+              <div className="flex-1 bg-yellow-400"></div>
+              <div className="flex-1 bg-green-600"></div>
+            </div>
+          </motion.div>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
