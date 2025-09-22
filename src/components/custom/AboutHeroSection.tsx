@@ -118,7 +118,7 @@ export default function AboutHeroSection() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
-                className="text-xs sm:text-sm font-light tracking-[0.2em] text-blue-400 mb-4 md:mb-6 uppercase"
+                className="text-xs sm:text-sm font-light tracking-[0.2em] text-gabardo-light-blue mb-4 md:mb-6 uppercase"
               >
                 Sobre a Gabardo
               </motion.div>
@@ -131,7 +131,7 @@ export default function AboutHeroSection() {
               >
                 Transportando Veículos,
                 <br />
-                <span className="text-blue-400">Construindo Confiança</span>
+                <span className="text-gabardo-light-blue">Construindo Confiança</span>
               </motion.h1>
 
               <motion.p 
@@ -152,15 +152,15 @@ export default function AboutHeroSection() {
                 className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 md:gap-8"
               >
                 <div className="flex items-center space-x-2">
-                  <Dot className="w-3 h-3 text-blue-400 flex-shrink-0" />
+                  <Dot className="w-3 h-3 text-gabardo-light-blue flex-shrink-0" />
                   <span className="text-xs sm:text-sm font-light tracking-wide">Desde 1989</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Dot className="w-3 h-3 text-blue-400 flex-shrink-0" />
+                  <Dot className="w-3 h-3 text-gabardo-light-blue flex-shrink-0" />
                   <span className="text-xs sm:text-sm font-light tracking-wide">1.4M+ Veículos</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Dot className="w-3 h-3 text-blue-400 flex-shrink-0" />
+                  <Dot className="w-3 h-3 text-gabardo-light-blue flex-shrink-0" />
                   <span className="text-xs sm:text-sm font-light tracking-wide">14 Unidades</span>
                 </div>
               </motion.div>

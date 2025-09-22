@@ -6,15 +6,17 @@ import AboutValuesSection from '@/components/custom/AboutValuesSection';
 import VideoSection from '@/components/custom/VideoSection';
 import AboutMissionSection from '@/components/custom/AboutMissionSection';
 import AboutStatsSection from '@/components/custom/AboutStatsSection';
+import FourPillarsSection from '@/components/custom/FourPillarsSection';
 import MapboxSection from '@/components/custom/MapboxSection';
 
 export default function SobrePage() {
   return (
-    <main className="relative">
-      <Header />
+    <main className="relative bg-gray-50">
+      <Header variant="dark" />
       <AboutHeroSection />
       <AboutStorySection />
       <AboutMissionSection />
+      <FourPillarsSection />
       <AboutValuesSection />
       <AboutStatsSection />
       <VideoSection 

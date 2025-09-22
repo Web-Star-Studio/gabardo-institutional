@@ -69,7 +69,7 @@ export default function ContactMapSection() {
           >
             Fácil de
             <br />
-            <span className="text-blue-400">Chegar</span>
+            <span className="text-gabardo-light-blue">Chegar</span>
           </motion.h2>
         </motion.div>
 
@@ -163,11 +163,11 @@ export default function ContactMapSection() {
               {/* Professional Info Grid */}
               <div className="grid grid-cols-2 gap-4 pt-4 border-t border-white/20">
                 <div>
-                  <p className="text-blue-400 font-medium text-xs uppercase tracking-wide mb-1">Horário</p>
+                  <p className="text-gabardo-light-blue font-medium text-xs uppercase tracking-wide mb-1">Horário</p>
                   <p className="text-white/80 text-sm">Seg-Sex: 8h às 18h</p>
                 </div>
                 <div>
-                  <p className="text-blue-400 font-medium text-xs uppercase tracking-wide mb-1">Acesso</p>
+                  <p className="text-gabardo-light-blue font-medium text-xs uppercase tracking-wide mb-1">Acesso</p>
                   <p className="text-white/80 text-sm">24h para membros</p>
                 </div>
               </div>

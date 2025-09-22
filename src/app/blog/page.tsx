@@ -5,6 +5,6 @@ export default function BlogPage() {
 }
 
 export const metadata = {
-  title: 'Blog - Hub Plural | Futuro do Trabalho e Inovação',
-  description: 'Insights, tendências e reflexões sobre o mundo do trabalho moderno, coworking e inovação empresarial.',
-}; 
+  title: 'Blog - Gabardo Transportes | Inovação em Transporte de Veículos',
+  description: 'Insights, tendências e inovações no transporte de veículos, logística inteligente e segurança automotiva.',
+};

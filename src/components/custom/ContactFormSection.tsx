@@ -154,7 +154,7 @@ export default function ContactFormSection() {
           >
             Como Podemos
             <br />
-            <span className="text-blue-accent">Ajudar?</span>
+            <span className="text-gabardo-light-blue">Ajudar?</span>
           </motion.h2>
         </motion.div>
 

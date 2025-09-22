@@ -103,7 +103,7 @@ export default function HeroSection() {
         />
       </video>
       
-      <div className="absolute inset-0 bg-black bg-opacity-40"></div> {/* Overlay for better text contrast */}
+      <div className="absolute inset-0 bg-black bg-opacity-50"></div> {/* Overlay for better text contrast */}
 
       {/* Content container */}
       <div className="relative z-10 flex flex-col justify-between h-full p-8 md:p-16">
@@ -142,16 +142,16 @@ export default function HeroSection() {
               <h1 className="font-primary text-3xl sm:text-5xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight mb-6">
                 Para cada cliente,
                 <br />
-                <span className="text-blue-accent">uma Gabardo diferente.</span>
+                <span className="text-gabardo-blue">uma Gabardo diferente.</span>
               </h1>
               <p className="font-secondary mt-4 text-base sm:text-lg md:text-lg lg:text-xl font-light leading-relaxed mb-8">
                 Há mais de 35 anos, entendemos as necessidades dos nossos clientes para atendê-los de forma personalizada e eficiente no transporte de veículos.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <button className="font-secondary bg-blue-glow text-white px-8 py-4 font-semibold uppercase tracking-wide transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-blue-500/25">
+                <button className="font-secondary bg-gabardo-blue text-white px-8 py-4 font-semibold uppercase tracking-wide transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:bg-gabardo-blue/90">
                   Encontre seu serviço
                 </button>
-                <button className="font-secondary border-2 border-white text-white hover:bg-white hover:text-black px-8 py-4 font-semibold uppercase tracking-wide transition-all duration-300">
+                <button className="font-secondary border-2 border-white text-white hover:bg-white hover:text-gabardo-blue px-8 py-4 font-semibold uppercase tracking-wide transition-all duration-300">
                   Seja nosso parceiro
                 </button>
               </div>

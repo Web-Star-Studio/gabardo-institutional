@@ -409,7 +409,7 @@ const FullScreenNav: React.FC<FullScreenNavProps> = ({
                         Há mais de 35 anos transportando veículos com segurança, tecnologia e excelência em todo o Brasil.
                       </p>
                       
-                      <div className="flex items-center space-x-2 mb-3 text-blue-accent">
+                      <div className="flex items-center space-x-2 mb-3 text-gabardo-light-blue">
                         <Clock size={14} />
                         <span className="text-sm">Seg-Sex: 8h às 18h</span>
                       </div>
@@ -417,7 +417,7 @@ const FullScreenNav: React.FC<FullScreenNavProps> = ({
                       <Link
                         href="/contato"
                         onClick={onClose}
-                        className="inline-flex items-center space-x-2 text-blue-accent hover:text-white transition-colors duration-300"
+                        className="inline-flex items-center space-x-2 text-gabardo-light-blue hover:text-white transition-colors duration-300"
                       >
                         <span className="text-sm">Solicitar Cotação</span>
                         <ChevronRight size={14} />

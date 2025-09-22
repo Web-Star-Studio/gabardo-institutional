@@ -4,81 +4,26 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, ArrowRight, Clock, User, ChevronRight, Sparkles } from 'lucide-react';
 import Image from 'next/image';
+import { getAllBlogPosts, getFeaturedBlogPosts, type BlogPost } from '@/data/blogData';
 
-interface BlogPost {
-  id: string;
-  title: string;
-  excerpt: string;
-  category: string;
-  date: string;
-  readTime: string;
-  author: string;
-  image: string;
-  featured: boolean;
-}
-
-const blogPosts: BlogPost[] = [
-  {
-    id: '1',
-    title: 'Tecnologia no Transporte de Veículos: Inovações 2025',
-    excerpt: 'Descubra como a tecnologia embarcada e rastreamento satelital estão revolucionando o transporte seguro de veículos.',
-    category: 'Tecnologia',
-    date: '15 Jan 2025',
-    readTime: '5 min',
-    author: 'Equipe Gabardo',
-    image: 'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    featured: true
-  },
-  {
-    id: '2',
-    title: 'Segurança no Transporte: Nosso Compromisso Total',
-    excerpt: 'Conheça os protocolos de segurança e tecnologias que garantem a proteção total dos veículos durante o transporte.',
-    category: 'Segurança',
-    date: '12 Jan 2025',
-    readTime: '7 min',
-    author: 'Equipe Técnica',
-    image: 'https://images.unsplash.com/photo-1586953208448-b95a79798f07?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    featured: false
-  },
-  {
-    id: '3',
-    title: 'Sustentabilidade na Logística de Transporte',
-    excerpt: 'Como a Gabardo implementa práticas sustentáveis no transporte de veículos, reduzindo impacto ambiental.',
-    category: 'Sustentabilidade',
-    date: '10 Jan 2025',
-    readTime: '4 min',
-    author: 'Gabardo Transportes',
-    image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    featured: false
-  },
-  {
-    id: '4',
-    title: 'Tecnologia e Produtividade: A Nova Era',
-    excerpt: 'Ferramentas e tecnologias que estão transformando a forma como trabalhamos e nos conectamos.',
-    category: 'Tecnologia',
-    date: '08 Jan 2025',
-    readTime: '6 min',
-    author: 'Carlos Ferreira',
-    image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    featured: false
-  }
-];
+const allBlogPosts = getAllBlogPosts();
+const featuredBlogPosts = getFeaturedBlogPosts();
 
 const BlogSection: React.FC = () => {
   const [hoveredPost, setHoveredPost] = useState<string | null>(null);
 
-  const featuredPost = blogPosts.find(post => post.featured);
-  const regularPosts = blogPosts.filter(post => !post.featured);
+  const featuredPost = featuredBlogPosts[0]; // Get first featured post
+  const regularPosts = allBlogPosts.filter(post => !post.featured).slice(0, 3); // Get first 3 non-featured posts
 
   return (
-    <section className="py-16 md:py-20 lg:py-24 bg-black text-white relative overflow-hidden">
+    <section className="py-16 md:py-20 lg:py-24 bg-gray-50 text-gray-900 relative overflow-hidden">
       <div className="container mx-auto px-4 md:px-8 lg:px-16">
         
         {/* Background Elements */}
         <div className="absolute inset-0">
-          <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-gradient-to-bl from-white/5 to-transparent" />
-          <div className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-gradient-to-tr from-white/3 to-transparent" />
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-radial from-white/5 to-transparent rounded-full" />
+          <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-gradient-to-bl from-gabardo-light-blue/5 to-transparent" />
+          <div className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-gradient-to-tr from-gabardo-blue/3 to-transparent" />
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-radial from-gabardo-light-blue/5 to-transparent rounded-full" />
         </div>
 
         {/* Header */}
@@ -96,10 +41,10 @@ const BlogSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium text-white mb-6 border border-white/20"
+            className="inline-flex items-center space-x-2 bg-gabardo-light-blue/10 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium text-gabardo-blue mb-6 border border-gabardo-light-blue/30"
           >
             <Sparkles className="w-4 h-4" />
-            <span className="uppercase tracking-wider">Blog Gabardo</span>
+            <span className="uppercase tracking-wider">Blog do Transporte</span>
           </motion.div>
 
           {/* Main Title */}
@@ -110,9 +55,9 @@ const BlogSection: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.3 }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6"
           >
-            <span className="block">NOVIDADES DO</span>
-            <span className="block text-white/70">TRANSPORTE</span>
-            <span className="block">DE VEÍCULOS</span>
+            <span className="block text-gabardo-blue">INOVAÇÃO EM</span>
+            <span className="block text-gabardo-light-blue">TRANSPORTE</span>
+            <span className="block text-gabardo-blue">DE VEÍCULOS</span>
           </motion.h2>
 
           {/* Subtitle */}
@@ -121,9 +66,9 @@ const BlogSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.5 }}
-            className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto"
+            className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto"
           >
-            Insights, tecnologias e novidades do setor de transporte de veículos
+Descubra as últimas tendências, tecnologias e inovações que estão transformando o transporte de veículos no Brasil
           </motion.p>
         </motion.div>
 
@@ -143,7 +88,7 @@ const BlogSection: React.FC = () => {
                 className="lg:col-span-7 flex"
               >
                 <div
-                  className="group relative bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10 transition-all duration-500 hover:border-white/30 cursor-pointer w-full flex flex-col"
+                  className="group relative bg-white backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-200 transition-all duration-500 hover:border-gabardo-light-blue/50 hover:shadow-lg cursor-pointer w-full flex flex-col"
                   onMouseEnter={() => setHoveredPost(featuredPost.id)}
                   onMouseLeave={() => setHoveredPost(null)}
                 >
@@ -160,12 +105,12 @@ const BlogSection: React.FC = () => {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                     
                     {/* Featured Badge */}
-                    <div className="absolute top-4 left-4 bg-accent text-white px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide">
+                    <div className="absolute top-4 left-4 bg-gabardo-blue text-white px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide">
                       Destaque
                     </div>
                     
                     {/* Category */}
-                    <div className="absolute top-4 right-4 bg-black/40 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-medium border border-white/20">
+                    <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-gabardo-blue px-3 py-1 rounded-full text-xs font-medium border border-gabardo-light-blue/30">
                       {featuredPost.category}
                     </div>
                   </div>
@@ -176,7 +121,7 @@ const BlogSection: React.FC = () => {
                     {/* Main Content */}
                     <div>
                       {/* Meta Info */}
-                      <div className="flex items-center space-x-4 text-white/60 text-sm mb-4">
+                      <div className="flex items-center space-x-4 text-gray-500 text-sm mb-4">
                         <div className="flex items-center space-x-1">
                           <Calendar className="w-4 h-4" />
                           <span>{featuredPost.date}</span>
@@ -192,18 +137,18 @@ const BlogSection: React.FC = () => {
                       </div>
 
                       {/* Title */}
-                      <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 leading-tight group-hover:text-white/90 transition-colors duration-300">
+                      <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 leading-tight group-hover:text-gabardo-blue transition-colors duration-300">
                         {featuredPost.title}
                       </h3>
 
                       {/* Excerpt */}
-                      <p className="text-white/70 text-lg leading-relaxed">
+                      <p className="text-gray-600 text-lg leading-relaxed">
                         {featuredPost.excerpt}
                       </p>
                     </div>
 
                     {/* Read More */}
-                    <div className="flex items-center space-x-2 text-white group-hover:text-white/90 transition-colors duration-300 mt-6">
+                    <div className="flex items-center space-x-2 text-gabardo-blue group-hover:text-gabardo-blue/80 transition-colors duration-300 mt-6">
                       <span className="font-medium">Ler artigo completo</span>
                       <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-2" />
                     </div>
@@ -229,7 +174,7 @@ const BlogSection: React.FC = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: 0.5 + (index * 0.1) }}
-                    className="group relative bg-white/5 backdrop-blur-sm rounded-xl overflow-hidden border border-white/10 transition-all duration-300 hover:border-white/30 cursor-pointer"
+                    className="group relative bg-white backdrop-blur-sm rounded-xl overflow-hidden border border-gray-200 transition-all duration-300 hover:border-gabardo-light-blue/50 hover:shadow-md cursor-pointer"
                     onMouseEnter={() => setHoveredPost(post.id)}
                     onMouseLeave={() => setHoveredPost(null)}
                   >
@@ -251,17 +196,17 @@ const BlogSection: React.FC = () => {
                       <div className="flex-1 p-4 md:p-5">
                         
                         {/* Category */}
-                        <div className="text-white/60 text-xs font-medium uppercase tracking-wide mb-2">
+                        <div className="text-gabardo-light-blue text-xs font-medium uppercase tracking-wide mb-2">
                           {post.category}
                         </div>
 
                         {/* Title */}
-                        <h4 className="text-white font-bold text-sm md:text-base leading-tight mb-2 group-hover:text-white/90 transition-colors duration-300 line-clamp-2">
+                        <h4 className="text-gray-900 font-bold text-sm md:text-base leading-tight mb-2 group-hover:text-gabardo-blue transition-colors duration-300 line-clamp-2">
                           {post.title}
                         </h4>
 
                         {/* Meta */}
-                        <div className="flex items-center space-x-3 text-white/50 text-xs">
+                        <div className="flex items-center space-x-3 text-gray-400 text-xs">
                           <span>{post.date}</span>
                           <span>•</span>
                           <span>{post.readTime}</span>
@@ -270,7 +215,7 @@ const BlogSection: React.FC = () => {
 
                       {/* Arrow */}
                       <div className="p-4 flex items-center">
-                        <ChevronRight className="w-5 h-5 text-white/40 group-hover:text-white/70 transition-colors duration-300" />
+                        <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-gabardo-blue transition-colors duration-300" />
                       </div>
                     </div>
                   </motion.div>
@@ -285,7 +230,7 @@ const BlogSection: React.FC = () => {
                 transition={{ duration: 0.6, delay: 0.8 }}
                 className="pt-6"
               >
-                <button className="w-full bg-white/10 backdrop-blur-sm border border-white/20 text-white py-4 rounded-xl font-semibold transition-all duration-300 hover:bg-white/20 hover:border-white/40 flex items-center justify-center space-x-2 group">
+                <button className="w-full bg-gabardo-light-blue/10 backdrop-blur-sm border border-gabardo-light-blue/30 text-gabardo-blue py-4 rounded-xl font-semibold transition-all duration-300 hover:bg-gabardo-light-blue/20 hover:border-gabardo-light-blue/50 flex items-center justify-center space-x-2 group">
                   <span>Ver todos os artigos</span>
                   <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-2" />
                 </button>
@@ -300,7 +245,7 @@ const BlogSection: React.FC = () => {
           whileInView={{ scaleX: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.9 }}
-          className="mt-16 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent transform origin-center"
+          className="mt-16 h-px bg-gradient-to-r from-transparent via-gabardo-light-blue/30 to-transparent transform origin-center"
         />
       </div>
     </section>

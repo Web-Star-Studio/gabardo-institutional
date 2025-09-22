@@ -66,7 +66,7 @@ const services: Service[] = [
 
 const JSLInspiredServicesSection: React.FC = () => {
   return (
-    <section className="py-20 md:py-32 bg-neutral-900">
+    <section className="py-20 md:py-32 bg-white">
       <div className="container mx-auto px-4 md:px-8 lg:px-16">
         
         {/* Header Section */}
@@ -78,25 +78,25 @@ const JSLInspiredServicesSection: React.FC = () => {
           className="text-center mb-16 md:mb-24"
         >
           <div className="inline-flex items-center gap-3 mb-6">
-            <div className="w-12 h-px bg-white/30"></div>
-            <span className="text-sm font-mono text-white/60 tracking-[0.3em] uppercase">
+            <div className="w-12 h-px bg-gray-300"></div>
+            <span className="text-sm font-mono text-gray-600 tracking-[0.3em] uppercase">
               Portfólio de Serviços
             </span>
-            <div className="w-12 h-px bg-white/30"></div>
+            <div className="w-12 h-px bg-gray-300"></div>
           </div>
           
-          <h2 className="font-primary text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+          <h2 className="font-primary text-4xl md:text-5xl lg:text-6xl font-bold text-gabardo-blue mb-6 leading-tight">
             Conheça a
             <br />
-            <span className="text-blue-accent">Gabardo</span>
+            <span className="text-gabardo-light-blue">Gabardo</span>
           </h2>
           
-          <p className="font-secondary text-xl md:text-2xl text-white/80 font-light max-w-4xl mx-auto leading-relaxed">
+          <p className="font-secondary text-xl md:text-2xl text-gray-700 font-light max-w-4xl mx-auto leading-relaxed">
             A Gabardo é uma empresa 100% brasileira especializada em transporte de veículos. 
             Tem o maior e mais integrado portfólio de serviços e, sabe o porquê?
           </p>
           
-          <p className="font-secondary text-lg text-white/60 max-w-3xl mx-auto mt-6 leading-relaxed">
+          <p className="font-secondary text-lg text-gray-600 max-w-3xl mx-auto mt-6 leading-relaxed">
             Ao longo de seus 35 anos, procura entender as necessidades dos clientes para atendê-los 
             de forma personalizada e eficiente. Saiba mais sobre cada serviço. Vamos nessa?
           </p>
@@ -116,20 +116,20 @@ const JSLInspiredServicesSection: React.FC = () => {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="group cursor-pointer"
               >
-                <div className="bg-black/20 backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-500 hover:bg-black/30 hover:-translate-y-2 p-8 h-full">
+                <div className="bg-white border border-gray-200 hover:border-gray-300 transition-all duration-500 hover:shadow-lg hover:-translate-y-2 p-8 h-full rounded-xl">
                   
                   {/* Icon */}
-                  <div className="w-16 h-16 rounded-sm bg-white/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-white/15 transition-all duration-300">
-                    <IconComponent className="w-8 h-8 text-white/80 hover-blue-80 transition-colors duration-300" />
+                  <div className="w-16 h-16 rounded-sm bg-gray-100 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-gabardo-light-blue/10 transition-all duration-300">
+                    <IconComponent className="w-8 h-8 text-gray-700 group-hover:text-gabardo-blue transition-colors duration-300" />
                   </div>
                   
                   {/* Title */}
-                  <h3 className="text-2xl font-bold text-white mb-4 hover-blue-80 transition-colors duration-300">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-gabardo-blue transition-colors duration-300">
                     {service.title}
                   </h3>
                   
                   {/* Description */}
-                  <p className="text-white/70 leading-relaxed mb-6 text-base">
+                  <p className="text-gray-600 leading-relaxed mb-6 text-base">
                     {service.description}
                   </p>
                   
@@ -137,14 +137,14 @@ const JSLInspiredServicesSection: React.FC = () => {
                   <ul className="space-y-3 mb-8">
                     {service.features.map((feature, featureIndex) => (
                       <li key={featureIndex} className="flex items-start gap-3">
-                        <div className="w-1 h-1 rounded-full bg-white/40 mt-3 flex-shrink-0"></div>
-                        <span className="text-sm text-white/60 leading-relaxed">{feature}</span>
+                        <div className="w-1 h-1 rounded-full bg-gabardo-light-blue mt-3 flex-shrink-0"></div>
+                        <span className="text-sm text-gray-600 leading-relaxed">{feature}</span>
                       </li>
                     ))}
                   </ul>
                   
                   {/* CTA */}
-                  <div className="flex items-center gap-2 text-white/80 font-semibold group-hover:gap-4 hover-blue-80 transition-all duration-300">
+                  <div className="flex items-center gap-2 text-gray-700 font-semibold group-hover:gap-4 group-hover:text-gabardo-blue transition-all duration-300">
                     <span className="text-sm uppercase tracking-wider">Saiba mais</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
                   </div>

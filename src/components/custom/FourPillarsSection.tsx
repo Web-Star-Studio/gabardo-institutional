@@ -84,7 +84,7 @@ const FourPillarsSection: React.FC = () => {
             <span className="text-6xl md:text-7xl lg:text-8xl font-black">4P's</span>
             <br />
             <span className="text-2xl md:text-3xl lg:text-4xl font-light uppercase tracking-widest">
-              do <span className="text-blue-accent">Compromisso</span>
+              do <span className="text-gabardo-light-blue">Compromisso</span>
             </span>
             <br />
             <span className="text-2xl md:text-3xl lg:text-4xl font-light uppercase tracking-widest">
@@ -115,7 +115,7 @@ const FourPillarsSection: React.FC = () => {
                   </div>
                   
                   {/* Title */}
-                  <h3 className="text-xl font-bold text-blue-accent mb-4 uppercase tracking-wider">
+                  <h3 className="text-xl font-bold text-gabardo-blue mb-4 uppercase tracking-wider">
                     {pillar.title}
                   </h3>
                   

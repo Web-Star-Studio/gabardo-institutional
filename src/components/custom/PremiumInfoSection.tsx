@@ -45,12 +45,12 @@ const PremiumInfoSection: React.FC = () => {
   const activeItem = infoItems.find(item => item.projectCategory === selectedProjectCategory) || infoItems[0];
 
   return (
-    <section className="py-20 md:py-32 bg-neutral-900 relative overflow-hidden">
+    <section className="py-20 md:py-32 bg-gray-100 relative overflow-hidden">
       
       {/* Background Decorative Elements */}
       <div className="absolute top-0 left-0 w-full h-full">
-        <div className="absolute top-1/4 left-16 w-64 h-64 bg-gradient-to-br from-white/5 to-white/10 rounded-full opacity-40 blur-3xl" />
-        <div className="absolute bottom-1/4 right-16 w-80 h-80 bg-gradient-to-br from-white/5 to-white/10 rounded-full opacity-30 blur-3xl" />
+        <div className="absolute top-1/4 left-16 w-64 h-64 bg-gradient-to-br from-gabardo-light-blue/20 to-gabardo-blue/10 rounded-full opacity-40 blur-3xl" />
+        <div className="absolute bottom-1/4 right-16 w-80 h-80 bg-gradient-to-br from-gabardo-light-blue/20 to-gabardo-blue/10 rounded-full opacity-30 blur-3xl" />
       </div>
 
       <div className="container mx-auto px-4 md:px-8 lg:px-16 relative z-10">
@@ -64,11 +64,11 @@ const PremiumInfoSection: React.FC = () => {
           className="text-center mb-16 md:mb-24"
         >
           <div className="inline-flex items-center gap-3 mb-6">
-            <div className="w-12 h-px bg-white/30"></div>
-            <span className="text-sm font-mono text-white/60 tracking-[0.3em] uppercase">
+            <div className="w-12 h-px bg-gray-400"></div>
+            <span className="text-sm font-mono text-gray-600 tracking-[0.3em] uppercase">
               Nossos Serviços
             </span>
-            <div className="w-12 h-px bg-white/30"></div>
+            <div className="w-12 h-px bg-gray-400"></div>
           </div>
           
           {/* Category Selection */}
@@ -81,8 +81,8 @@ const PremiumInfoSection: React.FC = () => {
                 aria-selected={selectedProjectCategory === category}
                 className={`px-6 py-3 text-sm font-medium transition-all duration-300 rounded-full ${
                   selectedProjectCategory === category 
-                    ? 'bg-white text-black shadow-lg' 
-                    : 'bg-neutral-800/80 hover:bg-neutral-700 text-neutral-300 hover:text-white border border-white/20'
+                    ? 'bg-gabardo-blue text-white shadow-lg' 
+                    : 'bg-white hover:bg-gabardo-light-blue/5 text-gray-700 hover:text-gabardo-blue border border-gray-300'
                 }`}
               >
                 {category}
@@ -122,7 +122,7 @@ const PremiumInfoSection: React.FC = () => {
                   whileHover={{ x: 2, transition: { duration: 0.3, ease: "easeOut" } }}
                   className="font-primary text-3xl md:text-4xl lg:text-5xl font-black leading-tight mb-6 relative"
                 >
-                  <span className="text-blue-accent font-black uppercase tracking-[0.2em]">
+                  <span className="text-gabardo-blue font-black uppercase tracking-[0.2em]">
                     {activeItem.projectCategory}
                   </span>
                 </motion.h2>
@@ -134,7 +134,7 @@ const PremiumInfoSection: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
-                className="font-secondary text-xl md:text-2xl text-white/80 font-light leading-relaxed"
+                className="font-secondary text-xl md:text-2xl text-gray-700 font-light leading-relaxed"
               >
                 {activeItem.title}
               </motion.p>
@@ -156,7 +156,7 @@ const PremiumInfoSection: React.FC = () => {
                 whileHover={{ x: 2, transition: { duration: 0.3, ease: "easeOut" } }}
                 className="flex items-center justify-center relative w-full"
               >
-                <span className="text-2xl md:text-3xl lg:text-4xl font-black uppercase tracking-[0.2em] text-blue-accent">
+                <span className="text-2xl md:text-3xl lg:text-4xl font-black uppercase tracking-[0.2em] text-gabardo-light-blue">
                   {activeItem.location}
                 </span>
               </motion.div>
@@ -174,11 +174,11 @@ const PremiumInfoSection: React.FC = () => {
           {/* Section Header */}
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-3 mb-6">
-              <div className="w-12 h-px bg-white/30"></div>
-              <span className="text-sm font-mono text-white/60 tracking-[0.3em] uppercase">
+              <div className="w-12 h-px bg-gray-400"></div>
+              <span className="text-sm font-mono text-gray-600 tracking-[0.3em] uppercase">
                 Números que Falam
               </span>
-              <div className="w-12 h-px bg-white/30"></div>
+              <div className="w-12 h-px bg-gray-400"></div>
             </div>
           </div>
 
@@ -197,23 +197,23 @@ const PremiumInfoSection: React.FC = () => {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="text-center group"
               >
-                <div className="text-4xl lg:text-5xl font-black text-white mb-2 hover-blue-80 transition-colors duration-300 flex items-center justify-center gap-2 relative">
+                <div className="text-4xl lg:text-5xl font-black text-gray-900 mb-2 hover:text-gabardo-blue transition-colors duration-300 flex items-center justify-center gap-2 relative">
                   {stat.number.includes('+') ? (
                     <>
                       {stat.number.replace('+', '')}
-                      <span className="text-blue-accent font-black">+</span>
+                      <span className="text-gabardo-light-blue font-black">+</span>
                     </>
                   ) : (
                     stat.number
                   )}
                   {stat.type === 'star' && (
-                    <span className="w-8 h-8 lg:w-10 lg:h-10 inline-flex items-center justify-center text-blue-accent font-black" style={{ transform: 'translateY(-0.1em)' }}>★</span>
+                    <span className="w-8 h-8 lg:w-10 lg:h-10 inline-flex items-center justify-center text-gabardo-light-blue font-black" style={{ transform: 'translateY(-0.1em)' }}>★</span>
                   )}
                 </div>
-                <div className="text-lg font-bold text-white/90 mb-1">
+                <div className="text-lg font-bold text-gray-800 mb-1">
                   {stat.label}
                 </div>
-                <div className="text-sm text-white/60 font-light">
+                <div className="text-sm text-gray-600 font-light">
                   {stat.description}
                 </div>
               </motion.div>

@@ -15,7 +15,7 @@ const GABARDO_FULL_SCREEN_NAV_ITEMS = [
   { id: 'contato', label: 'CONTATO', href: '/contato', imageSrc: '/gabardo-slide-2.jpg' },
 ];
 
-const HeaderRevised = () => {
+const HeaderRevised = ({ variant = 'light' }: { variant?: 'light' | 'dark' }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -41,7 +41,7 @@ const HeaderRevised = () => {
 
   return (
     <>
-      <div className="absolute top-0 left-0 right-0 z-30 pt-4 md:pt-6 text-white">
+      <div className="absolute top-0 left-0 right-0 z-30 pt-4 md:pt-6">
         {/* Increased z-index to 30 to be above hero's overlay (z-20 if any, image is z-10) but below menu (z-40) */}
         <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-16">
           <div className="flex justify-between items-center">
@@ -58,14 +58,22 @@ const HeaderRevised = () => {
                 priority
                 className="h-auto w-auto"
                 style={{ 
-                  filter: 'brightness(2) contrast(1.5) opacity(0.95)',
-                  WebkitFilter: 'brightness(2) contrast(1.5) opacity(0.95)'
+                  filter: variant === 'dark' 
+                    ? 'brightness(2) contrast(1.5) opacity(0.95)' 
+                    : 'brightness(0.2) contrast(1.2) opacity(0.9)',
+                  WebkitFilter: variant === 'dark' 
+                    ? 'brightness(2) contrast(1.5) opacity(0.95)' 
+                    : 'brightness(0.2) contrast(1.2) opacity(0.9)'
                 }}
               />
             </Link>
             <button
               onClick={toggleMenu} // This button opens the menu
-              className="flex items-center justify-center text-white hover:opacity-80 active:opacity-60 transition-opacity duration-200 touch-manipulation p-2 -m-2"
+              className={`flex items-center justify-center transition-colors duration-200 touch-manipulation p-2 -m-2 ${
+                variant === 'dark' 
+                  ? 'text-white hover:opacity-80 active:opacity-60' 
+                  : 'text-gray-800 hover:text-gray-600 active:text-gray-400'
+              }`}
               aria-label="Abrir menu de navegação"
               aria-expanded={isMenuOpen}
             >
