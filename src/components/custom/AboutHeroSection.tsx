@@ -5,12 +5,12 @@ import { Dot, Mouse } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
-// Background images for About section - Reverting to original working images
+// Background images for About section - Updated with Gabardo truck images
 const backgroundImages = [
-  '/images/co-01.jpg',
-  '/images/co-03.jpg', 
-  '/images/co-5.jpg',
-  'https://hubplural.com/wp-content/uploads/2023/01/BANNER_SOBRE-1024x770.png'
+  '/images/gabardo-hero-01.jpg', // Gabardo driver with truck
+  '/images/gabardo-hero-02.jpg', // Truck maintenance workshop
+  '/images/gabardo-hero-03.jpg', // Truck fleet with car carriers
+  '/images/gabardo-hero-04.jpg'  // Warehouse with truck maintenance
 ];
 
 const ScrollDownIcon = () => (
