@@ -7,7 +7,7 @@ import Image from 'next/image';
 
 // Background images for About section - Updated with Gabardo truck images
 const backgroundImages = [
-  '/images/gabardo-hero-01.jpg', // Gabardo driver with truck
+  '/images/gabardo-hero-01.jpg', 
   '/images/gabardo-hero-02.jpg', // Truck maintenance workshop
   '/images/gabardo-hero-03.jpg', // Truck fleet with car carriers
   '/images/gabardo-hero-04.jpg'  // Warehouse with truck maintenance
