@@ -156,7 +156,7 @@ export default function AboutHeroSection() {
                 </div>
                 <div className="flex items-center space-x-2">
                   <Dot className="w-3 h-3 text-gabardo-light-blue flex-shrink-0" />
-                  <span className="text-xs sm:text-sm font-light tracking-wide">1.4M+ Veículos</span>
+                  <span className="text-xs sm:text-sm font-light tracking-wide">1.4M+ Veículos transportados</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Dot className="w-3 h-3 text-gabardo-light-blue flex-shrink-0" />
