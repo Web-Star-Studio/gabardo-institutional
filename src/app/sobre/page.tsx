@@ -19,11 +19,6 @@ export default function SobrePage() {
       <FourPillarsSection />
       <AboutValuesSection />
       <AboutStatsSection />
-      <VideoSection 
-        vimeoId="376258884"
-        title="Conheça o Hub Plural"
-        description="Descubra como transformamos espaços em experiências únicas de trabalho colaborativo e inovação"
-      />
       <MapboxSection />
       <Footer />
     </main>

@@ -93,7 +93,7 @@ export default function HeroSection() {
         poster="/trucks-hero.jpg"
         style={{ backgroundColor: 'transparent' }}
       >
-        <source src="/hero-video.mp4" type="video/mp4" />
+        <source src="https://v8awusfkdo.ufs.sh/f/d0JPjEbGaqgd40MOZFknI6fVUiN4gAm5SK8M9Ltw7jpxPBy3" type="video/mp4" />
         {/* Fallback image if video fails to load */}
         <div 
           className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"

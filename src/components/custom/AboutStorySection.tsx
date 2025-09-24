@@ -53,7 +53,7 @@ const timeline: TimelineItem[] = [
     title: '30 Anos e Reconhecimento',
     description: '2019: 30 anos de mercado. 2020: ISO 14001 e ISO 39001, parceria CHILDHOOD, Projeto PESCAR, Prêmio CAOA CHERY. 2021: Segundo Prêmio CAOA CHERY consecutivo, certificação tripla ISO.',
     icon: <Users className="w-6 h-6" />,
-    image: '/images/co-08.jpg'
+    image: '/images/Trans Gabardo - Framers produtora -5475.JPG'
   },
   {
     year: '2022-2023',
@@ -67,7 +67,7 @@ const timeline: TimelineItem[] = [
     title: 'Futuro Sustentável',
     description: '2024: Certificação OEA (Operador Econômico Autorizado) e adesão ao Pacto Global da ONU. 2025: Selo Verde e Certificação Carbono Negativo, consolidando nosso compromisso ambiental.',
     icon: <Building className="w-6 h-6" />,
-    image: '/images/co-01.jpg'
+    image: '/images/Trans Gabardo - Framers produtora -5495.JPG'
   }
 ];
 
