@@ -142,16 +142,31 @@ export default function HeroSection() {
               <h1 className="font-primary text-3xl sm:text-5xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight mb-6">
                 Para cada cliente,
                 <br />
-                <span className="text-gabardo-blue">uma Gabardo diferente.</span>
+                <span style={{color: '#38B6FF'}}>uma Gabardo diferente.</span>
               </h1>
               <p className="font-secondary mt-4 text-base sm:text-lg md:text-lg lg:text-xl font-light leading-relaxed mb-8">
                 Há mais de 35 anos, entendemos as necessidades dos nossos clientes para atendê-los de forma personalizada e eficiente no transporte de veículos.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <button className="font-secondary bg-gabardo-blue text-white px-8 py-4 font-semibold uppercase tracking-wide transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:bg-gabardo-blue/90">
+                <button 
+                  className="font-secondary text-white px-8 py-4 font-semibold uppercase tracking-wide transition-all duration-300 transform hover:scale-105 hover:shadow-lg" 
+                  style={{backgroundColor: '#38B6FF'}} 
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#2da5ff'} 
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#38B6FF'}
+                >
                   Encontre seu serviço
                 </button>
-                <button className="font-secondary border-2 border-white text-white hover:bg-white hover:text-gabardo-blue px-8 py-4 font-semibold uppercase tracking-wide transition-all duration-300">
+                <button 
+                  className="font-secondary border-2 border-white text-white px-8 py-4 font-semibold uppercase tracking-wide transition-all duration-300" 
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = 'white'; 
+                    e.currentTarget.style.color = '#38B6FF';
+                  }} 
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'transparent'; 
+                    e.currentTarget.style.color = 'white';
+                  }}
+                >
                   Seja nosso parceiro
                 </button>
               </div>

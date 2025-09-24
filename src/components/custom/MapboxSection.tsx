@@ -215,7 +215,8 @@ const MapboxSection: React.FC = () => {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-4xl md:text-5xl font-bold text-neutral-800 mb-4"
+            className="text-4xl md:text-5xl font-bold mb-4"
+            style={{color: '#132D51'}}
           >
             Nossas Unidades
           </motion.h2>
@@ -223,7 +224,8 @@ const MapboxSection: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl text-neutral-600 max-w-2xl mx-auto"
+            className="text-xl max-w-2xl mx-auto"
+            style={{color: '#132D51'}}
           >
             A Gabardo está presente nas principais cidades do Brasil para oferecer o melhor serviço de transporte de veículos
           </motion.p>
@@ -265,7 +267,7 @@ const MapboxSection: React.FC = () => {
               {selectedLocation ? (
                 <div className="bg-white rounded-2xl p-6 shadow-lg border border-neutral-200">
                   <div className="flex items-start justify-between mb-4">
-                    <h3 className="text-2xl font-bold text-neutral-800">
+                    <h3 className="text-2xl font-bold" style={{color: '#132D51'}}>
                       {selectedLocation.name}
                     </h3>
                     <span className={`px-3 py-1 rounded-full text-xs font-medium ${
@@ -278,12 +280,15 @@ const MapboxSection: React.FC = () => {
                       {selectedLocation.type}
                     </span>
                   </div>
-                  <p className="text-neutral-600 mb-2">{selectedLocation.address}</p>
-                  <p className="text-neutral-600 mb-2 font-medium">{selectedLocation.phone}</p>
-                  <p className="text-sm text-neutral-500 mb-6">{selectedLocation.region}</p>
+                  <p className="mb-2" style={{color: '#132D51'}}>{selectedLocation.address}</p>
+                  <p className="mb-2 font-medium" style={{color: '#132D51'}}>{selectedLocation.phone}</p>
+                  <p className="text-sm mb-6" style={{color: '#132D51'}}>{selectedLocation.region}</p>
                   <button
                     onClick={handleExploreLocation}
-                    className="w-full bg-neutral-900 text-white py-3 px-6 rounded-xl font-medium hover:bg-neutral-800 transition-colors"
+                    className="w-full text-white py-3 px-6 rounded-xl font-medium transition-colors"
+                    style={{backgroundColor: '#132D51'}}
+                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#0f1f3a'}
+                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#132D51'}
                   >
                     Explorar Localização
                   </button>
@@ -291,7 +296,7 @@ const MapboxSection: React.FC = () => {
               ) : (
                 <div className="bg-white rounded-2xl p-6 shadow-lg border border-neutral-200">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-xl font-bold text-neutral-800">
+                    <h3 className="text-xl font-bold" style={{color: '#132D51'}}>
                       Nossas Unidades
                     </h3>
                     {/* Flag Icons */}
@@ -343,13 +348,13 @@ const MapboxSection: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                  <p className="text-neutral-600 mb-6">
+                  <p className="mb-6" style={{color: '#132D51'}}>
                     Selecione uma unidade para ver no mapa ou explore clicando nos pontos.
                   </p>
                   <div className="space-y-4 max-h-[400px] overflow-y-auto">
                     {['Sul', 'Centro Oeste/Sudeste', 'Nordeste'].map((region) => (
                       <div key={region}>
-                        <h4 className="text-sm font-bold text-neutral-800 mb-2 uppercase tracking-wider">
+                        <h4 className="text-sm font-bold mb-2 uppercase tracking-wider" style={{color: '#132D51'}}>
                           {region}
                         </h4>
                         <ul className="space-y-1">
@@ -367,8 +372,8 @@ const MapboxSection: React.FC = () => {
                                     : 'bg-green-500'
                                 }`}></span>
                                 <div className="flex-1">
-                                  <span className="font-medium text-neutral-700 text-sm">{location.name}</span>
-                                  <div className="text-xs text-neutral-500">{location.phone}</div>
+                                  <span className="font-medium text-sm" style={{color: '#132D51'}}>{location.name}</span>
+                                  <div className="text-xs" style={{color: '#132D51'}}>{location.phone}</div>
                                 </div>
                               </button>
                             </li>

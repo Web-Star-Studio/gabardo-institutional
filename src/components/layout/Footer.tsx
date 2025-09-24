@@ -81,12 +81,12 @@ const Footer: React.FC = () => {
                     height={44}
                     className="h-auto w-auto"
                     style={{ 
-                      filter: 'brightness(0) saturate(100%)',
-                      WebkitFilter: 'brightness(0) saturate(100%)'
+                      filter: 'brightness(0) saturate(100%) invert(14%) sepia(64%) saturate(1159%) hue-rotate(202deg) brightness(90%) contrast(96%)',
+                      WebkitFilter: 'brightness(0) saturate(100%) invert(14%) sepia(64%) saturate(1159%) hue-rotate(202deg) brightness(90%) contrast(96%)'
                     }}
                   />
                 </div>
-                <p className="text-neutral-600 leading-relaxed md:mt-16 max-w-sm">
+                <p className="leading-relaxed md:mt-16 max-w-sm" style={{color: '#132D51'}}>
                   Distribuindo soluções e conectando negócios para o futuro.
                 </p>
               </motion.div>
@@ -101,8 +101,8 @@ const Footer: React.FC = () => {
               >
                 {contactInfo.map((contact, index) => (
                   <div key={index} className="flex items-center space-x-3">
-                    <contact.icon className="w-4 h-4 text-neutral-400 flex-shrink-0" />
-                    <span className="text-sm text-neutral-600">{contact.text}</span>
+                    <contact.icon className="w-4 h-4 flex-shrink-0" style={{color: '#132D51'}} />
+                    <span className="text-sm" style={{color: '#132D51'}}>{contact.text}</span>
                   </div>
                 ))}
               </motion.div>
@@ -120,7 +120,7 @@ const Footer: React.FC = () => {
                     transition={{ duration: 0.6, delay: 0.2 + (sectionIndex * 0.1) }}
                     className="space-y-4"
                   >
-                    <h4 className="font-semibold text-black text-sm uppercase tracking-wider">
+                    <h4 className="font-semibold text-sm uppercase tracking-wider" style={{color: '#132D51'}}>
                       {section.title}
                     </h4>
                     <ul className="space-y-2">
@@ -128,7 +128,10 @@ const Footer: React.FC = () => {
                         <li key={link}>
                           <a
                             href="#"
-                            className="text-neutral-600 hover:text-accent transition-colors duration-200 text-sm"
+                            className="text-sm transition-colors duration-200"
+                            style={{color: '#132D51'}}
+                            onMouseEnter={(e) => e.currentTarget.style.color = '#38B6FF'}
+                            onMouseLeave={(e) => e.currentTarget.style.color = '#132D51'}
                           >
                             {link}
                           </a>
@@ -149,7 +152,7 @@ const Footer: React.FC = () => {
                 transition={{ duration: 0.6, delay: 0.5 }}
                 className="space-y-4"
               >
-                <h4 className="font-semibold text-black text-sm uppercase tracking-wider">
+                <h4 className="font-semibold text-sm uppercase tracking-wider" style={{color: '#132D51'}}>
                   Social
                 </h4>
                 <div className="flex space-x-3">
@@ -157,7 +160,16 @@ const Footer: React.FC = () => {
                     <a
                       key={social.label}
                       href={social.href}
-                      className="w-9 h-9 bg-black border border-black rounded-lg flex items-center justify-center hover:bg-accent hover:border-accent text-white transition-all duration-200 group"
+                      className="w-9 h-9 rounded-lg flex items-center justify-center text-white transition-all duration-200 group"
+                      style={{backgroundColor: '#132D51', borderColor: '#132D51'}}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = '#38B6FF';
+                        e.currentTarget.style.borderColor = '#38B6FF';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = '#132D51';
+                        e.currentTarget.style.borderColor = '#132D51';
+                      }}
                       aria-label={social.label}
                     >
                       <social.icon className="w-4 h-4" />
@@ -178,14 +190,26 @@ const Footer: React.FC = () => {
           className="border-t border-neutral-100 py-6"
         >
           <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
-            <p className="text-sm text-neutral-500">
+            <p className="text-sm" style={{color: '#132D51'}}>
               2025 Gabardo Distribuidora. Todos os direitos reservados.
             </p>
             <div className="flex space-x-6 text-sm">
-              <a href="#" className="text-neutral-500 hover:text-accent transition-colors duration-200">
+              <a 
+                href="#" 
+                className="transition-colors duration-200" 
+                style={{color: '#132D51'}} 
+                onMouseEnter={(e) => e.currentTarget.style.color = '#38B6FF'} 
+                onMouseLeave={(e) => e.currentTarget.style.color = '#132D51'}
+              >
                 Política de Privacidade
               </a>
-              <a href="#" className="text-neutral-500 hover:text-accent transition-colors duration-200">
+              <a 
+                href="#" 
+                className="transition-colors duration-200" 
+                style={{color: '#132D51'}} 
+                onMouseEnter={(e) => e.currentTarget.style.color = '#38B6FF'} 
+                onMouseLeave={(e) => e.currentTarget.style.color = '#132D51'}
+              >
                 Termos de Uso
               </a>
             </div>

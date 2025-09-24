@@ -78,20 +78,57 @@ const CompaniesStatsSection: React.FC = () => {
               <div className="absolute -inset-4 bg-gradient-to-br from-gabardo-light-blue/20 to-gabardo-blue/10 rounded-3xl transform rotate-2 opacity-50" />
               
               {/* Image Container */}
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-white p-4">
-                <Image
-                  src="/images/gabardo-clients-logos.png"
-                  alt="Logos dos clientes Gabardo - Volkswagen, Mercedes, Ford, Hyundai, Volvo, GWM, Subaru e outros"
-                  width={600}
-                  height={400}
-                  className="w-full h-auto rounded-lg"
+              <motion.div 
+                className="relative rounded-2xl overflow-hidden shadow-2xl bg-white p-6 group cursor-pointer"
+                whileHover={{ scale: 1.02, y: -5 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = '0 25px 50px -12px rgba(19, 45, 81, 0.25), 0 0 0 1px rgba(56, 182, 255, 0.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = '0 25px 50px -12px rgba(0, 0, 0, 0.25)';
+                }}
+              >
+                {/* Shine Effect Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out opacity-0 group-hover:opacity-100" />
+                
+                {/* Inner Glow Border */}
+                <div className="absolute inset-0 rounded-2xl border border-transparent bg-gradient-to-r from-gabardo-light-blue/30 via-transparent to-gabardo-blue/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                
+                <motion.div
+                  initial={{ opacity: 1 }}
+                  whileHover={{ scale: 1.01 }}
+                  transition={{ duration: 0.2 }}
+                  className="relative z-10"
+                >
+                  <Image
+                    src="/images/gabardo-clients-logos.png"
+                    alt="Logos dos clientes Gabardo - Volkswagen, Mercedes, Ford, Hyundai, Volvo, GWM, Subaru e outros"
+                    width={600}
+                    height={400}
+                    className="w-full h-auto rounded-lg transition-all duration-300 group-hover:brightness-110 group-hover:contrast-105"
+                    style={{
+                      filter: 'brightness(1.05) contrast(1.02) saturate(1.1)',
+                      mixBlendMode: 'multiply'
+                    }}
+                    priority
+                  />
+                </motion.div>
+
+                {/* Floating Dots Animation */}
+                <div className="absolute top-4 right-4 w-2 h-2 bg-gabardo-light-blue rounded-full opacity-60 animate-pulse" />
+                <div className="absolute bottom-6 left-6 w-1.5 h-1.5 bg-gabardo-blue rounded-full opacity-40 animate-pulse" style={{animationDelay: '0.5s'}} />
+                <div className="absolute top-8 left-1/3 w-1 h-1 bg-gabardo-light-blue rounded-full opacity-50 animate-pulse" style={{animationDelay: '1s'}} />
+
+                {/* Subtle Pattern Overlay */}
+                <div 
+                  className="absolute inset-0 opacity-5 group-hover:opacity-10 transition-opacity duration-300"
                   style={{
-                    filter: 'brightness(1.1) contrast(1.05)',
-                    mixBlendMode: 'multiply'
+                    backgroundImage: `radial-gradient(circle at 2px 2px, rgba(56, 182, 255, 0.3) 1px, transparent 0)`,
+                    backgroundSize: '20px 20px'
                   }}
-                  priority
                 />
-              </div>
+              </motion.div>
             </motion.div>
           </div>
         </div>
