@@ -90,7 +90,6 @@ export default function HeroSection() {
         x-webkit-airplay="allow"
         preload="metadata"
         controls={false}
-        poster="/trucks-hero.jpg"
         style={{ backgroundColor: 'transparent' }}
       >
         <source src="https://v8awusfkdo.ufs.sh/f/d0JPjEbGaqgd40MOZFknI6fVUiN4gAm5SK8M9Ltw7jpxPBy3" type="video/mp4" />
@@ -139,12 +138,12 @@ export default function HeroSection() {
 
             {/* Text Content Block */}
             <div className="flex-grow max-w-4xl xl:max-w-5xl">
-              <h1 className="font-primary text-3xl sm:text-5xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight mb-6">
+              <h1 className="font-primary text-2xl sm:text-4xl md:text-4xl lg:text-5xl font-bold leading-tight tracking-tight mb-6">
                 Para cada cliente,
                 <br />
                 <span style={{color: '#38B6FF'}}>uma Gabardo diferente.</span>
               </h1>
-              <p className="font-secondary mt-4 text-base sm:text-lg md:text-lg lg:text-xl font-light leading-relaxed mb-8">
+              <p className="font-secondary mt-4 text-sm sm:text-base md:text-base lg:text-lg font-light leading-relaxed mb-8">
                 Há mais de 35 anos, entendemos as necessidades dos nossos clientes para atendê-los de forma personalizada e eficiente no transporte de veículos.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">

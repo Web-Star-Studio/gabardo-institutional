@@ -26,84 +26,44 @@ interface Stat {
 
 const stats: Stat[] = [
   {
-    id: 'units',
-    icon: <Building2 className="w-8 h-8" />,
-    number: 15,
+    id: 'years',
+    icon: <Calendar className="w-8 h-8" />,
+    number: 35,
     suffix: '',
-    title: 'UNIDADES',
-    description: 'Espaços estrategicamente localizados em Recife',
-    color: 'blue',
+    title: 'ANOS NO MERCADO',
+    description: 'Desde 1989 transportando veículos com excelência',
+    color: 'gabardo',
     duration: 2000
   },
   {
-    id: 'members',
-    icon: <Users className="w-8 h-8" />,
-    number: 5000,
+    id: 'vehicles',
+    icon: <Award className="w-8 h-8" />,
+    number: 1400000,
     suffix: '+',
-    title: 'MEMBROS ATIVOS',
-    description: 'Profissionais conectados em nossa comunidade',
-    color: 'amber',
-    duration: 3000
+    title: 'VEÍCULOS TRANSPORTADOS',
+    description: 'Milhões de veículos entregues com segurança',
+    color: 'gabardo',
+    duration: 3500
   },
   {
-    id: 'years',
-    icon: <Calendar className="w-8 h-8" />,
-    number: 12,
+    id: 'units',
+    icon: <Building2 className="w-8 h-8" />,
+    number: 14,
     suffix: '',
-    title: 'ANOS DE EXPERIÊNCIA',
-    description: 'Liderando o mercado de coworking no Nordeste',
-    color: 'emerald',
+    title: 'UNIDADES',
+    description: 'Presença estratégica em todo o Brasil',
+    color: 'gabardo',
     duration: 2500
   },
   {
     id: 'satisfaction',
     icon: <Star className="w-8 h-8" />,
-    number: 98,
+    number: 99,
     suffix: '%',
-    title: 'SATISFAÇÃO',
-    description: 'Índice de satisfação dos nossos membros',
-    color: 'purple',
+    title: 'SATISFAÇÃO CLIENTES',
+    description: 'Excelência reconhecida pelos nossos parceiros',
+    color: 'gabardo',
     duration: 2000
-  },
-  {
-    id: 'events',
-    icon: <Award className="w-8 h-8" />,
-    number: 500,
-    suffix: '+',
-    title: 'EVENTOS REALIZADOS',
-    description: 'Networking, workshops e palestras',
-    color: 'rose',
-    duration: 2500
-  },
-  {
-    id: 'cities',
-    icon: <MapPin className="w-8 h-8" />,
-    number: 8,
-    suffix: '',
-    title: 'CIDADES',
-    description: 'Presença em múltiplas cidades do Nordeste',
-    color: 'cyan',
-    duration: 2000
-  },
-  {
-    id: 'meetings',
-    icon: <Briefcase className="w-8 h-8" />,
-    number: 10000,
-    suffix: '+',
-    title: 'REUNIÕES REALIZADAS',
-    description: 'Espaços para negócios importantes',
-    color: 'indigo',
-    duration: 3500
-  },
-  {
-    id: 'coffee',
-    icon: <Coffee className="w-8 h-8" />,
-    number: 50000,
-    suffix: '+',
-    title: 'CAFÉS SERVIDOS',
-    description: 'Energia para manter a produtividade',
-    color: 'orange',
-    duration: 4000
   }
 ];
 
@@ -170,51 +130,24 @@ const AboutStatsSection: React.FC = () => {
 
   if (!isClient) {
     return (
-      <section className="py-20 bg-neutral-900">
+      <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4 text-center">
-          <div className="text-neutral-400">Loading stats...</div>
+          <div className="text-gray-600">Loading stats...</div>
         </div>
       </section>
     );
   }
 
   const getColorClasses = (color: string) => {
-    const colors = {
-      blue: 'text-blue-400',
-      amber: 'text-amber-400',
-      emerald: 'text-emerald-400',
-      purple: 'text-purple-400',
-      rose: 'text-rose-400',
-      cyan: 'text-cyan-400',
-      indigo: 'text-indigo-400',
-      orange: 'text-orange-400'
-    };
-    return colors[color as keyof typeof colors];
+    return '';
   };
 
   const getBgColorClasses = (color: string) => {
-    const colors = {
-      blue: 'bg-blue-500/10 border-blue-500/20',
-      amber: 'bg-amber-500/10 border-amber-500/20',
-      emerald: 'bg-emerald-500/10 border-emerald-500/20',
-      purple: 'bg-purple-500/10 border-purple-500/20',
-      rose: 'bg-rose-500/10 border-rose-500/20',
-      cyan: 'bg-cyan-500/10 border-cyan-500/20',
-      indigo: 'bg-indigo-500/10 border-indigo-500/20',
-      orange: 'bg-orange-500/10 border-orange-500/20'
-    };
-    return colors[color as keyof typeof colors];
+    return 'bg-white border border-gray-200 shadow-sm hover:shadow-lg';
   };
 
   return (
-    <section ref={ref} className="py-16 md:py-20 lg:py-24 bg-neutral-900 text-white relative overflow-hidden">
-      
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        }} />
-      </div>
+    <section ref={ref} className="py-16 md:py-20 lg:py-24 bg-gray-50 relative overflow-hidden">
 
       <div className="container mx-auto px-4 md:px-8 lg:px-16 relative z-10">
         
@@ -231,10 +164,11 @@ const AboutStatsSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-sm font-light tracking-[0.2em] text-white/60 mb-4 uppercase relative inline-block"
+            className="text-sm font-light tracking-[0.2em] mb-4 uppercase relative inline-block font-secondary"
+            style={{ color: '#132D51' }}
           >
             Nossos Números
-            <div className="absolute -bottom-1 left-0 w-8 h-px bg-amber-400"></div>
+            <div className="absolute -bottom-1 left-0 w-8 h-px" style={{ backgroundColor: '#132D51' }}></div>
           </motion.div>
           
           <motion.h2
@@ -242,11 +176,12 @@ const AboutStatsSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold text-white uppercase tracking-tight leading-tight"
+            className="text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tight leading-tight font-primary"
+            style={{ color: '#132D51' }}
           >
-            Impacto que
+            Excelência que
             <br />
-            <span className="text-white/80">Transforma</span>
+            <span style={{ color: '#132D51' }}>Comprova</span>
           </motion.h2>
 
           <motion.p
@@ -254,9 +189,9 @@ const AboutStatsSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.5 }}
-            className="mt-6 text-lg md:text-xl text-white/70 font-light max-w-3xl mx-auto leading-relaxed"
+            className="mt-6 text-lg md:text-xl text-gray-700 font-light max-w-3xl mx-auto leading-relaxed font-secondary"
           >
-            Mais de uma década construindo a maior comunidade de profissionais inovadores do Nordeste
+            Mais de três décadas liderando o transporte rodoviário de veículos no Brasil com segurança e eficiência
           </motion.p>
         </motion.div>
 
@@ -287,7 +222,8 @@ const AboutStatsSection: React.FC = () => {
               <motion.div
                 whileHover={{ scale: 1.2, rotate: 10 }}
                 transition={{ duration: 0.3 }}
-                className={`w-16 h-16 rounded-full flex items-center justify-center mb-6 ${getColorClasses(stat.color)} bg-white/10`}
+                className="w-16 h-16 rounded-full flex items-center justify-center mb-6"
+                style={{ color: '#132D51', backgroundColor: 'rgba(19, 45, 81, 0.1)' }}
               >
                 {stat.icon}
               </motion.div>
@@ -295,19 +231,20 @@ const AboutStatsSection: React.FC = () => {
               {/* Number */}
               <div className="mb-4">
                 <motion.span 
-                  className={`text-4xl md:text-5xl font-bold ${getColorClasses(stat.color)} block leading-none`}
+                  className="text-4xl md:text-5xl font-bold block leading-none font-primary"
+                  style={{ color: '#132D51' }}
                 >
-                  {Math.floor(Math.random() * 100)}
+                  {counts[index]?.toLocaleString() || 0}{stat.suffix}
                 </motion.span>
               </div>
 
               {/* Title */}
-              <h3 className="text-lg md:text-xl font-bold text-white uppercase tracking-wide mb-2 leading-tight">
+              <h3 className="text-lg md:text-xl font-bold uppercase tracking-wide mb-2 leading-tight font-primary" style={{ color: '#132D51' }}>
                 {stat.title}
               </h3>
 
               {/* Description */}
-              <p className="text-white/70 font-light leading-relaxed text-sm">
+              <p className="text-gray-600 font-light leading-relaxed text-sm font-secondary">
                 {stat.description}
               </p>
 
@@ -317,39 +254,19 @@ const AboutStatsSection: React.FC = () => {
                 whileInView={{ width: '100%' }}
                 viewport={{ once: true }}
                 transition={{ duration: 1, delay: index * 0.1 + 0.5 }}
-                className={`absolute bottom-0 left-0 h-1 ${getColorClasses(stat.color)} bg-current`}
+                className="absolute bottom-0 left-0 h-1"
+                style={{ backgroundColor: '#132D51' }}
               />
 
               {/* Hover effect overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+              <div 
+                className="absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                style={{ background: 'linear-gradient(to bottom right, rgba(19, 45, 81, 0.05), transparent)' }}
+              />
             </motion.div>
           ))}
         </div>
 
-        {/* Bottom CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="text-center mt-16 md:mt-20"
-        >
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-8 md:p-12 max-w-4xl mx-auto">
-            <h3 className="text-2xl md:text-3xl font-bold text-white uppercase tracking-wide mb-4">
-              Faça Parte Desta Comunidade
-            </h3>
-            <p className="text-white/70 font-light text-lg leading-relaxed mb-8">
-              Junte-se a milhares de profissionais que escolheram o Hub Plural para impulsionar seus negócios
-            </p>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-red-600 rounded-md text-white px-8 py-4 font-bold uppercase tracking-wide hover:bg-red-700 transition-all duration-300"
-            >
-              Conheça Nossos Planos
-            </motion.button>
-          </div>
-        </motion.div>
       </div>
     </section>
   );

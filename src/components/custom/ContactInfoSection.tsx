@@ -3,34 +3,34 @@
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Clock, ArrowRight, ExternalLink } from 'lucide-react';
 
-// Simplified contact info - elegant and professional
+// Gabardo Distribuidora contact information
 const contactInfo = [
   {
     icon: <Phone className="w-6 h-6" />,
     title: 'Telefone',
-    primary: '(81) 3030-3030',
-    secondary: 'Atendimento comercial',
-    action: 'tel:+558130303030'
+    primary: '(11) 3456-7890',
+    secondary: 'Central de atendimento',
+    action: 'tel:+551134567890'
   },
   {
     icon: <Mail className="w-6 h-6" />,
     title: 'E-mail',
-    primary: 'contato@hubplural.com',
+    primary: 'contato@gabardodistribuidora.com.br',
     secondary: 'Resposta em até 24h',
-    action: 'mailto:contato@hubplural.com'
+    action: 'mailto:contato@gabardodistribuidora.com.br'
   },
   {
     icon: <MapPin className="w-6 h-6" />,
-    title: 'Localização',
-    primary: 'Recife - PE',
-    secondary: 'Boa Viagem, Centro',
-    action: 'https://maps.google.com?q=Recife+PE'
+    title: 'Matriz',
+    primary: 'São Paulo - SP',
+    secondary: 'Múltiplas unidades no Brasil',
+    action: 'https://maps.google.com?q=São+Paulo+SP'
   },
   {
     icon: <Clock className="w-6 h-6" />,
     title: 'Horário',
     primary: 'Seg-Sex: 8h às 18h',
-    secondary: 'Acesso 24h disponível',
+    secondary: 'Sáb: 8h às 12h',
     action: null
   }
 ];
@@ -73,11 +73,11 @@ export default function ContactInfoSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black uppercase tracking-tight leading-tight"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black uppercase tracking-tight leading-tight font-primary"
           >
-            Múltiplas Formas
+            Fale com a
             <br />
-            <span className="text-amber-400">De Nos Encontrar</span>
+            <span style={{color: '#38B6FF'}}>Gabardo Distribuidora</span>
           </motion.h2>
         </motion.div>
 
@@ -92,7 +92,7 @@ export default function ContactInfoSection() {
               transition={{ duration: 0.6, delay: 0.1 * index }}
               whileHover={{ y: -5 }}
               whileTap={{ scale: 0.98 }}
-              className={`group bg-white p-6 md:p-8 shadow-sm hover:shadow-lg active:shadow-md transition-all duration-300 border-l-4 border-neutral-200 hover:border-amber-400 ${
+              className={`group bg-white p-6 md:p-8 shadow-sm hover:shadow-lg active:shadow-md transition-all duration-300 border-l-4 border-neutral-200 hover:border-gabardo-light-blue ${
                 info.action ? 'cursor-pointer touch-manipulation' : ''
               }`}
               onClick={() => handleContactClick(info.action)}
@@ -109,20 +109,20 @@ export default function ContactInfoSection() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ duration: 0.3 }}
-                className="w-14 h-14 md:w-16 md:h-16 bg-neutral-100 rounded-lg flex items-center justify-center mb-4 md:mb-6 text-neutral-700 group-hover:bg-amber-400 group-hover:text-black transition-all duration-300"
+                className="w-14 h-14 md:w-16 md:h-16 bg-neutral-100 rounded-lg flex items-center justify-center mb-4 md:mb-6 text-neutral-700 group-hover:bg-gabardo-light-blue group-hover:text-white transition-all duration-300"
               >
                 {info.icon}
               </motion.div>
               
-              <h3 className="text-lg md:text-xl font-bold text-black uppercase tracking-wide mb-2 md:mb-3 group-hover:text-amber-600 transition-colors duration-300">
+              <h3 className="text-lg md:text-xl font-bold text-black uppercase tracking-wide mb-2 md:mb-3 group-hover:text-gabardo-light-blue transition-colors duration-300 font-primary">
                 {info.title}
               </h3>
               
-              <p className="text-base md:text-lg text-neutral-700 font-medium mb-2 break-words">
+              <p className="text-base md:text-lg text-neutral-700 font-medium mb-2 break-words font-primary">
                 {info.primary}
               </p>
               
-              <p className="text-sm text-neutral-500 font-light mb-3 md:mb-4">
+              <p className="text-sm text-neutral-500 font-light mb-3 md:mb-4 font-secondary">
                 {info.secondary}
               </p>
 

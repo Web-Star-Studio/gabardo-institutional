@@ -1,16 +1,47 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ArrowRight, Phone, Mail, MapPin } from 'lucide-react';
+import { ArrowRight, Phone, Mail, MapPin, Dot, Mouse } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
-// Optimized background images for performance
+// Gabardo contact background images
 const backgroundImages = [
-  '/images/co-01.jpg',
-  '/images/co-03.jpg', 
-  '/images/co-5.jpg'
+  '/images/gabardo-hero-01.JPG',
+  '/images/gabardo-hero-02.JPG',
+  '/images/gabardo-hero-03.JPG',
+  '/images/gabardo-hero-04.JPG'
 ];
+
+const ScrollDownIcon = () => (
+  <motion.div 
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.8, delay: 1.5 }}
+    className="hidden md:flex flex-col items-center space-y-2"
+  >
+    <Mouse className="w-8 h-8" />
+    <span className="text-xs font-light tracking-widest uppercase" style={{ writingMode: 'vertical-rl' }}>
+      Fale Conosco
+    </span>
+  </motion.div>
+);
+
+const ArrowIcon = () => (
+  <motion.svg 
+    initial={{ opacity: 0, rotate: -45 }}
+    animate={{ opacity: 1, rotate: 0 }}
+    transition={{ duration: 0.8, delay: 1.2 }}
+    xmlns="http://www.w3.org/2000/svg" 
+    fill="none" 
+    viewBox="0 0 24 24" 
+    strokeWidth={1.5} 
+    stroke="currentColor" 
+    className="hidden md:block w-12 h-12 md:w-16 md:h-16 text-white"
+  >
+    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0V18" />
+  </motion.svg>
+);
 
 export default function ContactHeroSection() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -27,11 +58,11 @@ export default function ContactHeroSection() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Slower background rotation on mobile for better performance
+  // Background rotation
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % backgroundImages.length);
-    }, isMobile ? 10000 : 7000);
+    }, isMobile ? 8000 : 6000);
     return () => clearInterval(interval);
   }, [isMobile]);
 
@@ -51,9 +82,8 @@ export default function ContactHeroSection() {
   };
 
   return (
-    <section className="relative min-h-screen flex flex-col overflow-hidden">
-      
-      {/* Optimized Dynamic Background */}
+    <div className="relative w-full h-screen text-white overflow-hidden">
+      {/* Dynamic Background */}
       <div className="absolute inset-0">
         {backgroundImages.map((img, index) => (
           <motion.div
@@ -62,12 +92,12 @@ export default function ContactHeroSection() {
             animate={{ 
               opacity: index === currentImageIndex ? 1 : 0
             }}
-            transition={{ duration: isMobile ? 3 : 2, ease: "easeInOut" }}
+            transition={{ duration: isMobile ? 2.5 : 2, ease: "easeInOut" }}
             className="absolute inset-0"
           >
             <Image
               src={img}
-              alt="Hub Plural Workspace"
+              alt="Gabardo Distribuidora - Contato"
               fill
               className="object-cover object-center"
               priority={index === 0}
@@ -77,129 +107,158 @@ export default function ContactHeroSection() {
           </motion.div>
         ))}
         
-        {/* Mobile-optimized overlay for maximum readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-black/85 md:bg-gradient-to-br md:from-black/75 md:via-black/60 md:to-black/75" />
+        {/* Enhanced gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-black/75 via-black/60 to-black/75 md:from-black/65 md:via-black/45 md:to-black/65" />
       </div>
 
-      {/* Main Content Container */}
-      <div className="relative z-10 flex-1 flex flex-col justify-center">
-        <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-16">
-          
-          {/* Content Wrapper - Mobile-first approach */}
-          <div className="max-w-4xl mx-auto text-center md:text-left">
-            
-            {/* Header Spacer for mobile */}
-            <div className="h-48 md:h-48"></div>
-            
-            {/* Pre-title */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-xs sm:text-sm font-light tracking-[0.3em] text-amber-400 mb-4 md:mb-6 uppercase"
-            >
-              Entre em Contato
-            </motion.div>
+      {/* Content container */}
+      <div className="relative z-10 flex flex-col justify-between h-full p-4 sm:p-6 md:p-8 lg:p-16">
+        {/* Top spacer for header */}
+        <div className="h-16 md:h-20"></div>
 
-            {/* Main Title - Optimized for mobile reading */}
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.4 }}
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight leading-[0.9] mb-6 md:mb-8 text-white"
-            >
-              Vamos
-              <br />
-              <span className="text-amber-400">Conversar</span>
-            </motion.h1>
+        {/* Left Scroll Indicator - Hidden on mobile */}
+        <div className="absolute top-1/2 left-6 md:left-8 lg:left-16 transform -translate-y-1/2">
+          <ScrollDownIcon />
+        </div>
 
-            {/* Description - Simplified for mobile */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="text-lg sm:text-xl md:text-2xl text-white/90 font-light leading-relaxed mb-10 md:mb-12 max-w-2xl mx-auto md:mx-0"
-            >
-              Descubra como podemos transformar sua forma de trabalhar. 
-              Nossa equipe está pronta para atender você.
-            </motion.p>
+        {/* Main Content */}
+        <div className="flex flex-col justify-end h-full pb-8 md:pb-0">
+          <div className="flex items-end w-full">
+            {/* Spacer for scroll indicator */}
+            <div className="flex-shrink-0 w-0 md:w-24 lg:w-32"></div>
 
-            {/* Action Buttons - Mobile-optimized layout */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
-              className="flex flex-col sm:flex-row gap-4 mb-12 md:mb-16 justify-center md:justify-start"
-            >
-              {/* Primary CTA */}
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={scrollToForm}
-                className="group bg-amber-400 text-black px-8 py-4 text-lg font-bold uppercase tracking-wide hover:bg-white transition-all duration-300 flex items-center justify-center space-x-3 touch-manipulation rounded-lg shadow-lg"
+            {/* Text Content */}
+            <div className="flex-grow max-w-full md:max-w-4xl xl:max-w-5xl">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="text-xs sm:text-sm font-light tracking-[0.2em] text-gabardo-light-blue mb-4 md:mb-6 uppercase font-secondary"
               >
-                <span>Enviar Mensagem</span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-              </motion.button>
+                Contato Gabardo
+              </motion.div>
 
-              {/* Secondary CTAs - Mobile-optimized */}
-              <div className="flex gap-3 justify-center md:justify-start">
+              <motion.h1 
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold uppercase leading-tight tracking-tight mb-4 md:mb-6 font-primary"
+              >
+                Conecte-se Conosco,
+                <br />
+                <span className="text-gabardo-light-blue">Cresça Conosco</span>
+              </motion.h1>
+
+              <motion.p 
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.8 }}
+                className="text-sm sm:text-base md:text-lg lg:text-xl font-light leading-relaxed max-w-full md:max-w-3xl mb-6 md:mb-8 font-secondary"
+              >
+                Sua próxima solução em transporte de veículos está a uma conversa de distância. 
+                Fale com nossos especialistas e descubra como podemos potencializar seus resultados.
+              </motion.p>
+
+              {/* Contact stats */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.0 }}
+                className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 md:gap-8"
+              >
+                <div className="flex items-center space-x-2">
+                  <Dot className="w-3 h-3 text-gabardo-light-blue flex-shrink-0" />
+                  <span className="text-xs sm:text-sm font-light tracking-wide font-secondary">14 Unidades</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Dot className="w-3 h-3 text-gabardo-light-blue flex-shrink-0" />
+                  <span className="text-xs sm:text-sm font-light tracking-wide font-secondary">Atendimento 24h/7d</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Dot className="w-3 h-3 text-gabardo-light-blue flex-shrink-0" />
+                  <span className="text-xs sm:text-sm font-light tracking-wide font-secondary">Suporte Nacional</span>
+                </div>
+              </motion.div>
+
+              {/* CTA Button & Social Icons */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.2 }}
+                className="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-4"
+              >
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => handleContactAction('tel:+558130303030')}
-                  className="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-4 rounded-lg transition-all duration-300 touch-manipulation group"
-                  aria-label="Ligar para Hub Plural"
+                  onClick={scrollToForm}
+                  className="group bg-gabardo-light-blue text-white px-8 py-4 text-base font-medium uppercase tracking-wide hover:bg-white hover:text-gabardo-light-blue transition-all duration-300 flex items-center space-x-3 touch-manipulation font-primary"
                 >
-                  <Phone className="w-6 h-6 group-hover:text-amber-400 transition-colors duration-300" />
+                  <span>Fale Conosco</span>
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
                 </motion.button>
 
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => handleContactAction('mailto:contato@hubplural.com')}
-                  className="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-4 rounded-lg transition-all duration-300 touch-manipulation group"
-                  aria-label="Enviar e-mail para Hub Plural"
-                >
-                  <Mail className="w-6 h-6 group-hover:text-amber-400 transition-colors duration-300" />
-                </motion.button>
+                {/* Social Icons */}
+                <div className="flex gap-3">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => handleContactAction('tel:+551134567890')}
+                    className="bg-white/20 hover:bg-gabardo-light-blue hover:text-white backdrop-blur-sm text-white p-3 transition-all duration-300 touch-manipulation group"
+                    aria-label="Ligar para Gabardo Distribuidora"
+                  >
+                    <Phone className="w-5 h-5 transition-colors duration-300" />
+                  </motion.button>
 
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => handleContactAction('https://maps.google.com?q=Recife+PE')}
-                  className="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-4 rounded-lg transition-all duration-300 touch-manipulation group"
-                  aria-label="Ver localização no mapa"
-                >
-                  <MapPin className="w-6 h-6 group-hover:text-amber-400 transition-colors duration-300" />
-                </motion.button>
-              </div>
-            </motion.div>
-            {/* Footer spacer for mobile */}
-            <div className="h-16 md:h-20"></div>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => handleContactAction('mailto:contato@gabardodistribuidora.com.br')}
+                    className="bg-white/20 hover:bg-gabardo-light-blue hover:text-white backdrop-blur-sm text-white p-3 transition-all duration-300 touch-manipulation group"
+                    aria-label="Enviar e-mail para Gabardo Distribuidora"
+                  >
+                    <Mail className="w-5 h-5 transition-colors duration-300" />
+                  </motion.button>
+
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => handleContactAction('https://maps.google.com?q=São+Paulo+SP')}
+                    className="bg-white/20 hover:bg-gabardo-light-blue hover:text-white backdrop-blur-sm text-white p-3 transition-all duration-300 touch-manipulation group"
+                    aria-label="Ver localizações Gabardo no mapa"
+                  >
+                    <MapPin className="w-5 h-5 transition-colors duration-300" />
+                  </motion.button>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Arrow Icon - Hidden on mobile */}
+            <div className="ml-auto pl-4 md:pl-8">
+              <ArrowIcon />
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Mobile-optimized scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1.5 }}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20"
-      >
+        {/* Mobile scroll indicator */}
         <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="w-6 h-10 border-2 border-white/40 rounded-full flex justify-center bg-black/20 backdrop-blur-sm"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 2 }}
+          className="md:hidden absolute bottom-6 left-1/2 transform -translate-x-1/2"
         >
           <motion.div
-            animate={{ height: [0, 20, 0], opacity: [0, 1, 0] }}
+            animate={{ y: [0, 8, 0] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            className="w-1 bg-amber-400 rounded-full mt-2"
-          />
+            className="w-5 h-8 border-2 border-white/40 rounded-full flex justify-center"
+          >
+            <motion.div
+              animate={{ height: [0, 16, 0], opacity: [0, 1, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              className="w-0.5 bg-gabardo-light-blue rounded-full mt-1"
+            />
+          </motion.div>
         </motion.div>
-      </motion.div>
-    </section>
+      </div>
+    </div>
   );
 } 

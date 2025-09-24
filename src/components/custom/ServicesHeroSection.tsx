@@ -30,13 +30,13 @@ const ArrowIcon = () => (
   <motion.svg 
     initial={{ opacity: 0, rotate: -45 }}
     animate={{ opacity: 1, rotate: 0 }}
-    transition={{ duration: 1, delay: 2 }}
+    transition={{ duration: 0.8, delay: 1.2 }}
     xmlns="http://www.w3.org/2000/svg" 
     fill="none" 
     viewBox="0 0 24 24" 
     strokeWidth={1.5} 
     stroke="currentColor" 
-    className="w-12 h-12 md:w-16 md:h-16"
+    className="hidden md:block w-12 h-12 md:w-16 md:h-16 text-white"
   >
     <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0V18" />
   </motion.svg>
@@ -44,141 +44,154 @@ const ArrowIcon = () => (
 
 export default function ServicesHeroSection() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
+  // Mobile detection
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => 
-        (prevIndex + 1) % backgroundImages.length
-      );
-    }, 5000);
-
-    return () => clearInterval(interval);
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // Background rotation
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % backgroundImages.length);
+    }, isMobile ? 8000 : 6000);
+    return () => clearInterval(interval);
+  }, [isMobile]);
+
   return (
-    <section className="relative h-screen w-full overflow-hidden">
-      {/* Background Images with Carousel */}
+    <div className="relative w-full h-screen text-white overflow-hidden">
+      {/* Dynamic Background */}
       <div className="absolute inset-0">
-        {backgroundImages.map((image, index) => (
+        {backgroundImages.map((img, index) => (
           <motion.div
-            key={image}
-            className="absolute inset-0"
+            key={index}
             initial={{ opacity: 0 }}
             animate={{ 
-              opacity: currentImageIndex === index ? 1 : 0,
-              scale: currentImageIndex === index ? 1.02 : 1
+              opacity: index === currentImageIndex ? 1 : 0
             }}
-            transition={{ duration: 1.5, ease: "easeInOut" }}
+            transition={{ duration: isMobile ? 2.5 : 2, ease: "easeInOut" }}
+            className="absolute inset-0"
           >
             <Image
-              src={image}
-              alt={`Gabardo Services ${index + 1}`}
+              src={img}
+              alt="Gabardo Distribuidora - Serviços"
               fill
-              className="object-cover"
+              className="object-cover object-center"
               priority={index === 0}
-              onLoad={() => index === 0 && setIsLoaded(true)}
+              sizes="100vw"
+              quality={isMobile ? 85 : 95}
             />
           </motion.div>
         ))}
         
-        {/* Dark Overlay */}
-        <div className="absolute inset-0 bg-black/50" />
+        {/* Enhanced gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-black/75 via-black/60 to-black/75 md:from-black/65 md:via-black/45 md:to-black/65" />
       </div>
 
-      {/* Scroll Down Indicator */}
-      <div className="absolute left-8 md:left-16 top-1/2 transform -translate-y-1/2 text-white z-20">
-        <ScrollDownIcon />
-      </div>
+      {/* Content container */}
+      <div className="relative z-10 flex flex-col justify-between h-full p-4 sm:p-6 md:p-8 lg:p-16">
+        {/* Top spacer for header */}
+        <div className="h-16 md:h-20"></div>
 
-      {/* Main Content */}
-      <div className="relative z-10 h-full flex flex-col justify-center items-start px-8 md:px-16 lg:px-24">
-        <div className="max-w-4xl">
-          
-
-          {/* Main Heading */}
-          <motion.h1
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.5 }}
-            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-6"
-          >
-            <span className="block">OPERAÇÕES DEDICADAS</span>
-            <span className="block">E EQUIPE ESPECIALIZADA</span>
-            <span className="block" style={{color: '#38B6FF'}}>POR PREÇO COMPETITIVO</span>
-          </motion.h1>
-
-          {/* Description */}
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="text-sm md:text-base text-white/90 font-light leading-relaxed mb-8 max-w-3xl"
-          >
-            A Gabardo está presente nas principais rotas do país com uma das frotas mais especializadas 
-            em transporte de veículos. Atendemos de forma personalizada montadoras e empresas de diversos 
-            segmentos com operações exclusivas e preços mais competitivos que a concorrência.
-          </motion.p>
-
-          {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1 }}
-            className="flex flex-col sm:flex-row gap-4"
-          >
-            <button 
-              className="px-8 py-4 text-white font-semibold uppercase tracking-wide transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
-              style={{backgroundColor: '#38B6FF'}}
-              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#2da5ff'}
-              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#38B6FF'}
-            >
-              Solicitar Cotação
-            </button>
-            <button 
-              className="px-8 py-4 border-2 border-white text-white font-semibold uppercase tracking-wide transition-all duration-300"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'white';
-                e.currentTarget.style.color = '#38B6FF';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'transparent';
-                e.currentTarget.style.color = 'white';
-              }}
-            >
-              Ver Todos os Serviços
-            </button>
-          </motion.div>
+        {/* Left Scroll Indicator - Hidden on mobile */}
+        <div className="absolute top-1/2 left-6 md:left-8 lg:left-16 transform -translate-y-1/2">
+          <ScrollDownIcon />
         </div>
 
-        {/* Arrow Icon */}
+        {/* Main Content */}
+        <div className="flex flex-col justify-end h-full pb-8 md:pb-0">
+          <div className="flex items-end w-full">
+            {/* Spacer for scroll indicator */}
+            <div className="flex-shrink-0 w-0 md:w-24 lg:w-32"></div>
+
+            {/* Text Content */}
+            <div className="flex-grow max-w-full md:max-w-4xl xl:max-w-5xl">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="text-xs sm:text-sm font-light tracking-[0.2em] text-gabardo-light-blue mb-4 md:mb-6 uppercase font-secondary"
+              >
+                Serviços Gabardo
+              </motion.div>
+
+              <motion.h1 
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold uppercase leading-tight tracking-tight mb-4 md:mb-6 font-primary"
+              >
+                Soluções Completas,
+                <br />
+                <span className="text-gabardo-light-blue">Resultados Garantidos</span>
+              </motion.h1>
+
+              <motion.p 
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.8 }}
+                className="text-sm sm:text-base md:text-lg lg:text-xl font-light leading-relaxed max-w-full md:max-w-3xl mb-6 md:mb-8 font-secondary"
+              >
+                Operações dedicadas, equipe especializada e preços competitivos. 
+                Atendemos montadoras e empresas com a excelência que seu negócio merece.
+              </motion.p>
+
+              {/* Services stats */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.0 }}
+                className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 md:gap-8"
+              >
+                <div className="flex items-center space-x-2">
+                  <Dot className="w-3 h-3 text-gabardo-light-blue flex-shrink-0" />
+                  <span className="text-xs sm:text-sm font-light tracking-wide font-secondary">Operações Exclusivas</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Dot className="w-3 h-3 text-gabardo-light-blue flex-shrink-0" />
+                  <span className="text-xs sm:text-sm font-light tracking-wide font-secondary">Frotas Especializadas</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Dot className="w-3 h-3 text-gabardo-light-blue flex-shrink-0" />
+                  <span className="text-xs sm:text-sm font-light tracking-wide font-secondary">Preços Competitivos</span>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Arrow Icon - Hidden on mobile */}
+            <div className="ml-auto pl-4 md:pl-8">
+              <ArrowIcon />
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile scroll indicator */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 1.2 }}
-          className="absolute bottom-8 right-8 md:bottom-16 md:right-16 text-white"
+          transition={{ duration: 1, delay: 2 }}
+          className="md:hidden absolute bottom-6 left-1/2 transform -translate-x-1/2"
         >
-          <ArrowIcon />
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="w-5 h-8 border-2 border-white/40 rounded-full flex justify-center"
+          >
+            <motion.div
+              animate={{ height: [0, 16, 0], opacity: [0, 1, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              className="w-0.5 bg-gabardo-light-blue rounded-full mt-1"
+            />
+          </motion.div>
         </motion.div>
       </div>
-
-      {/* Image Indicators */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 1.5 }}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20"
-      >
-        {backgroundImages.map((_, index) => (
-          <button
-            key={index}
-            className={`w-2 h-2 rounded-full transition-all duration-300 ${
-              currentImageIndex === index ? 'bg-white' : 'bg-white/40'
-            }`}
-            onClick={() => setCurrentImageIndex(index)}
-          />
-        ))}
-      </motion.div>
-    </section>
+    </div>
   );
 }
