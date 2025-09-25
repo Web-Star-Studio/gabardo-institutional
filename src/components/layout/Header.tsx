@@ -3,10 +3,12 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import SimpleNavbar from '@/components/custom/SimpleNavbar';
+import { Menu } from 'lucide-react';
+import FullScreenNav from '@/components/custom/FullScreenNav';
 
 const HeaderRevised = ({ variant = 'light' }: { variant?: 'light' | 'dark' }) => {
   const [isMobile, setIsMobile] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Mobile detection for optimal logo sizing
   useEffect(() => {
@@ -19,9 +21,17 @@ const HeaderRevised = ({ variant = 'light' }: { variant?: 'light' | 'dark' }) =>
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // Menu items for the full screen navigation
+  const menuItems = [
+    { id: 'home', label: 'HOME', href: '/', imageSrc: '/images/hero-home.jpg' },
+    { id: 'servicos', label: 'SERVIÇOS', href: '/servicos', imageSrc: '/images/hero-services.jpg' },
+    { id: 'sobre', label: 'SOBRE', href: '/sobre', imageSrc: '/images/hero-about.jpg' },
+    { id: 'contato', label: 'CONTATO', href: '/contato', imageSrc: '/images/hero-contact.jpg' },
+  ];
+
   return (
     <div className="absolute top-0 left-0 right-0 z-30">
-      {/* Minimal navbar with transparent background */}
+      {/* Header with logo and menu button */}
       <div className="w-full px-6 md:px-12 lg:px-16 py-4 md:py-6">
         <div className="flex justify-between items-center w-full">
           <Link 
@@ -47,9 +57,27 @@ const HeaderRevised = ({ variant = 'light' }: { variant?: 'light' | 'dark' }) =>
             />
           </Link>
           
-          <SimpleNavbar variant={variant} />
+          {/* Menu Button */}
+          <button
+            onClick={() => setIsMenuOpen(true)}
+            className={`p-2 rounded-lg transition-colors duration-300 ${
+              variant === 'dark' 
+                ? 'text-white hover:bg-white/10' 
+                : 'text-gray-800 hover:bg-gray-100'
+            }`}
+            aria-label="Open menu"
+          >
+            <Menu size={24} />
+          </button>
         </div>
       </div>
+
+      {/* Full Screen Navigation */}
+      <FullScreenNav
+        isOpen={isMenuOpen}
+        onClose={() => setIsMenuOpen(false)}
+        menuItems={menuItems}
+      />
     </div>
   );
 };
