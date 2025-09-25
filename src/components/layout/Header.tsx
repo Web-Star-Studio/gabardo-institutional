@@ -21,7 +21,6 @@ const HeaderRevised = ({ variant = 'light' }: { variant?: 'light' | 'dark' }) =>
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Menu items for the full screen navigation
   const menuItems = [
     { id: 'home', label: 'HOME', href: '/', imageSrc: '/images/hero-home.jpg' },
     { id: 'servicos', label: 'SERVIÇOS', href: '/servicos', imageSrc: '/images/hero-services.jpg' },
@@ -36,6 +35,7 @@ const HeaderRevised = ({ variant = 'light' }: { variant?: 'light' | 'dark' }) =>
       subMenu: [
         { id: 'trabalhe-conosco', label: 'TRABALHE CONOSCO', href: '/trabalhe-conosco' },
         { id: 'programas', label: 'PROGRAMAS', href: '/programas' },
+        { id: 'seja-um-agregado', label: 'SEJA UM AGREGADO', href: '/nossa-gente/seja-um-agregado' },
       ],
     },
     { id: 'contato', label: 'CONTATO', href: '/contato', imageSrc: '/images/hero-contact.jpg' },
@@ -43,7 +43,6 @@ const HeaderRevised = ({ variant = 'light' }: { variant?: 'light' | 'dark' }) =>
 
   return (
     <div className="absolute top-0 left-0 right-0 z-30">
-      {/* Header with logo and menu button */}
       <div className="w-full px-6 md:px-12 lg:px-16 py-4 md:py-6">
         <div className="flex justify-between items-center w-full">
           <Link 
