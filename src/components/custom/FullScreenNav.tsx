@@ -301,6 +301,105 @@ const FullScreenNav: React.FC<FullScreenNavProps> = ({
                   <X size={18} className="group-hover:rotate-90 transition-transform duration-300" />
                 </button>
               </motion.div>
+
+              <AnimatePresence mode="wait">
+                {activeSection === 'services' && (
+                  <motion.div
+                    key="services"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.4 }}
+                    className="space-y-6"
+                  >
+                    <h3 className="text-lg font-light text-white mb-6">Nossos Serviços</h3>
+                    {KEY_SERVICES.map((service, index) => (
+                      <motion.div
+                        key={service.id}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.4, delay: index * 0.1 }}
+                      >
+                        <Link
+                          href={service.href}
+                          onClick={onClose}
+                          className="block p-3 rounded-lg bg-white/10 hover:bg-white/20 transition-all duration-300 text-white group"
+                        >
+                          <div className="flex items-center justify-between">
+                            <span className="text-base font-light">{service.label}</span>
+                            <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
+                          </div>
+                        </Link>
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                )}
+
+                {activeSection === 'locations' && (
+                  <motion.div
+                    key="locations"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.4 }}
+                    className="space-y-6"
+                  >
+                    <h3 className="text-lg font-light text-white mb-6">Nossas Unidades</h3>
+                    {KEY_LOCATIONS.map((location, index) => (
+                      <motion.div
+                        key={location.id}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.4, delay: index * 0.1 }}
+                      >
+                        <Link
+                          href={location.href}
+                          onClick={onClose}
+                          className="block p-3 rounded-lg bg-white/10 hover:bg-white/20 transition-all duration-300 text-white group"
+                        >
+                          <div className="flex items-center space-x-2">
+                            <MapPin size={14} className="text-blue-bright" />
+                            <span className="text-base font-light">{location.label}</span>
+                            <ChevronRight size={14} className="ml-auto group-hover:translate-x-1 transition-transform duration-300" />
+                          </div>
+                        </Link>
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                )}
+
+                {activeSection === 'nav' && (
+                  <motion.div
+                    key="nav"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.4 }}
+                    className="space-y-6"
+                  >
+                    <div className="text-white/80">
+                      <h3 className="text-lg font-light mb-3">Gabardo Transportes</h3>
+                      <p className="text-base font-light leading-relaxed mb-4">
+                        Há mais de 35 anos transportando veículos com segurança, tecnologia e excelência em todo o Brasil.
+                      </p>
+                      
+                      <div className="flex items-center space-x-2 mb-3 text-gabardo-light-blue">
+                        <Clock size={14} />
+                        <span className="text-sm">Seg-Sex: 8h às 18h</span>
+                      </div>
+                      
+                      <Link
+                        href="/contato"
+                        onClick={onClose}
+                        className="inline-flex items-center space-x-2 text-gabardo-light-blue hover:text-white transition-colors duration-300"
+                      >
+                        <span className="text-sm">Solicitar Cotação</span>
+                        <ChevronRight size={14} />
+                      </Link>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
           </div>
         </motion.div>
