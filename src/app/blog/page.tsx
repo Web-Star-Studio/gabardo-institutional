@@ -1,10 +1,17 @@
-import BlogIndex from '@/components/custom/BlogIndex';
+import { Header } from "@/components/layout/Header";
+import Footer from '@/components/layout/Footer';
+import BlogHeroSection from '@/components/custom/BlogHeroSection';
+import BlogSection from '@/components/custom/BlogSection';
+import NewsletterSection from '@/components/custom/NewsletterSection';
 
 export default function BlogPage() {
-  return <BlogIndex />;
+  return (
+    <main className="relative bg-neutral-50">
+      <Header variant="dark" />
+      <BlogHeroSection />
+      <BlogSection />
+      <NewsletterSection />
+      <Footer />
+    </main>
+  );
 }
-
-export const metadata = {
-  title: 'Blog - Gabardo Transportes | Inovação em Transporte de Veículos',
-  description: 'Insights, tendências e inovações no transporte de veículos, logística inteligente e segurança automotiva.',
-};

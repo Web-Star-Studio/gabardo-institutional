@@ -27,6 +27,18 @@ const HeaderRevised = ({ variant = 'light' }: { variant?: 'light' | 'dark' }) =>
     { id: 'servicos', label: 'SERVIÇOS', href: '/servicos', imageSrc: '/images/hero-services.jpg' },
     { id: 'sobre', label: 'SOBRE', href: '/sobre', imageSrc: '/images/hero-about.jpg' },
     { id: 'contato', label: 'CONTATO', href: '/contato', imageSrc: '/images/hero-contact.jpg' },
+    { id: 'sustentabilidade', label: 'SUSTENTABILIDADE', href: '/sustentabilidade', imageSrc: '/images/gabardo-hero-01.JPG' },
+    { id: 'blog', label: 'BLOG', href: '/blog', imageSrc: '/images/hero-blog.jpg' },
+    {
+      id: 'nossa-gente',
+      label: 'NOSSA GENTE',
+      href: '#',
+      imageSrc: '/images/hero-people.jpg',
+      subMenu: [
+        { id: 'trabalhe-conosco', label: 'TRABALHE CONOSCO', href: '/trabalhe-conosco' },
+        { id: 'programas', label: 'PROGRAMAS', href: '/programas' },
+      ],
+    },
   ];
 
   return (
