@@ -24,7 +24,18 @@ const HeaderRevised = ({ variant = 'light' }: { variant?: 'light' | 'dark' }) =>
   const menuItems = [
     { id: 'home', label: 'HOME', href: '/', imageSrc: '/images/hero-home.jpg' },
     { id: 'servicos', label: 'SERVIÇOS', href: '/servicos', imageSrc: '/images/hero-services.jpg' },
-    { id: 'sobre', label: 'SOBRE', href: '/sobre', imageSrc: '/images/hero-about.jpg' },
+    {
+      id: 'sobre',
+      label: 'SOBRE',
+      href: '#',
+      imageSrc: '/images/hero-about.jpg',
+      subMenu: [
+        { id: 'sobre-gabardo', label: 'SOBRE A GABARDO', href: '/sobre' },
+        { id: 'secao-institucional', label: 'SEÇÃO INSTITUCIONAL', href: '/sobre/secao-institucional' },
+        { id: 'conformidade-lgpd', label: 'CONFORMIDADE E LGPD', href: '/sobre/conformidade-e-lgpd' },
+        { id: 'historia', label: 'HISTÓRIA', href: '/sobre/historia' },
+      ],
+    },
     { id: 'sustentabilidade', label: 'SUSTENTABILIDADE', href: '/sustentabilidade', imageSrc: '/images/gabardo-hero-01.JPG' },
     { id: 'blog', label: 'BLOG', href: '/blog', imageSrc: '/images/hero-blog.jpg' },
     {
