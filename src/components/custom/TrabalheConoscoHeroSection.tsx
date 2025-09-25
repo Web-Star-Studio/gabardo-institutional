@@ -2,33 +2,64 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
+import { ChevronDown } from 'lucide-react';
+
+const heroImage = '/images/gabardo-hero-03.JPG';
 
 const TrabalheConoscoHeroSection: React.FC = () => {
   return (
-    <section className="relative py-20 md:py-32 bg-gradient-to-br from-gabardo-blue to-gabardo-light-blue overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-full opacity-10">
-        <div className="absolute top-1/4 right-10 w-64 h-64 bg-white rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 left-10 w-80 h-80 bg-white rounded-full blur-3xl" />
+    <section className="relative w-full h-screen text-white overflow-hidden">
+      <div className="absolute inset-0">
+        <Image
+          src={heroImage}
+          alt="Colaboradores da Gabardo em operação"
+          fill
+          priority
+          className="object-cover object-center"
+          sizes="100vw"
+          quality={95}
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/60 to-black/80" />
       </div>
-      <div className="container mx-auto px-4 md:px-8 lg:px-16 relative z-10">
-        <div className="text-center text-white">
-          <motion.h1
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.5 }}
-            className="text-5xl sm:text-6xl md:text-7xl font-bold leading-tight mb-8"
-          >
-            <span className="block">FAÇA PARTE DA NOSSA EQUIPE</span>
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="text-xl md:text-2xl text-white/90 font-light leading-relaxed mb-12 max-w-4xl mx-auto"
-          >
-            Junte-se à empresa com o maior e mais integrado portfólio logístico do país!
-          </motion.p>
-        </div>
+
+      <div className="relative z-10 flex flex-col justify-center items-center h-full text-center px-4 sm:px-6 md:px-10 lg:px-16">
+        <motion.span
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="text-xs sm:text-sm font-light tracking-[0.3em] text-gabardo-light-blue uppercase mb-5"
+        >
+          Nosso time move a logística do Brasil
+        </motion.span>
+
+        <motion.h1
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.5 }}
+          className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold uppercase leading-tight tracking-tight mb-6"
+        >
+          Construa sua carreira com a Gabardo
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+          className="text-sm sm:text-base md:text-lg lg:text-xl font-light leading-relaxed max-w-full md:max-w-3xl mb-10"
+        >
+          Somos apaixonados por desenvolver pessoas, acelerar talentos e criar oportunidades em um ambiente que valoriza diversidade, inovação e resultados.
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 1.2 }}
+          className="hidden md:flex flex-col items-center gap-3"
+        >
+          <span className="text-xs tracking-[0.3em] uppercase text-white/70">Role para conhecer nossas iniciativas</span>
+          <ChevronDown className="w-8 h-8 animate-bounce" />
+        </motion.div>
       </div>
     </section>
   );
