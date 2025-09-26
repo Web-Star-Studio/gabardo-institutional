@@ -6,11 +6,11 @@ import PremiumInfoSection from "@/components/custom/PremiumInfoSection";
 // import InfiniteHorizontalGallery from "@/components/custom/InfiniteHorizontalGallery"; // Old import
 import InfiniteMasonryGallery from "@/components/custom/InfiniteMasonryGallery"; // New import
 import JSLInspiredServicesSection from "@/components/custom/JSLInspiredServicesSection";
+import HomeClientsLogoSection from "@/components/custom/HomeClientsLogoSection";
 import MapboxSection from "@/components/custom/MapboxSection"; // Added import
 import StatsGrid from '@/components/custom/StatsGrid';
 import BlogSection from '@/components/custom/BlogSection';
 import Footer from '@/components/layout/Footer';
-
 export default function HomePage() {
   return (
     <main className="relative bg-gray-50">
@@ -19,6 +19,7 @@ export default function HomePage() {
       <JSLInspiredServicesSection />
       <PremiumInfoSection />
       <StatsGrid />
+      <HomeClientsLogoSection />
       <BlogSection />
       <MapboxSection />
       <Footer />
