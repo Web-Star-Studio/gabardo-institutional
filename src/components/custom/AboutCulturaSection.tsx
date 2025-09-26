@@ -12,22 +12,22 @@ import {
 
 const culturePoints = [
   {
-    icon: <Heart className="w-8 h-8 text-red-500" />,
+    icon: <Heart className="w-8 h-8 text-gabardo-blue" />,
     title: 'Diversidade e Inclusão',
     description: 'Celebramos a diversidade e promovemos um ambiente inclusivo para todos'
   },
   {
-    icon: <HandHeart className="w-8 h-8 text-green-500" />,
+    icon: <HandHeart className="w-8 h-8 text-gabardo-light-blue" />,
     title: 'Impacto Social',
     description: 'Contribuímos para o desenvolvimento da comunidade local e economia criativa'
   },
   {
-    icon: <Zap className="w-8 h-8 text-yellow-500" />,
+    icon: <Zap className="w-8 h-8 text-gabardo-blue-700" />,
     title: 'Agilidade',
     description: 'Adaptabilidade e rapidez para responder às necessidades em constante mudança'
   },
   {
-    icon: <Globe2 className="w-8 h-8 text-blue-500" />,
+    icon: <Globe2 className="w-8 h-8 text-gabardo-light-blue-500" />,
     title: 'Visão Global',
     description: 'Perspectiva internacional com raízes locais fortes e conectadas'
   }
