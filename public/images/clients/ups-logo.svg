@@ -1,0 +1,7 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="200" rx="32" fill="#FDF5ED"/>
+  <path d="M60 70C60 60.0589 68.0589 52 78 52H122C131.941 52 140 60.0589 140 70V118C140 136.225 122 150 100 150C78 150 60 136.225 60 118V70Z" fill="#3B271B"/>
+  <path d="M80 74H120V82C120 92.4934 111.493 101 101 101H80V74Z" fill="#F8B400"/>
+  <path d="M80 108H120V115C120 125.493 111.493 134 101 134H80V108Z" fill="#F8B400"/>
+  <text x="100" y="170" text-anchor="middle" font-family="'Inter', sans-serif" font-size="28" fill="#3B271B" font-weight="600">UPS</text>
+</svg>

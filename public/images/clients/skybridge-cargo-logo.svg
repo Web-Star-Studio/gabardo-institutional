@@ -1,0 +1,7 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="200" rx="32" fill="#E8F8FF"/>
+  <path d="M52 134L148 66" stroke="#132D51" stroke-width="10" stroke-linecap="round"/>
+  <path d="M62 76L98 112L110 100L82 72H62Z" fill="#132D51"/>
+  <path d="M140 124H108L120 112H152C157.523 112 162 116.477 162 122C162 127.523 157.523 132 152 132H148" stroke="#38B6FF" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="100" y="174" text-anchor="middle" font-family="'Inter', sans-serif" font-size="24" fill="#132D51" font-weight="600">Skybridge Cargo</text>
+</svg>

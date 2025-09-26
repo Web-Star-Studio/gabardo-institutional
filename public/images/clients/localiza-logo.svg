@@ -1,0 +1,7 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="200" rx="32" fill="#F3FBF4"/>
+  <path d="M60 120L90 64H118L88 120H60Z" fill="#2FB65D"/>
+  <path d="M104 82L140 82" stroke="#2FB65D" stroke-width="12" stroke-linecap="round"/>
+  <path d="M104 110H146" stroke="#0C9144" stroke-width="10" stroke-linecap="round"/>
+  <text x="100" y="172" text-anchor="middle" font-family="'Inter', sans-serif" font-size="26" fill="#0C9144" font-weight="700">Localiza</text>
+</svg>

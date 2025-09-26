@@ -1,0 +1,8 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="200" rx="32" fill="#F8F9FB"/>
+  <circle cx="100" cy="96" r="66" stroke="#5F6B7A" stroke-width="10" fill="none"/>
+  <path d="M100 42L122 118L100 105L78 118L100 42Z" fill="#5F6B7A"/>
+  <path d="M100 105L134 126" stroke="#5F6B7A" stroke-width="10" stroke-linecap="round"/>
+  <path d="M66 126L100 105" stroke="#5F6B7A" stroke-width="10" stroke-linecap="round"/>
+  <text x="100" y="176" text-anchor="middle" font-family="'Inter', sans-serif" font-size="22" fill="#5F6B7A" font-weight="600">Mercedes-Benz</text>
+</svg>

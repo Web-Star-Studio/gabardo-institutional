@@ -1,0 +1,6 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="200" rx="32" fill="#1C1C1C"/>
+  <path d="M60 62H88L100 90L112 62H140V138H112V110L100 138H88L76 110V138H60V62Z" fill="#FFFFFF"/>
+  <circle cx="140" cy="62" r="10" fill="#38B6FF"/>
+  <text x="100" y="172" text-anchor="middle" font-family="'Inter', sans-serif" font-size="24" fill="#FFFFFF" font-weight="500">memento</text>
+</svg>

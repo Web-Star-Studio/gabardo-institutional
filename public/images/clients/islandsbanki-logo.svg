@@ -1,0 +1,6 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="200" rx="32" fill="#F4F7FB"/>
+  <path d="M45 105C65 88 88 88 110 102C132 116 155 116 175 100" stroke="#132D51" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="70" cy="78" r="14" fill="#38B6FF"/>
+  <text x="100" y="150" text-anchor="middle" font-family="'Inter', sans-serif" font-size="28" fill="#132D51" font-weight="600">Íslandsbanki</text>
+</svg>

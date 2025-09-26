@@ -1,0 +1,7 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="200" rx="32" fill="#F3F7FF"/>
+  <circle cx="100" cy="100" r="68" stroke="#0B4FB3" stroke-width="12" fill="none"/>
+  <path d="M70 128L88 72L100 104L112 72L130 128" stroke="#0B4FB3" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M74 120H126" stroke="#0B4FB3" stroke-width="8" stroke-linecap="round"/>
+  <text x="100" y="178" text-anchor="middle" font-family="'Inter', sans-serif" font-size="24" fill="#0B4FB3" font-weight="600">Volkswagen</text>
+</svg>
