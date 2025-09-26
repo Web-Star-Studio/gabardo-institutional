@@ -1,10 +1,16 @@
 'use client';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import type { Dispatch, SetStateAction } from 'react';
 
 const TABS = ["AMBIENTAL", "SOCIAL", "GOVERNANÇA", "INOVAÇÕES"];
 
-export default function NewSustainabilityHeroSection({ selectedTab, setSelectedTab }) {
+interface NewSustainabilityHeroSectionProps {
+  selectedTab: string;
+  setSelectedTab: Dispatch<SetStateAction<string>>;
+}
+
+export default function NewSustainabilityHeroSection({ selectedTab, setSelectedTab }: NewSustainabilityHeroSectionProps) {
   return (
     <div className="relative w-full pt-48 pb-24 text-white">
       <div className="absolute inset-0">
