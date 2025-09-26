@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import InfiniteScroll from '@/components/InfiniteScroll';
 import { Building, Users, Truck, Target } from 'lucide-react';
 
 interface TimelineItem {
@@ -73,11 +74,35 @@ const timeline: TimelineItem[] = [
 
 const AboutStorySection: React.FC = () => {
   const [isClient, setIsClient] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [hoveredItem, setHoveredItem] = useState<TimelineItem | null>(null);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  type ScrollItem = { content: React.ReactElement };
+
+  const scrollItems: ScrollItem[] = timeline.map((item, index) => ({
+    content: (
+      <motion.div
+        onMouseEnter={() => setHoveredItem(item)}
+        onMouseLeave={() => setHoveredItem(null)}
+        whileHover={{ scale: 1.05 }}
+        transition={{ duration: 0.4, ease: 'easeOut' }}
+        className="group relative w-[740px] h-[460px] overflow-hidden rounded-3xl shadow-[0_25px_60px_-35px_rgba(19,45,81,0.45)] cursor-pointer"
+      >
+        <img
+          src={item.image}
+          alt={item.title}
+          className={`w-full h-full object-cover transition-all duration-700 ${
+            index === 0 ? 'grayscale group-hover:grayscale-0' : ''
+          }`}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gabardo-blue/30 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+      </motion.div>
+    )
+  }));
 
   if (!isClient) {
     return (
@@ -91,6 +116,41 @@ const AboutStorySection: React.FC = () => {
 
   return (
     <section className="py-16 md:py-20 lg:py-24 bg-white relative overflow-hidden">
+      {/* Hover Text Display */}
+      {hoveredItem && (
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: 20 }}
+          transition={{ duration: 0.3, ease: 'easeOut' }}
+          className="fixed top-8 right-8 z-50 max-w-md rounded-3xl border border-gabardo-light-blue/30 bg-white/95 p-8 shadow-[0_35px_80px_-35px_rgba(19,45,81,0.55)] backdrop-blur-lg"
+        >
+          <div className="flex items-center gap-4 mb-4">
+            <motion.div
+              whileHover={{ rotate: 6 }}
+              className="flex h-12 w-12 items-center justify-center rounded-full bg-gabardo-blue text-white shadow-lg shadow-gabardo-blue/40"
+            >
+              {hoveredItem.icon}
+            </motion.div>
+            <div className="flex flex-col">
+              <span className="text-xs font-semibold uppercase tracking-[0.3em] text-gabardo-light-blue">
+                Capítulo
+              </span>
+              <span className="text-2xl font-bold text-gabardo-blue">{hoveredItem.year}</span>
+            </div>
+          </div>
+          
+          <h3 className="text-xl font-bold uppercase tracking-wide text-neutral-900 mb-3">
+            {hoveredItem.title}
+          </h3>
+          <p className="text-neutral-600 leading-relaxed text-sm">
+            {hoveredItem.description}
+          </p>
+          
+          <div className="mt-4 h-px w-12 rounded-full bg-gradient-to-r from-gabardo-light-blue to-gabardo-blue" />
+        </motion.div>
+      )}
+
       <div className="container mx-auto px-4 md:px-8 lg:px-16">
         
         {/* Header */}
@@ -125,85 +185,24 @@ const AboutStorySection: React.FC = () => {
           </motion.h2>
         </motion.div>
 
-        {/* Timeline */}
-        <div className="relative">
-          {/* Vertical Line */}
-          <div className="absolute left-8 md:left-1/2 transform md:-translate-x-px top-0 bottom-0 w-px" style={{background: 'linear-gradient(to bottom, #38B6FF, #a3a3a3, transparent)'}}></div>
-
-          {/* Timeline Items */}
-          <div className="space-y-16 md:space-y-20">
-            {timeline.map((item, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
-                onMouseEnter={() => setActiveIndex(index)}
-                className={`relative flex flex-col md:flex-row items-start md:items-center ${
-                  index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-                }`}
-              >
-                {/* Timeline Dot */}
-                <div className="absolute left-8 md:left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white border-4 rounded-full z-10" style={{borderColor: '#38B6FF'}}></div>
-
-                {/* Content */}
-                <div className={`flex-1 ml-20 md:ml-0 ${
-                  index % 2 === 0 ? 'md:pr-16' : 'md:pl-16'
-                }`}>
-                  <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    transition={{ duration: 0.3 }}
-                    className={`bg-white p-8 md:p-10 border border-neutral-200 shadow-lg hover:shadow-xl transition-all duration-500`}
-                    style={activeIndex === index ? {borderColor: '#38B6FF'} : {}}
-                  >
-                    {/* Year */}
-                    <div className="flex items-center mb-4">
-                      <motion.div
-                        whileHover={{ scale: 1.1 }}
-                        className="w-12 h-12 text-white rounded-full flex items-center justify-center mr-4"
-                        style={{backgroundColor: '#132D51'}}
-                      >
-                        {item.icon}
-                      </motion.div>
-                      <span className="text-3xl md:text-4xl font-bold" style={{color: '#132D51'}}>
-                        {item.year}
-                      </span>
-                    </div>
-
-                    {/* Title */}
-                    <h3 className="text-2xl md:text-3xl font-bold text-black uppercase tracking-wide mb-4">
-                      {item.title}
-                    </h3>
-
-                    {/* Description */}
-                    <p className="text-neutral-600 font-light leading-relaxed text-lg">
-                      {item.description}
-                    </p>
-                  </motion.div>
-                </div>
-
-                {/* Image */}
-                <div className={`flex-1 mt-6 md:mt-0 ml-20 md:ml-0 ${
-                  index % 2 === 0 ? 'md:pl-16' : 'md:pr-16'
-                }`}>
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ duration: 0.5 }}
-                    className="relative overflow-hidden shadow-lg"
-                  >
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className={`w-full h-64 md:h-80 object-cover ${
-                        index === 0 ? 'filter grayscale hover:grayscale-0 transition-all duration-500' : ''
-                      }`}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                  </motion.div>
-                </div>
-              </motion.div>
-            ))}
+        {/* Timeline as Infinite Scroll */}
+        <div className="relative mt-14 flex justify-center min-w-screen">
+          <div className="min-w-screen">
+            <InfiniteScroll
+              width="100vw"
+              maxHeight="720px"
+              itemMinHeight={340}
+              negativeMargin="-4rem"
+              items={scrollItems as any}
+              autoplay
+              autoplaySpeed={0.35}
+              pauseOnHover
+              isTilted
+              tiltDirection="left"
+              tiltRotateX={22}
+              tiltRotateZ={24}
+              tiltSkew={26}
+            />
           </div>
         </div>
 
