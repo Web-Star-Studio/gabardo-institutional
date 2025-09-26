@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import { Truck, TruckIcon, Layers, PackageOpen, Warehouse, BusFront } from 'lucide-react';
+import { Truck, TruckIcon, Layers, PackageOpen, Warehouse } from 'lucide-react';
 
 const fleetHighlights = [
   {
@@ -127,10 +127,14 @@ const badgeMotion = {
 };
 
 export default function ServicesFleetSection() {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [openItems, setOpenItems] = useState<number[]>([0]);
 
   const handleToggle = (index: number) => {
-    setActiveIndex((current) => (current === index ? -1 : index));
+    setOpenItems((current) =>
+      current.includes(index)
+        ? current.filter((item) => item !== index)
+        : [...current, index]
+    );
   };
 
   return (
@@ -194,12 +198,11 @@ export default function ServicesFleetSection() {
           <div className="space-y-4">
             {fleetTypes.map((type, index) => {
               const Icon = type.icon;
-              const isOpen = activeIndex === index;
+              const isOpen = openItems.includes(index);
 
               return (
                 <motion.div
                   key={type.name}
-                  layout
                   transition={{ duration: 0.3, ease: 'easeInOut' }}
                   className={`rounded-xl border transition-all duration-300 ease-in-out ${
                     isOpen
@@ -243,6 +246,7 @@ export default function ServicesFleetSection() {
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.3, ease: 'easeInOut' }}
                         className="overflow-hidden"
+                        style={{ originY: 0 }}
                       >
                         <div className="px-6 pb-6 pt-1">
                           <div className="flex flex-col gap-6">
