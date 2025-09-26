@@ -28,10 +28,9 @@ const HeaderRevised = ({ variant = 'light' }: { variant?: 'light' | 'dark' }) =>
       href: '#',
       imageSrc: '/images/hero-about.jpg',
       subMenu: [
-        { id: 'sobre-gabardo', label: 'SOBRE A GABARDO', href: '/sobre' },
-        { id: 'secao-institucional', label: 'SEÇÃO INSTITUCIONAL', href: '/sobre/secao-institucional' },
-        { id: 'conformidade-lgpd', label: 'CONFORMIDADE E LGPD', href: '/sobre/conformidade-e-lgpd' },
+        { id: 'secao-institucional', label: 'INSTITUCIONAL', href: '/sobre/secao-institucional' },
         { id: 'historia', label: 'HISTÓRIA', href: '/sobre/historia' },
+        { id: 'qualidade', label: 'QUALIDADE', href: '/sobre/qualidade' },
       ],
     },
     { id: 'servicos', label: 'SERVIÇOS', href: '/servicos', imageSrc: '/images/hero-services.jpg' },

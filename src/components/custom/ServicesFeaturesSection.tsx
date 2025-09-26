@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Shield, Clock, Award, Users, Zap, Globe } from 'lucide-react';
+import { Shield, Clock, Award, Users, Zap, Globe, ArrowRight } from 'lucide-react';
 
 interface FeatureItem {
   id: string;
@@ -82,154 +82,120 @@ const ServicesFeaturesSection: React.FC = () => {
     );
   }
 
-  const getColorClasses = (active: boolean) => {
-    return active ? 'text-white border-gabardo-blue' : 'bg-white border-gabardo-blue/20 hover:border-gabardo-blue';
-  };
-
   return (
-    <section className="py-16 md:py-20 lg:py-24 bg-neutral-50 relative overflow-hidden">
-      <div className="container mx-auto px-4 md:px-8 lg:px-16">
-        
+    <section className="py-16 md:py-20 lg:py-24 bg-[#F7FAFF] relative overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-16 left-12 h-48 w-48 rounded-full bg-gabardo-light-blue/20 blur-3xl" />
+        <div className="absolute bottom-10 right-16 h-40 w-40 rounded-full bg-gabardo-blue/10 blur-[120px]" />
+      </div>
+
+      <div className="relative z-10 container mx-auto px-4 md:px-8 lg:px-16">
+
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-center mb-16 md:mb-20"
+          className="mb-14 md:mb-18"
         >
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-sm font-light tracking-[0.2em] mb-4 uppercase relative inline-block"
-            style={{color: '#132D51'}}
-          >
-            Diferenciais Gabardo
-            <div className="absolute -bottom-1 left-0 w-8 h-px" style={{backgroundColor: '#38B6FF'}}></div>
-          </motion.div>
-          
-          <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tight leading-tight"
-            style={{color: '#132D51'}}
-          >
-            <span className="text-5xl md:text-6xl lg:text-7xl font-black">6</span>
-            <br />
-            <span className="text-2xl md:text-3xl lg:text-4xl font-light uppercase tracking-widest">
-              Pilares da <span style={{color: '#38B6FF'}}>Excelência</span>
-            </span>
-          </motion.h2>
+          <div className="grid gap-8 lg:grid-cols-[1.1fr_1fr] lg:items-center">
+            <div className="space-y-5">
+              <span className="inline-flex items-center gap-2 rounded-full border border-gabardo-light-blue/40 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-gabardo-blue">
+                Diferenciais Gabardo
+              </span>
+              <motion.h2
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="text-3xl md:text-4xl lg:text-[2.65rem] font-bold leading-tight text-gabardo-blue"
+              >
+                6 pilares que ancoram nossa excelência operacional
+              </motion.h2>
+            </div>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-base md:text-lg text-neutral-600 leading-relaxed"
+            >
+              Cada operação combina segurança, tecnologia, pessoas e processos auditáveis para entregar experiências consistentes às maiores montadoras do país.
+            </motion.p>
+          </div>
         </motion.div>
 
         {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
           {serviceFeatures.map((feature, index) => (
-            <motion.div
+            <motion.button
               key={feature.id}
-              initial={{ opacity: 0, y: 50 }}
+              type="button"
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: index * 0.1 }}
+              transition={{ duration: 0.7, delay: index * 0.05 }}
               onMouseEnter={() => setActiveItem(feature.id)}
-              className="group"
+              onFocus={() => setActiveItem(feature.id)}
+              className={`group w-full rounded-3xl border px-8 py-9 text-left transition-all duration-300 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-gabardo-light-blue ${
+                activeItem === feature.id
+                  ? 'border-gabardo-blue bg-white shadow-[0_25px_60px_-32px_rgba(19,45,81,0.38)]'
+                  : 'border-white bg-white/70 shadow-[0_20px_45px_-35px_rgba(19,45,81,0.3)] hover:border-gabardo-light-blue/60'
+              }`}
             >
-              <motion.div
-                whileHover={{ scale: 1.05, y: -10 }}
-                transition={{ duration: 0.3 }}
-                className={`
-                  relative p-8 md:p-10 border-2 transition-all duration-500 shadow-lg hover:shadow-2xl md:h-96 hover:cursor-pointer
-                  ${getColorClasses(activeItem === feature.id)}
-                `}
-                style={activeItem === feature.id ? {backgroundColor: '#132D51'} : {backgroundColor: 'white'}}
-              >
-                {/* Icon */}
-                <motion.div
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  transition={{ duration: 0.3 }}
-                  className="mb-6"
-                  style={activeItem === feature.id ? {color: 'white'} : {color: '#132D51'}}
+              <div className="flex items-start gap-5">
+                <div
+                  className={`flex h-12 w-12 items-center justify-center rounded-2xl transition-colors duration-300 ${
+                    activeItem === feature.id ? 'bg-gabardo-blue text-white' : 'bg-gabardo-light-blue/15 text-gabardo-blue'
+                  }`}
                 >
                   {feature.icon}
-                </motion.div>
-
-                {/* Title */}
-                <h3 
-                  className="text-2xl md:text-3xl font-bold uppercase tracking-wide mb-2"
-                  style={activeItem === feature.id ? {color: 'white'} : {color: '#132D51'}}
-                >
-                  {feature.title}
-                </h3>
-
-                {/* Subtitle */}
-                <div 
-                  className="text-sm font-light tracking-wide uppercase mb-6 opacity-80"
-                  style={activeItem === feature.id ? {color: 'white'} : {color: '#132D51'}}
-                >
-                  {feature.subtitle}
                 </div>
-
-                {/* Description */}
-                <p 
-                  className="font-light leading-relaxed text-lg"
-                  style={activeItem === feature.id ? {color: 'white'} : {color: '#132D51'}}
-                >
-                  {feature.description}
-                </p>
-
-                {/* Decorative Line */}
-                <motion.div
-                  initial={{ width: 0 }}
-                  whileInView={{ width: '100%' }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.8, delay: index * 0.1 + 0.5 }}
-                  className="absolute bottom-0 left-0 h-1 transition-all duration-500"
-                  style={{backgroundColor: '#38B6FF'}}
-                />
-              </motion.div>
-            </motion.div>
+                <div className="flex-1 space-y-3">
+                  <div className="text-xs font-semibold uppercase tracking-[0.35em] text-neutral-400">
+                    {feature.subtitle}
+                  </div>
+                  <h3 className="text-xl font-semibold text-gabardo-blue">
+                    {feature.title}
+                  </h3>
+                  <p className="text-sm md:text-base text-neutral-600 leading-relaxed">
+                    {feature.description}
+                  </p>
+                  <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-gabardo-light-blue">
+                    Ver diferencial
+                    <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                  </div>
+                </div>
+              </div>
+            </motion.button>
           ))}
         </div>
 
         {/* Bottom CTA */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          className="text-center"
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="mt-16 grid gap-6 rounded-3xl border border-gabardo-light-blue/30 bg-white/80 px-8 py-10 shadow-[0_24px_52px_-35px_rgba(19,45,81,0.32)] md:grid-cols-[1.2fr_auto] md:items-center"
         >
-          <p className="text-xl text-neutral-600 mb-8 max-w-3xl mx-auto">
-            Estes são os pilares que nos tornaram referência no transporte de veículos, 
-            garantindo a confiança de grandes montadoras e empresas.
+          <p className="text-neutral-600 text-base md:text-lg leading-relaxed">
+            Estes pilares sustentam programas personalizados, dashboards em tempo real e indicadores auditáveis que mantêm o cliente no controle da operação.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button 
-              className="px-8 py-4 text-white font-semibold uppercase tracking-wide transition-all duration-300 transform hover:scale-105"
-              style={{backgroundColor: '#38B6FF'}}
-              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#2da5ff'}
-              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#38B6FF'}
+          <div className="flex flex-col sm:flex-row gap-4">
+            <a
+              href="#contato"
+              className="inline-flex items-center justify-center rounded-xl bg-gabardo-blue px-7 py-3 text-sm font-semibold uppercase tracking-[0.25em] text-white shadow-lg transition-transform duration-200 hover:-translate-y-0.5"
             >
-              Solicitar Proposta
-            </button>
-            <button 
-              className="px-8 py-4 border-2 font-semibold uppercase tracking-wide transition-all duration-300"
-              style={{borderColor: '#132D51', color: '#132D51'}}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#132D51';
-                e.currentTarget.style.color = 'white';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'transparent';
-                e.currentTarget.style.color = '#132D51';
-              }}
+              Solicitar proposta
+            </a>
+            <a
+              href="#cases"
+              className="inline-flex items-center justify-center rounded-xl border border-gabardo-blue px-7 py-3 text-sm font-semibold uppercase tracking-[0.25em] text-gabardo-blue transition-transform duration-200 hover:-translate-y-0.5 hover:bg-gabardo-blue/5"
             >
-              Conhecer Clientes
-            </button>
+              Ver cases de sucesso
+            </a>
           </div>
         </motion.div>
 

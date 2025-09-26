@@ -6,63 +6,81 @@ import { Target, TrendingUp, Users, Shield, Zap, Award } from 'lucide-react';
 
 interface Advantage {
   id: string;
-  icon: React.ReactNode;
+  icon: React.ElementType;
   title: string;
   description: string;
   stats: string;
-  color: string;
+  color: 'primary' | 'accent' | 'neutral';
 }
 
 const advantages: Advantage[] = [
   {
     id: 'experiencia',
-    icon: <Award className="w-8 h-8" />,
+    icon: Award,
     title: 'EXPERIÊNCIA CONSOLIDADA',
     description: 'Mais de 35 anos de mercado com expertise comprovada no transporte de veículos para as principais montadoras do Brasil.',
     stats: '35+ anos',
-    color: 'blue'
+    color: 'primary',
   },
   {
     id: 'cobertura',
-    icon: <Target className="w-8 h-8" />,
+    icon: Target,
     title: 'COBERTURA NACIONAL',
     description: 'Presença estratégica em todo território nacional com unidades nas principais regiões e centros de distribuição.',
     stats: '14 unidades',
-    color: 'emerald'
+    color: 'accent',
   },
   {
     id: 'frota',
-    icon: <TrendingUp className="w-8 h-8" />,
+    icon: TrendingUp,
     title: 'FROTA ESPECIALIZADA',
     description: 'Frota própria e terceirizada com equipamentos modernos e especializados para diferentes tipos de veículos.',
     stats: '500+ veículos',
-    color: 'amber'
+    color: 'neutral',
   },
   {
     id: 'certificacoes',
-    icon: <Shield className="w-8 h-8" />,
+    icon: Shield,
     title: 'CERTIFICAÇÕES ISO',
     description: 'Processos certificados nas normas ISO 9001, ISO 14001 e ISO 39001, garantindo qualidade, meio ambiente e segurança.',
     stats: '3 ISOs',
-    color: 'purple'
+    color: 'primary',
   },
   {
     id: 'tecnologia',
-    icon: <Zap className="w-8 h-8" />,
+    icon: Zap,
     title: 'TECNOLOGIA AVANÇADA',
     description: 'Sistemas de gestão modernos com rastreamento GPS, monitoramento em tempo real e relatórios personalizados.',
     stats: '100% rastreado',
-    color: 'indigo'
+    color: 'accent',
   },
   {
     id: 'clientes',
-    icon: <Users className="w-8 h-8" />,
+    icon: Users,
     title: 'GRANDES CLIENTES',
     description: 'Parceria consolidada com as principais montadoras como Volkswagen, Mercedes-Benz, Ford, Hyundai e outras.',
     stats: '20+ montadoras',
-    color: 'red'
-  }
+    color: 'neutral',
+  },
 ];
+
+const getColorClasses = (color: string) => {
+  const colors = {
+    primary: 'from-[#F1F5FF] to-[#DCE6FF]',
+    accent: 'from-[#F4F7FD] to-[#E3EBFF]',
+    neutral: 'from-[#F7F9FC] to-[#E6ECF5]',
+  };
+  return colors[color as keyof typeof colors] || colors.primary;
+};
+
+const getIconColorClasses = (color: Advantage['color']) => {
+  const iconColors: Record<Advantage['color'], string> = {
+    primary: 'text-[#0F233F]',
+    accent: 'text-[#132D51]',
+    neutral: 'text-[#0F233F]',
+  };
+  return iconColors[color];
+};
 
 const ServicesAdvantagesSection: React.FC = () => {
   const [isClient, setIsClient] = useState(false);
@@ -81,24 +99,11 @@ const ServicesAdvantagesSection: React.FC = () => {
     );
   }
 
-  const getColorClasses = (color: string) => {
-    const colors = {
-      blue: 'from-blue-500 to-blue-600',
-      emerald: 'from-emerald-500 to-emerald-600',
-      amber: 'from-amber-500 to-amber-600',
-      purple: 'from-purple-500 to-purple-600',
-      indigo: 'from-indigo-500 to-indigo-600',
-      red: 'from-red-500 to-red-600'
-    };
-    return colors[color as keyof typeof colors] || colors.blue;
-  };
-
   return (
     <section className="py-16 md:py-20 lg:py-24 bg-white relative overflow-hidden">
       
       {/* Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full opacity-5">
-        <div className="absolute top-1/4 left-10 w-64 h-64 bg-gradient-to-br from-gabardo-light-blue/20 to-gabardo-blue/10 rounded-full blur-3xl" />
         <div className="absolute bottom-1/4 right-10 w-80 h-80 bg-gradient-to-br from-gabardo-blue/20 to-gabardo-light-blue/10 rounded-full blur-3xl" />
       </div>
 
@@ -138,111 +143,65 @@ const ServicesAdvantagesSection: React.FC = () => {
 
         {/* Advantages Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-          {advantages.map((advantage, index) => (
-            <motion.div
-              key={advantage.id}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: index * 0.15 }}
-              className="group"
-            >
+          {advantages.map((advantage, index) => {
+            const Icon = advantage.icon;
+            return (
               <motion.div
-                whileHover={{ scale: 1.05, y: -10 }}
-                transition={{ duration: 0.3 }}
-                className="relative bg-white p-8 border border-neutral-200 shadow-lg hover:shadow-2xl transition-all duration-500 h-full"
+                key={advantage.id}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: index * 0.15 }}
+                className="group"
               >
-                {/* Icon & Stats */}
-                <div className="flex items-center justify-between mb-6">
-                  <motion.div
-                    whileHover={{ scale: 1.2, rotate: 10 }}
-                    transition={{ duration: 0.3 }}
-                    className={`w-16 h-16 rounded-full bg-gradient-to-br ${getColorClasses(advantage.color)} flex items-center justify-center text-white shadow-lg`}
-                  >
-                    {advantage.icon}
-                  </motion.div>
-                  <div className="text-right">
-                    <div className="text-2xl font-bold" style={{color: '#132D51'}}>
-                      {advantage.stats}
+                <motion.div
+                  whileHover={{ scale: 1.05, y: -10 }}
+                  transition={{ duration: 0.3 }}
+                  className="relative bg-white p-8 border border-neutral-200 shadow-lg hover:shadow-2xl transition-all duration-500 h-full"
+                >
+                  {/* Icon & Stats */}
+                  <div className="flex items-center justify-between mb-6">
+                    <motion.div
+                      whileHover={{ scale: 1.2, rotate: 10 }}
+                      transition={{ duration: 0.3 }}
+                      className={`w-16 h-16 rounded-full bg-gradient-to-br ${getColorClasses(advantage.color)} flex items-center justify-center shadow-[0_18px_32px_-20px_rgba(19,45,81,0.4)]`}
+                    >
+                      <Icon className={`w-8 h-8 ${getIconColorClasses(advantage.color)}`} strokeWidth={2.3} />
+                    </motion.div>
+                    <div className="text-right">
+                      <div className="text-2xl font-bold" style={{color: '#132D51'}}>
+                        {advantage.stats}
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {/* Title */}
-                <h3 className="text-xl font-bold uppercase tracking-wide mb-4" style={{color: '#132D51'}}>
-                  {advantage.title}
-                </h3>
+                  {/* Title */}
+                  <h3 className="text-xl font-bold uppercase tracking-wide mb-4" style={{color: '#132D51'}}>
+                    {advantage.title}
+                  </h3>
 
-                {/* Description */}
-                <p className="text-neutral-600 leading-relaxed">
-                  {advantage.description}
-                </p>
+                  {/* Description */}
+                  <p className="text-neutral-600 leading-relaxed">
+                    {advantage.description}
+                  </p>
 
-                {/* Hover Effect Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-br from-gabardo-blue/5 to-gabardo-light-blue/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-                
-                {/* Bottom Accent Line */}
-                <motion.div
-                  initial={{ width: 0 }}
-                  whileInView={{ width: '100%' }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.8, delay: index * 0.15 + 0.5 }}
-                  className="absolute bottom-0 left-0 h-1"
-                  style={{backgroundColor: '#38B6FF'}}
-                />
+                  {/* Hover Effect Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-gabardo-blue/5 to-gabardo-light-blue/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                  
+                  {/* Bottom Accent Line */}
+                  <motion.div
+                    initial={{ width: 0 }}
+                    whileInView={{ width: '100%' }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: index * 0.15 + 0.5 }}
+                    className="absolute bottom-0 left-0 h-1"
+                    style={{backgroundColor: '#38B6FF'}}
+                  />
+                </motion.div>
               </motion.div>
-            </motion.div>
-          ))}
+            );
+          })}
         </div>
-
-        {/* Bottom Statistics */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="text-center bg-gradient-to-r from-gabardo-blue to-gabardo-light-blue p-12 rounded-2xl text-white"
-        >
-          <h3 className="text-2xl md:text-3xl font-bold mb-6 uppercase tracking-wide">
-            Números que Comprovam Nossa Excelência
-          </h3>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold mb-2">35+</div>
-              <div className="text-sm uppercase tracking-wide opacity-90">Anos de Experiência</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold mb-2">14</div>
-              <div className="text-sm uppercase tracking-wide opacity-90">Unidades Operacionais</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold mb-2">500K+</div>
-              <div className="text-sm uppercase tracking-wide opacity-90">Veículos Transportados/Ano</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold mb-2">20+</div>
-              <div className="text-sm uppercase tracking-wide opacity-90">Grandes Clientes</div>
-            </div>
-          </div>
-
-          <div className="mt-8">
-            <button 
-              className="px-8 py-4 bg-white font-semibold uppercase tracking-wide transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
-              style={{color: '#132D51'}}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#f8f9fa';
-                e.currentTarget.style.transform = 'scale(1.05)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'white';
-                e.currentTarget.style.transform = 'scale(1)';
-              }}
-            >
-              Solicite Sua Cotação
-            </button>
-          </div>
-        </motion.div>
 
       </div>
     </section>

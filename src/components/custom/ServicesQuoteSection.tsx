@@ -211,25 +211,15 @@ const ServicesQuoteSection: React.FC = () => {
             className="lg:col-span-4"
           >
             <div className="sticky top-8 space-y-8">
-              
-              {/* Contact Cards */}
-              <div className="bg-white p-8 shadow-xl rounded-2xl border border-neutral-200">
-                <h3 className="text-2xl font-bold mb-6 uppercase" style={{color: '#132D51'}}>
-                  Fale Conosco
+              <div className="rounded-2xl border border-neutral-200 bg-white p-8 shadow-lg space-y-6">
+                <h3 className="text-xl font-semibold" style={{color: '#132D51'}}>
+                  Atendimento Comercial
                 </h3>
-                
+                <p className="text-neutral-600">
+                  Nossa equipe responde rapidamente para montar a solução ideal para sua operação logística.
+                </p>
+
                 <div className="space-y-6">
-                  <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{backgroundColor: '#38B6FF'}}>
-                      <Phone className="w-6 h-6 text-white" />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold" style={{color: '#132D51'}}>Telefone</h4>
-                      <p className="text-neutral-600">+55 (51) 3373-3000</p>
-                      <p className="text-neutral-600">0800 645 7000</p>
-                    </div>
-                  </div>
-                  
                   <div className="flex items-start space-x-4">
                     <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{backgroundColor: '#38B6FF'}}>
                       <Mail className="w-6 h-6 text-white" />
@@ -239,7 +229,7 @@ const ServicesQuoteSection: React.FC = () => {
                       <p className="text-neutral-600">comercial@transgabardo.com.br</p>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-start space-x-4">
                     <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{backgroundColor: '#38B6FF'}}>
                       <MapPin className="w-6 h-6 text-white" />
@@ -249,32 +239,6 @@ const ServicesQuoteSection: React.FC = () => {
                       <p className="text-neutral-600">Porto Alegre - RS</p>
                       <p className="text-neutral-600">14 unidades no Brasil</p>
                     </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Statistics */}
-              <div className="bg-gradient-to-br from-gabardo-blue to-gabardo-light-blue p-8 rounded-2xl text-white">
-                <h3 className="text-xl font-bold mb-6 uppercase text-center">
-                  Por que Escolher a Gabardo?
-                </h3>
-                
-                <div className="space-y-4 text-center">
-                  <div>
-                    <div className="text-3xl font-bold">35+</div>
-                    <div className="text-sm opacity-90">Anos de experiência</div>
-                  </div>
-                  <div>
-                    <div className="text-3xl font-bold">500K+</div>
-                    <div className="text-sm opacity-90">Veículos transportados/ano</div>
-                  </div>
-                  <div>
-                    <div className="text-3xl font-bold">20+</div>
-                    <div className="text-sm opacity-90">Grandes clientes</div>
-                  </div>
-                  <div>
-                    <div className="text-3xl font-bold">99.5%</div>
-                    <div className="text-sm opacity-90">Taxa de sucesso</div>
                   </div>
                 </div>
               </div>

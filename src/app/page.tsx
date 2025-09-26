@@ -7,7 +7,7 @@ import PremiumInfoSection from "@/components/custom/PremiumInfoSection";
 import InfiniteMasonryGallery from "@/components/custom/InfiniteMasonryGallery"; // New import
 import JSLInspiredServicesSection from "@/components/custom/JSLInspiredServicesSection";
 import MapboxSection from "@/components/custom/MapboxSection"; // Added import
-import CompaniesStatsSection from '@/components/custom/CompaniesStatsSection';
+import StatsGrid from '@/components/custom/StatsGrid';
 import BlogSection from '@/components/custom/BlogSection';
 import Footer from '@/components/layout/Footer';
 
@@ -18,7 +18,7 @@ export default function HomePage() {
       <HeroSection />
       <JSLInspiredServicesSection />
       <PremiumInfoSection />
-      <CompaniesStatsSection />
+      <StatsGrid />
       <BlogSection />
       <MapboxSection />
       <Footer />

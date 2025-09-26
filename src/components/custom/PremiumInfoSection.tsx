@@ -164,62 +164,6 @@ const PremiumInfoSection: React.FC = () => {
           </AnimatePresence>
         </div>
 
-        {/* Stats Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          {/* Section Header */}
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-3 mb-6">
-              <div className="w-12 h-px bg-gray-400"></div>
-              <span className="text-sm font-mono text-gray-600 tracking-[0.3em] uppercase">
-                Números que Falam
-              </span>
-              <div className="w-12 h-px bg-gray-400"></div>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12">
-            {[
-              { number: '35+', label: 'Anos de Experiência', description: 'Mercado consolidado', type: 'text' },
-              { number: '500+', label: 'Clientes Atendidos', description: 'Confiança nacional', type: 'text' },
-              { number: '1.4M+', label: 'Veículos Transportados', description: '2020 - 2024', type: 'text' },
-              { number: '98%', label: 'Satisfação', description: 'Excelência comprovada', type: 'star' }
-            ].map((stat, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="text-center group"
-              >
-                <div className="text-4xl lg:text-5xl font-black text-gray-900 mb-2 hover:text-gabardo-blue transition-colors duration-300 flex items-center justify-center gap-2 relative">
-                  {stat.number.includes('+') ? (
-                    <>
-                      {stat.number.replace('+', '')}
-                      <span className="text-gabardo-light-blue font-black">+</span>
-                    </>
-                  ) : (
-                    stat.number
-                  )}
-                  {stat.type === 'star' && (
-                    <span className="w-8 h-8 lg:w-10 lg:h-10 inline-flex items-center justify-center text-gabardo-light-blue font-black" style={{ transform: 'translateY(-0.1em)' }}>★</span>
-                  )}
-                </div>
-                <div className="text-lg font-bold text-gray-800 mb-1">
-                  {stat.label}
-                </div>
-                <div className="text-sm text-gray-600 font-light">
-                  {stat.description}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
       </div>
     </section>
   );
