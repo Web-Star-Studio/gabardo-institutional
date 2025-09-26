@@ -4,6 +4,8 @@ import SobreInstitucionalHeroSection from '@/components/custom/SobreInstituciona
 import SobreInstitucionalOverviewSection from '@/components/custom/SobreInstitucionalOverviewSection';
 import SobreInstitucionalOperationsSection from '@/components/custom/SobreInstitucionalOperationsSection';
 import SobreInstitucionalHighlightsSection from '@/components/custom/SobreInstitucionalHighlightsSection';
+import AboutCulturaSection from '@/components/custom/AboutCulturaSection';
+import AboutClientsSection from '@/components/custom/AboutClientsSection';
 
 export default function SobreSecaoInstitucionalPage() {
   return (
@@ -13,6 +15,8 @@ export default function SobreSecaoInstitucionalPage() {
       <SobreInstitucionalOverviewSection />
       <SobreInstitucionalOperationsSection />
       <SobreInstitucionalHighlightsSection />
+      <AboutCulturaSection />
+      <AboutClientsSection />
       <Footer />
     </main>
   );
