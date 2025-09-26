@@ -15,7 +15,6 @@ const HeaderRevised = ({ variant = 'light' }: { variant?: 'light' | 'dark' }) =>
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
@@ -23,7 +22,6 @@ const HeaderRevised = ({ variant = 'light' }: { variant?: 'light' | 'dark' }) =>
 
   const menuItems = [
     { id: 'home', label: 'HOME', href: '/', imageSrc: '/images/hero-home.jpg' },
-    { id: 'servicos', label: 'SERVIÇOS', href: '/servicos', imageSrc: '/images/hero-services.jpg' },
     {
       id: 'sobre',
       label: 'SOBRE',
@@ -36,8 +34,7 @@ const HeaderRevised = ({ variant = 'light' }: { variant?: 'light' | 'dark' }) =>
         { id: 'historia', label: 'HISTÓRIA', href: '/sobre/historia' },
       ],
     },
-    { id: 'sustentabilidade', label: 'SUSTENTABILIDADE', href: '/sustentabilidade', imageSrc: '/images/gabardo-hero-01.JPG' },
-    { id: 'blog', label: 'BLOG', href: '/blog', imageSrc: '/images/hero-blog.jpg' },
+    { id: 'servicos', label: 'SERVIÇOS', href: '/servicos', imageSrc: '/images/hero-services.jpg' },
     {
       id: 'nossa-gente',
       label: 'NOSSA GENTE',
@@ -49,7 +46,9 @@ const HeaderRevised = ({ variant = 'light' }: { variant?: 'light' | 'dark' }) =>
         { id: 'seja-um-agregado', label: 'SEJA UM AGREGADO', href: '/nossa-gente/seja-um-agregado' },
       ],
     },
+    { id: 'sustentabilidade', label: 'SUSTENTABILIDADE', href: '/sustentabilidade', imageSrc: '/images/gabardo-hero-01.JPG' },
     { id: 'contato', label: 'CONTATO', href: '/contato', imageSrc: '/images/hero-contact.jpg' },
+    { id: 'blog', label: 'BLOG', href: '/blog', imageSrc: '/images/hero-blog.jpg' },
   ];
 
   return (

@@ -75,38 +75,64 @@ const JSLInspiredServicesSection: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16 md:mb-24"
+          className="text-center mb-16 md:mb-20"
         >
-          <div className="inline-flex items-center gap-3 mb-6">
-            <div className="w-12 h-px bg-gray-300"></div>
-            <span className="text-sm font-mono text-gray-600 tracking-[0.3em] uppercase">
-              Portfólio de Serviços
-            </span>
-            <div className="w-12 h-px bg-gray-300"></div>
-          </div>
-          
-          <h2 className="font-primary text-4xl md:text-5xl lg:text-6xl font-bold text-gabardo-blue mb-6 leading-tight">
-            Conheça a
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-sm font-light tracking-[0.25em] text-neutral-500 mb-4 uppercase relative inline-block"
+          >
+            Portfólio de Serviços
+            <div
+              className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-10 h-px"
+              style={{ backgroundColor: '#38B6FF' }}
+            ></div>
+          </motion.div>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tight leading-tight"
+          >
+            <span style={{ color: '#132D51' }}>Excelência em</span>
             <br />
-            <span className="text-gabardo-light-blue">Gabardo</span>
-          </h2>
-          
-          <p className="font-secondary text-xl md:text-2xl text-gray-700 font-light max-w-4xl mx-auto leading-relaxed">
-            A Gabardo é uma empresa 100% brasileira especializada em transporte de veículos. 
-            Tem o maior e mais integrado portfólio de serviços e, sabe o porquê?
-          </p>
-          
-          <p className="font-secondary text-lg text-gray-600 max-w-3xl mx-auto mt-6 leading-relaxed">
-            Ao longo de seus 35 anos, procura entender as necessidades dos clientes para atendê-los 
-            de forma personalizada e eficiente. Saiba mais sobre cada serviço. Vamos nessa?
-          </p>
+            <span className="text-neutral-600">Transporte &amp; Logística</span>
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="text-lg md:text-xl text-neutral-600 font-light max-w-4xl mx-auto leading-relaxed mt-6"
+          >
+            A Gabardo é uma empresa 100% brasileira especializada em transporte de veículos.
+            Possuímos o portfólio de serviços mais completo do setor, com operações integradas
+            e personalizadas para cada cliente.
+          </motion.p>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="text-base md:text-lg text-neutral-500 font-light max-w-3xl mx-auto leading-relaxed mt-4"
+          >
+            Há 35 anos, entendemos as necessidades dos nossos clientes para entregar soluções seguras,
+            eficientes e com alto padrão de qualidade. Conheça cada serviço e descubra como podemos elevar
+            a sua operação.
+          </motion.p>
         </motion.div>
 
         {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
           {services.map((service, index) => {
             const IconComponent = service.icon;
-            
+
             return (
               <motion.div
                 key={service.id}
@@ -114,41 +140,63 @@ const JSLInspiredServicesSection: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="group cursor-pointer"
+                className="group h-full"
               >
-                <div className="bg-white border border-gray-200 hover:border-gray-300 transition-all duration-500 hover:shadow-lg hover:-translate-y-2 p-8 h-full rounded-xl">
-                  
-                  {/* Icon */}
-                  <div className="w-16 h-16 rounded-sm bg-gray-100 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-gabardo-light-blue/10 transition-all duration-300">
-                    <IconComponent className="w-8 h-8 text-gray-700 group-hover:text-gabardo-blue transition-colors duration-300" />
+                <motion.div
+                  whileHover={{ scale: 1.02, y: -6 }}
+                  transition={{ duration: 0.3 }}
+                  className="flex flex-col h-full rounded-2xl border border-neutral-200 bg-white p-8 shadow-lg transition-all duration-500 hover:border-[#38B6FF] hover:shadow-2xl"
+                >
+                  <div className="flex items-center justify-between mb-6">
+                    <div
+                      className="w-14 h-14 rounded-full flex items-center justify-center shadow-lg"
+                      style={{ backgroundColor: '#132D51' }}
+                    >
+                      <IconComponent className="w-7 h-7 text-white" />
+                    </div>
+                    <span className="text-xs font-semibold uppercase tracking-[0.35em] text-neutral-400">
+                      {index + 1 < 10 ? `0${index + 1}` : index + 1}
+                    </span>
                   </div>
-                  
-                  {/* Title */}
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-gabardo-blue transition-colors duration-300">
+
+                  <h3
+                    className="text-xl md:text-2xl font-bold uppercase tracking-wide mb-4"
+                    style={{ color: '#132D51' }}
+                  >
                     {service.title}
                   </h3>
-                  
-                  {/* Description */}
-                  <p className="text-gray-600 leading-relaxed mb-6 text-base">
+
+                  <p className="text-neutral-600 font-light leading-relaxed mb-6">
                     {service.description}
                   </p>
-                  
-                  {/* Features */}
-                  <ul className="space-y-3 mb-8">
+
+                  <div className="space-y-3 mb-8">
                     {service.features.map((feature, featureIndex) => (
-                      <li key={featureIndex} className="flex items-start gap-3">
-                        <div className="w-1 h-1 rounded-full bg-gabardo-light-blue mt-3 flex-shrink-0"></div>
-                        <span className="text-sm text-gray-600 leading-relaxed">{feature}</span>
-                      </li>
+                      <div key={featureIndex} className="flex items-start gap-3">
+                        <div
+                          className="w-2 h-2 rounded-full mt-2 flex-shrink-0"
+                          style={{ backgroundColor: '#38B6FF' }}
+                        ></div>
+                        <span className="text-sm text-neutral-600 leading-relaxed">{feature}</span>
+                      </div>
                     ))}
-                  </ul>
-                  
-                  {/* CTA */}
-                  <div className="flex items-center gap-2 text-gray-700 font-semibold group-hover:gap-4 group-hover:text-gabardo-blue transition-all duration-300">
-                    <span className="text-sm uppercase tracking-wider">Saiba mais</span>
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
                   </div>
-                </div>
+
+                  <div className="mt-auto">
+                    <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-neutral-500 transition-all duration-300 group-hover:text-gabardo-blue">
+                      <span>Saiba mais</span>
+                      <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                    </div>
+                    <motion.div
+                      initial={{ width: 0 }}
+                      whileInView={{ width: '100%' }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.6, delay: index * 0.1 + 0.4 }}
+                      className="mt-6 h-1"
+                      style={{ backgroundColor: '#38B6FF' }}
+                    />
+                  </div>
+                </motion.div>
               </motion.div>
             );
           })}
