@@ -1,7 +1,10 @@
 import { HeaderProvider } from './contextos/Header'; 
 import { DadosProvider } from './contextos/Dados';
 import Header from './componentes/Header';
-import Login from './componentes/Login';
+//import Login from './paginas/Login';
+import Dashboard from "./paginas/dashboards/Dashboards";
+import Teste  from "./Testes";
+
 
 function App() {
   return (
@@ -9,7 +12,9 @@ function App() {
       <DadosProvider>
         <HeaderProvider>
             <Header />
-            <Login />
+            <Teste />
+            {/* <Dashboard /> */}
+            {/* <Login /> */}
         </HeaderProvider>
       </DadosProvider>
     </>

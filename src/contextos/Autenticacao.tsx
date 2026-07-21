@@ -1,19 +1,34 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
-import type * as Tipos from '../tipos';
+
+
+import { supabase } from "../lib/supabase";
+import { type User, type Session } from '@supabase/supabase-js'
+
 
 const AutenticacaoContext = createContext<Tipos.AutenticacaoContextType | null>(null);
 
 function AutenticacaoProvider({ children }: { children: React.ReactNode }) {  
-    const [user, setUser] = useState<Tipos.User | null>(null);
-    const [usuario, setUsuario] = useState("");
-    const [senha, setSenha] = useState("");
+    const [user, setUser] = useState<User | null>(null);
+    const [sessao, setSessao] = useState<Session | null>(null);
 
     const [erro, setErro] = useState("");
 
-    const login = (usuario: string, senha: string) => {
-        
+    async function login(email: string, senha: string) {
+      const { data, error } = await supabase.auth.signUp({
+        email: email,
+        password: senha,
+      })
+
+      if(error){
+        setErro("Erro: " + error);
+        return;
+      }
+
+      setUser(data.user);
+      setSessao(data.session);
+
     }
 
   return (
