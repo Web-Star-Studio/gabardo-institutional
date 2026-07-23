@@ -14,10 +14,6 @@ export const itemsMenu: ItemMenu[] = [
       "Dispositivos de Rede",
       "Dispositivos",
       "Impressoras",
-      "Cartuchos",
-      "Insumos",
-      "Telefones",
-      "Dispositivos não gerenciados",
       "Global",
     ],
   },
@@ -57,8 +53,6 @@ export const itemsMenu: ItemMenu[] = [
     submenus: [
       "Usuários",
       "Grupos",
-      "Fila de Notificação",
-      "Inventário",
     ],
   },
   {
@@ -67,21 +61,6 @@ export const itemsMenu: ItemMenu[] = [
       "Monitoramento",
       "Gravações",
       "Dispositivos",
-    ],
-  },
-  {
-    titulo: "Configurações",
-    submenus: [
-      "Listas suspensas",
-      "Notificações",
-      "Níveis de serviços",
-      "Geral",
-      "Unicidade de campos",
-      "Ações automáticas",
-      "Autenticação",
-      "Destinatários",
-      "Plug-ins",
-      "Aplicações Oauth IMAP",
     ],
   },
 ];

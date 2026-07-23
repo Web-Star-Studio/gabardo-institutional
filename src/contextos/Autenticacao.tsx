@@ -1,40 +1,52 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState } from 'react';
-
-
-import { supabase } from "../lib/supabase";
+import { createContext, useContext, useState } from 'react';
 import { type User, type Session } from '@supabase/supabase-js'
+import { supabase } from "@/lib/supabase";
+import { type AutenticacaoContextType } from './tipos-contexto';
 
-
-const AutenticacaoContext = createContext<Tipos.AutenticacaoContextType | null>(null);
+const AutenticacaoContext = createContext<AutenticacaoContextType | null>(null);
 
 function AutenticacaoProvider({ children }: { children: React.ReactNode }) {  
     const [user, setUser] = useState<User | null>(null);
     const [sessao, setSessao] = useState<Session | null>(null);
 
+    const [carregando, setCarregando] = useState(false);
     const [erro, setErro] = useState("");
 
-    async function login(email: string, senha: string) {
-      const { data, error } = await supabase.auth.signUp({
+    const login = async (email: string, senha: string) => {
+      setCarregando(true);
+
+      const { data, error } = await supabase.auth.signInWithPassword({
         email: email,
         password: senha,
       })
-
       if(error){
         setErro("Erro: " + error);
+        setCarregando(false);
         return;
       }
-
+      setCarregando(false);
+      setErro("");
       setUser(data.user);
       setSessao(data.session);
-
+    }
+    
+    const logout = async () => {
+      await supabase.auth.signOut();
+      setUser(null);
+      setSessao(null);
     }
 
   return (
     <AutenticacaoContext.Provider
       value={{
-        user
+        user,
+        sessao,
+        carregando,
+        erro,
+        login,
+        logout
       }}
     >
       {children}
