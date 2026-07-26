@@ -7,6 +7,7 @@ import {
   type ChartOptions,
 } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
+import { useDados } from '@/contextos/Dados';
 
 // 1. Registrar os elementos
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -15,8 +16,10 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 type PieChartData = ChartData<'pie'>;
 type PieChartOptions = ChartOptions<'pie'>;
 
+
+
 const data: PieChartData = {
-  labels: ['Produto A', 'Produto B', 'Produto C', 'Produto D', 'Outros'],
+  labels: ['Teste A', 'Produto B', 'Produto C', 'Produto D', 'Outros'],
   datasets: [
     {
       label: 'Vendas 2026',

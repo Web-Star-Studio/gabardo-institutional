@@ -4,7 +4,7 @@ import type { Tables } from './tipos';
 
 export function pegarDados() {
   return useQuery({
-    queryKey: ['td'],
+    queryKey: ['id'],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('inventario_mv')

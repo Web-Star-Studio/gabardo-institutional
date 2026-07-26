@@ -5,16 +5,14 @@ import Header from './componentes/Header';
 import Dashboard from "./paginas/dashboards/Dashboards";
 import Teste  from "./Testes";
 
-
-
 function App() {
   return (
     <>
       <DadosProvider>
         <HeaderProvider>
             <Header />
-            <Teste />
-            {/* <Dashboard /> */}
+            {/* <Teste /> */}
+            <Dashboard />
             {/* <Login /> */}
         </HeaderProvider>
       </DadosProvider>

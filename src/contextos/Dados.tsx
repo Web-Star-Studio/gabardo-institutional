@@ -11,6 +11,39 @@ function DadosProvider({ children }: { children: React.ReactNode }) {
 
   const query = pegarDados();
 
+
+  // ATIVOS //
+  const infoProcessadores = () => {
+    const contagemUsuarios = new Set<string>();
+  }
+
+  const infoMonitores = () => {
+    const contagemUsuarios = new Set<string>();
+  }
+
+  const infoSoftwares = () => {
+    const contagemUsuarios = new Set<string>();
+  }
+
+  const infoDispositivosRede = () => {
+    const contagemUsuarios = new Set<string>();
+  }
+
+  const infoDispositivos = () => {
+    const contagemUsuarios = new Set<string>();
+  }
+
+
+
+
+  // CHAMADAS //
+  const infoImpressoras = () => {
+    const contagemUsuarios = new Set<string>();
+  }
+
+
+  
+
   return (
     <DadosContext.Provider
       value={query}
