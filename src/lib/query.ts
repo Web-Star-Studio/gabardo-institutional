@@ -1,6 +1,9 @@
-import { useQuery } from '@tanstack/react-query'
+import {
+  useQuery
+} from "@tanstack/react-query";
 import { supabase } from './supabase'
 import type { Tables } from './tipos';
+
 
 export function pegarDados() {
   return useQuery({
@@ -15,3 +18,4 @@ export function pegarDados() {
     },
   })
 }
+

@@ -1,3 +1,19 @@
+export type Chamadas = {
+  id: string;
+  titulo: string;
+  descricao: string | null;
+  status: number | null;
+  prioridade: number | null;
+  data_criacao: string | null;
+  segundos_restantes: number;
+  continuar_contagem: boolean;
+  contando_desde: string | null;
+  prazo_final: string | null;
+  requerentes: string;
+  tecnicos: string;
+  gerado_por: string;
+};
+
 export type Json =
   | string
   | number
