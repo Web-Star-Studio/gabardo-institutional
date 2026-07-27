@@ -10,69 +10,51 @@ const DadosContext = createContext<DadosContextType | null>(null);
 function DadosProvider({ children }: { children: React.ReactNode }) {
 
   const query = pegarDados();
+  const dados = query.data as any;
+
   const [selecionado, setSelecionado] = useState<typeof query | null>(null);
+
+  // Melhor jeito de passar essa bomba
+  // Para EU do futuro, tenta ver um jeito melhor do que 300 linhas de código
+  // Parece suruba.
 
   const [ numeroUsuarios, setNumeroUsuarios ] = useState<number>(0);
 
-  const dados = query.data as any;
+  const [ impressoras, setImpressoras] = useState<Record<string, number> | {}>({});
+  const [ impressorasDrivers, setImpressorasDrivers ] = useState<Record<string, number> | {}>({});
+  const [ impressorasStatus, setImpressorasStatus ] = useState<Record<string, number> | {}>({});
 
-  const infoPCs = () => {
+  
+  const [ usuarios, setUsuarios ] = useState<Record<string, string> | {}>({});
+  
+  const [ processadores, setProcessadores] = useState<Record<string, number> | {}>({});
+  
+  
+  const [ computadores, setComputadores] = useState<Record<string, number> | {}>({});
+  const [ computadoresModelos, setComputadoresModelos ] = useState<Record<string, number> | {}>({});
+  const [ computadoresFabricantes, setComputadoresFabricantes ] = useState<Record<string, number> | {}>({});
+  const [ computadoresSO, setComputadoresSO ] = useState<Record<string, number> | {}>({});
+  const [ computadoresAtivacao, setComputadoresAtivacao ] = useState<Record<string, number> | {}>({});
+  const [ computadoresArquitetura, setComputadoresArquitetura] = useState<Record<string, number> | {}>({});
 
-    // CONTAGEM DOS USUÁRIOS //
-    const totalUsuarios = query.data?.length || 0;
-    setNumeroUsuarios(totalUsuarios);
+  const [ memoriasTipos, setMemoriasTipos ] = useState<Record<string, number> | {}>({});
+  const [ memoriasVelocidades, setMemoriasVelocidades ] = useState<Record<string, number> | {}>({});
+  const [ memoriasStatus, setMemoriasStatus ] = useState<Record<string, number> | {}>({});
+  const [ memoriasCapacidades, setMemoriasCapacidades ] = useState<Record<string, number> | {}>({});
 
+  const [ monitores, setMonitores ] = useState<Record<string, number> | {}>({});
+  const [ monitoresStatus, setMonitoresStatus ] = useState<Record<string, number> | {}>({});
+  const [ monitoresFabricantes, setMonitoresFabricantes ] = useState<Record<string, number> | {}>({});
+  const [ monitoresContagem, setMonitoresContagem ] = useState<Record<string, number> | {}>({});
 
-    // TODOS OS USUÁRIOS //
-    const usuarios: Record<string, string> = {};
+  const [ placasMaeFabricantes, setPlacasMaeFabricantes ] = useState<Record<string, number> | {}>({});
+  const [ placasMaeModelos, setPlacasMaeModelos ] = useState<Record<string, number> | {}>({});
+  const [ placasMaeStatus, setPlacasMaeStatus ] = useState<Record<string, number> | {}>({});
+  
+  const [ uac, setUac ] = useState<Record<string, number> | {}>({});
+  const [ firewall, setFirewall ] = useState<Record<string, number> | {}>({});
 
-
-    // PROCESSADORES //
-    const processadores: Record<string, number> = {};
-
-
-    // COMPUTADORES //
-    const modelos: Record<string, number> = {};
-    const fabricantes: Record<string, number> = {};
-    const SO: Record<string, number> = {};
-    const ativacao: Record<string, number> = {};
-    const arquitetura: Record<string, number> = {};
-
-
-    // MEMÓRIAS //
-    const meTipos: Record<string, number> = {};
-    const meVelocidade: Record<string, number> = {};
-    const meStatus: Record<string, number> = {};
-    const meCapacidade : Record<string, number> = {};
-
-
-    // MONITORES //
-    const monitores: Record<string, number> = {};
-    const mStatus: Record<string, number> = {};
-    const mFabricantes: Record<string, number> = {};
-    const mContagem: Record<string, number> = {};
-
-
-    // PLACAS-MÃE //
-    const pmFabricantes: Record<string, number> = {};
-    const pmModelos: Record<string, number> = {};
-    const pmStatus: Record<string, number> = {};
-
-
-    // SOFTWARES //
-    //const softwares: Record<string, number> = {};
-
-
-    // SEGURANÇA //
-    const uac: Record<string, number> = {};
-    const firewall: Record<string, number> = {};
-
-
-    // IMPRESSORAS //
-    const impressoras: Record<string, number> = {};
-    const iDrivers: Record<string, number> = {};
-    const iStatus: Record<string, number> = {};
-
+  setNumeroUsuarios(query.data?.length || 0);
 
     dados?.forEach((registro: any) => {
       const data = registro.data as any;
@@ -193,7 +175,7 @@ function DadosProvider({ children }: { children: React.ReactNode }) {
         iDrivers[impressora.driver] = (iDrivers[impressora.driver] ?? 0) + 1;
       });
     });
-    }
+    
   }
 
 
@@ -234,6 +216,7 @@ function DadosProvider({ children }: { children: React.ReactNode }) {
     </DadosContext.Provider>
   );
 }
+
 
 export function useDados() {
   const context = useContext(DadosContext);
