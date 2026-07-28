@@ -1,19 +1,3 @@
-export type Chamadas = {
-  id: string;
-  titulo: string;
-  descricao: string | null;
-  status: number | null;
-  prioridade: number | null;
-  data_criacao: string | null;
-  segundos_restantes: number;
-  continuar_contagem: boolean;
-  contando_desde: string | null;
-  prazo_final: string | null;
-  requerentes: string;
-  tecnicos: string;
-  gerado_por: string;
-};
-
 export type Json =
   | string
   | number
@@ -55,6 +39,86 @@ export type Database = {
   }
   public: {
     Tables: {
+      andamentos: {
+        Row: {
+          descricao: string | null
+          id: string
+          id_chamada: string
+          motivo: number
+          quem_atualizou: string
+        }
+        Insert: {
+          descricao?: string | null
+          id?: string
+          id_chamada: string
+          motivo: number
+          quem_atualizou: string
+        }
+        Update: {
+          descricao?: string | null
+          id?: string
+          id_chamada?: string
+          motivo?: number
+          quem_atualizou?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "andamentos_id_chamada_fkey"
+            columns: ["id_chamada"]
+            isOneToOne: false
+            referencedRelation: "chamadas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chamadas: {
+        Row: {
+          contando_desde: string | null
+          continuar_contagem: boolean
+          data_criacao: string | null
+          descricao: string | null
+          gerado_por: string
+          id: string
+          prazo_final: string | null
+          prioridade: number | null
+          requerentes: string
+          segundos_restantes: number
+          status: number | null
+          tecnicos: string
+          titulo: string
+        }
+        Insert: {
+          contando_desde?: string | null
+          continuar_contagem?: boolean
+          data_criacao?: string | null
+          descricao?: string | null
+          gerado_por?: string
+          id?: string
+          prazo_final?: string | null
+          prioridade?: number | null
+          requerentes: string
+          segundos_restantes: number
+          status?: number | null
+          tecnicos: string
+          titulo: string
+        }
+        Update: {
+          contando_desde?: string | null
+          continuar_contagem?: boolean
+          data_criacao?: string | null
+          descricao?: string | null
+          gerado_por?: string
+          id?: string
+          prazo_final?: string | null
+          prioridade?: number | null
+          requerentes?: string
+          segundos_restantes?: number
+          status?: number | null
+          tecnicos?: string
+          titulo?: string
+        }
+        Relationships: []
+      }
       inventario: {
         Row: {
           action: string | null
@@ -85,6 +149,27 @@ export type Database = {
         }
         Relationships: []
       }
+      tecnicos: {
+        Row: {
+          cargo: string | null
+          email: string
+          id: string
+          nome: string
+        }
+        Insert: {
+          cargo?: string | null
+          email: string
+          id: string
+          nome?: string
+        }
+        Update: {
+          cargo?: string | null
+          email?: string
+          id?: string
+          nome?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       inventario_mv: {
@@ -101,7 +186,10 @@ export type Database = {
       }
     }
     Functions: {
-      [_ in never]: never
+      atualizar_status_chamadas: { Args: never; Returns: undefined }
+      continuar_timer: { Args: { chamada_id: string }; Returns: undefined }
+      pausar_timer: { Args: { chamada_id: string }; Returns: undefined }
+      tempo_restante: { Args: { chamada_id: string }; Returns: number }
     }
     Enums: {
       [_ in never]: never

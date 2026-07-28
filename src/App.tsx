@@ -2,20 +2,19 @@ import { HeaderProvider } from './contextos/Header';
 import { DadosProvider } from './contextos/Dados';
 import Header from './componentes/Header';
 //import Login from './paginas/Login';
-import Dashboard from "./paginas/dashboards/Dashboards";
+//import Dashboard from "./paginas/dashboards/Dashboards";
 import Teste  from "./Testes";
 
 function App() {
   return (
     <>
-      <DadosProvider>
+      {/*</DadosProvider>*/}
         <HeaderProvider>
             <Header />
-            {/* <Teste /> */}
-            <Dashboard />
+            <Teste />
             {/* <Login /> */}
         </HeaderProvider>
-      </DadosProvider>
+      {/*</DadosProvider>*/}
     </>
   )
 }
