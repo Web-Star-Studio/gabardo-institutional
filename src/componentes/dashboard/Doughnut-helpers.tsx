@@ -48,7 +48,7 @@ export function GetDoughnut({
         layout: {
             padding: 20,
         },
-        color: darkMode ? "white" : "black",
+        color: darkMode ? "#fff" : "#000",
         animation: {
             duration: 2000,
             easing: "easeOutQuart",
@@ -80,7 +80,7 @@ export function GetDoughnut({
                 position: ladoLegenda,
                 align: "center",
                 labels: {
-                    color: darkMode ? "white" : "black",
+                    color: darkMode ? "#fff" : "#000",
                     padding: 24,
                     usePointStyle: true,
                     pointStyle: "circle",
@@ -97,8 +97,9 @@ export function GetDoughnut({
                     content: Object.values(dados ?? {}).reduce((a, b) => a + b, 0).toString(),
                     font: {
                     size: 20,
-                    weight: 'bold'
+                    weight: 'bold',
                     },
+                    color: darkMode ? "#fff" : "#000",
                 } as DoughnutLabelOptions
             },
             },
@@ -114,8 +115,12 @@ export function GetDoughnut({
             },
 
             title: {
-            display: true,
-            text: "Inventory",
+                color: darkMode ? "#fff" : "#000",
+                display: true,
+                text: "Inventory",
+                font: {
+                    size: 26,
+                },
             },
         },
     };

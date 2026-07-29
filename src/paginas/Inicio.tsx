@@ -59,7 +59,7 @@ export default function GridInicial() {
           titulo="teste"
           ladoLegenda="right"
           darkMode={darkMode}
-          dados={dados.monitores}
+          dados={dados.processadores}
         />
         <GetDoughnut 
           titulo="Chamadas por status"
