@@ -42,7 +42,7 @@ export type AutenticacaoContextType = {
     tecnicoLogado: Tables<'tecnicos'> | null;
 }
 
-export type FiltrosContextType = {
+export type FiltrosChamadasContextType = {
     usuarioSelecionado: Tables<'inventario_mv'> | null;
     tecnicoSelecionado: Tables<'tecnicos'> | null;
     chamadaSelecionada: Tables<'chamadas'> | null;
@@ -53,6 +53,11 @@ export type FiltrosContextType = {
     tirarChamada: () => void;
     tirarUsuario: () => void;
     chamadasEmAndamento: Tables<'chamadas'>[] | undefined;
-    filtrarChamadas: (filtros: string[], apenasNovas: boolean) => void;
+    aplicarFiltros: (filtros: string) => void;
+    restringirChamadas: Tables<'chamadas'>[] | undefined;
     minhasChamadas: Tables<'chamadas'>[] | undefined;
+    removerFiltros: () => void;
+    incluirAntigas: boolean;
+    antigasTambem: () => void;
+    chamadasPorStatus: Record<string, number>;
 }

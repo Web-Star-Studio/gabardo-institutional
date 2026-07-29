@@ -1,20 +1,25 @@
 import { HeaderProvider } from './contextos/Header'; 
 import { DadosProvider } from './contextos/Dados';
+import { AutenticacaoProvider } from './contextos/Autenticacao'; 
+import { FiltrosChamadasProvider } from './contextos/FiltrosChamadas';
 import Header from './componentes/Header';
-//import Login from './paginas/Login';
-//import Dashboard from "./paginas/dashboards/Dashboards";
-import Teste  from "./Testes";
+import Inicio from './paginas/Inicio';
+//import TemplateGraficos from "@/componentes/dashboard/inicio";
 
 function App() {
   return (
     <>
-      {/*</DadosProvider>*/}
-        <HeaderProvider>
-            <Header />
-            <Teste />
-            {/* <Login /> */}
-        </HeaderProvider>
-      {/*</DadosProvider>*/}
+      <DadosProvider>
+        <AutenticacaoProvider>
+          <FiltrosChamadasProvider>
+            <HeaderProvider>
+                <Header />
+                  <Inicio />
+                {/* TemplateGraficos / */}
+            </HeaderProvider>
+          </FiltrosChamadasProvider>
+        </AutenticacaoProvider>
+      </DadosProvider>
     </>
   )
 }
