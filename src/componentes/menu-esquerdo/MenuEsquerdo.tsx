@@ -35,7 +35,7 @@ export default function MenuEsquerdo() {
           }}
           animate={{
             x: 0,
-            opacity: 1,
+            opacity: 0.85,
 
             backgroundColor: darkMode
               ? "#18181b"

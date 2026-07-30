@@ -11,6 +11,10 @@ interface GetDoughnutProps {
   ladoLegenda: "bottom" | "left" | "right" | "top";
   darkMode: boolean;
   dados: Record<string, number>;
+  /** Chamado quando o usuário clica em uma fatia — habilita drill-down. */
+  aoClicarSegmento?: (rotulo: string, valor: number) => void;
+  /** Rótulo atualmente em destaque (ex: filtro ativo), para realçar a fatia. */
+  rotuloAtivo?: string | null;
 }
 
 export function GetDoughnut({
@@ -18,24 +22,25 @@ export function GetDoughnut({
   ladoLegenda,
   darkMode,
   dados,
+  aoClicarSegmento,
+  rotuloAtivo = null,
 }: GetDoughnutProps){
+    const rotulos = Object.keys(dados ?? {});
+    const paletaClara = ["#3B82F6", "#EF4444", "#10B981", "#F59E0B", "#8B5CF6", "#06B6D4", "#EC4899", "#84CC16"];
+    const paletaEscura = ["#0c5bdc", "#da0d0d", "#09a973", "#dc8d06", "#7c3aed", "#0891b2", "#db2777", "#65a30d"];
+    const paleta = darkMode ? paletaEscura : paletaClara;
+
     const data: ChartData<"doughnut"> = {
-        labels: Object.keys(dados ?? {}),
+        labels: rotulos,
         datasets: [
         {
             label: titulo,
             data: Object.values(dados ?? {}),
-            backgroundColor: darkMode ? [
-                "#0c5bdc",
-                "#da0d0d",
-                "#09a973",
-                "#dc8d06",
-            ] : [
-                "#3B82F6",
-                "#EF4444",
-                "#10B981",
-                "#F59E0B",
-            ],
+            backgroundColor: rotulos.map((rotulo, indice) => {
+              const cor = paleta[indice % paleta.length];
+              if (!rotuloAtivo) return cor;
+              return rotulo === rotuloAtivo ? cor : `${cor}33`;
+            }),
             borderColor: "#00000011",
             borderWidth: 2,
             hoverOffset: 20,
@@ -66,12 +71,17 @@ export function GetDoughnut({
                 hoverBorderWidth: 5,
             },
         },
+        onHover: (event, elements) => {
+          const alvo = event.native?.target as HTMLElement | undefined;
+          if (alvo) alvo.style.cursor = elements.length && aoClicarSegmento ? "pointer" : "default";
+        },
 
         onClick(event, elements) {
-            if (!elements.length) return;
-            console.log(elements);
-            const index = elements[0].index;
-            console.log(index);
+            if (!elements.length || !aoClicarSegmento) return;
+            const indice = elements[0].index;
+            const rotulo = rotulos[indice];
+            const valor = Object.values(dados ?? {})[indice];
+            aoClicarSegmento(rotulo, valor);
         },
 
         plugins: {
