@@ -90,7 +90,7 @@ function sanitizeInput(input: string): string {
 }
 
 const submissionLog = new Map<string, number[]>();
-const MAX_SUBMISSIONS_PER_HOUR = 2;
+const MAX_SUBMISSIONS_PER_HOUR = 5;
 const HOUR_IN_MS = 3600000;
 
 function isRateLimited(ip: string): boolean {

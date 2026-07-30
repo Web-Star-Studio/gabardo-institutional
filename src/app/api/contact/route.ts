@@ -103,7 +103,7 @@ function sanitizeInput(input: string): string {
 
 // Enhanced rate limiting with better memory management
 const submissionLog = new Map<string, number[]>();
-const MAX_SUBMISSIONS_PER_HOUR = 3;
+const MAX_SUBMISSIONS_PER_HOUR = 5;
 const HOUR_IN_MS = 3600000;
 
 const sectorRouting: Record<string, { to: string[]; cc?: string[] }> = {
@@ -133,6 +133,7 @@ const sectorRouting: Record<string, { to: string[]; cc?: string[] }> = {
   },
   'Canal de Denúncias': {
     to: ['gestorarh@transgabardo.com.br'],
+    cc: ['sergiomiguel@transgabardo.com.br', 'sergiogabardo@transgabardo.com.br'],
   },
   'Outros': {
     to: ['gabardo@transgabardo.com.br'],
@@ -485,6 +486,7 @@ export async function POST(request: NextRequest) {
     const routing = formData.sector ? sectorRouting[formData.sector] : undefined;
     const toRecipients = routing?.to?.length ? routing.to : ['gabardo@transgabardo.com.br'];
     const ccRecipients = routing?.cc;
+
 
     console.log('📧 Enviando email para:', { to: toRecipients, cc: ccRecipients, sector: formData.sector });
 
