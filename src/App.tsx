@@ -3,9 +3,7 @@ import { DadosProvider } from './contextos/Dados';
 import { AutenticacaoProvider } from './contextos/Autenticacao'; 
 import { FiltrosChamadasProvider } from './contextos/FiltrosChamadas';
 import Header from './componentes/Header';
-import Login from './paginas/Login';
-import GetDoughnut from "@/componentes/Doughnut-helper";
-
+import Login from "@/paginas/Login";
 
 function App() {
   return (
@@ -15,7 +13,7 @@ function App() {
           <FiltrosChamadasProvider>
             <HeaderProvider>
                 <Header />
-                <GetDoughnut />
+                <Login />
             </HeaderProvider>
           </FiltrosChamadasProvider>
         </AutenticacaoProvider>
