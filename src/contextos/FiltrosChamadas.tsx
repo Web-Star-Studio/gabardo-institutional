@@ -6,19 +6,38 @@ import { useAutenticacao } from './Autenticacao';
 import { useDados } from './Dados';
 import type { Tables } from '@/lib/tipos';
 
+
 const FiltrosChamadasContext = createContext<FiltrosChamadasContextType | null>(null);
 
-function FiltrosChamadasProvider({ children }: { children: React.ReactNode }) {  
+interface ChamadasDetalhadas {
+  chamadasConcluidas: Tables<'chamadas'>;
+  chamadasEmAtendimento: Tables<'chamadas'>;
+  chamadasAtrasadas: Tables<'chamadas'>;
+  numeroConcluidas: null | number;
+  numeroEmAtendimento: null | number;
+  numeroAtrasadas: null | number;
+  numeroTotalChamadas: null | number;
+  tempoTotalChamadas: null | number;
+  tempoMedioAtendimento: null | number;
+  ocorrencias: null | number;
+}
+
+interface GalosDetalhados {
+  chamadasDele: Record<string, ChamadasDetalhadas>;
+}
+
+function FiltrosChamadasProvider({ children }: { children: React.ReactNode }) {
   const { sessao, tecnicoLogado } = useAutenticacao();
-    const {
-        chamadas,
-        tecnicos,
-        inventario,
-    } = useDados();
+  const {
+    chamadas,
+    tecnicos,
+    inventario,
+  } = useDados();
 
   const [usuarioSelecionado, setUsuarioSelecionado] = useState<Tables<'inventario_mv'> | null>(null);
   const [tecnicoSelecionado, setTecnicoSelecionado] = useState<Tables<'tecnicos'> | null>(null);
   const [chamadaSelecionada, setChamadaSelecionada] = useState<Tables<'chamadas'> | null>(null);
+
 
   const selecionarTecnico = (id: string) => {
     if (!tecnicos.isSuccess) return;
@@ -27,7 +46,7 @@ function FiltrosChamadasProvider({ children }: { children: React.ReactNode }) {
 
     if (!tecnico) return;
 
-    setTecnicoSelecionado(tecnico);    
+    setTecnicoSelecionado(tecnico);
   }
 
   const selecionarChamada = (id: string) => {
@@ -37,7 +56,7 @@ function FiltrosChamadasProvider({ children }: { children: React.ReactNode }) {
 
     if (!chamada) return;
 
-    setChamadaSelecionada(chamada);    
+    setChamadaSelecionada(chamada);
   }
 
   const selecionarUsuario = (id: string) => {
@@ -47,7 +66,7 @@ function FiltrosChamadasProvider({ children }: { children: React.ReactNode }) {
 
     if (!usuario) return;
 
-    setUsuarioSelecionado(usuario);    
+    setUsuarioSelecionado(usuario);
   }
 
   const tirarTecnico = () => setTecnicoSelecionado(null);
@@ -63,6 +82,7 @@ function FiltrosChamadasProvider({ children }: { children: React.ReactNode }) {
   const [filtros, setFiltros] = useState<string[]>([]);
   const [incluirAntigas, setIncluirAntigas] = useState(false);
 
+
   const aplicarFiltros = (filtros: string) => {
     setFiltros(filtros.split(" "));
   }
@@ -76,7 +96,7 @@ function FiltrosChamadasProvider({ children }: { children: React.ReactNode }) {
   }
 
   useEffect(() => {
-    if (filtros.length === 0){
+    if (filtros.length === 0) {
       setRestringirChamadas(undefined);
       return;
     }
@@ -87,8 +107,8 @@ function FiltrosChamadasProvider({ children }: { children: React.ReactNode }) {
         filtros.some(filtro => {
           Object.values(chamada).some(
             propriedade => String(propriedade)
-            .toLowerCase()
-            .includes(filtro.toLowerCase())
+              .toLowerCase()
+              .includes(filtro.toLowerCase())
           )
         })
       })
@@ -108,52 +128,83 @@ function FiltrosChamadasProvider({ children }: { children: React.ReactNode }) {
     setMinhasChamadas(
       chamadasEmAndamento?.filter(
         chamada => (chamada.gerado_por == sessao?.user.id) ||
-        (
-          chamada.tecnicos.split(',').some(techChamada =>
-            techChamada.toLowerCase().trim() == tecnicoLogado?.nome.toLowerCase().trim()
+          (
+            chamada.tecnicos.split(',').some(techChamada =>
+              techChamada.toLowerCase().trim() == tecnicoLogado?.nome.toLowerCase().trim()
+            )
           )
-        )
       )
     );
-  },[chamadas.isSuccess, chamadas.data, sessao])
+  }, [chamadas.isSuccess, chamadas.data, sessao])
 
-  useEffect(() => {
-    if (!chamadas.isSuccess) return;
+  const [megaInfoChamadas, setMegaInfoChamadas] =
+  useState<GalosDetalhados>({
+    chamadasDele: {},
+  });
 
-    chamadas.data?.forEach((chamada) => {
-      let texto = '';
+useEffect(() => {
+  if (!chamadas.isSuccess) return;
 
-      switch(chamada.status) {
-        case 1:
-          texto = "Fechado com atraso";
-          break;
+  const resultado: GalosDetalhados = {
+    chamadasDele: {},
+  };
 
+  chamadas.data.forEach((chamada) => {
+    const galos = chamada.tecnicos
+      .split(",")
+      .map((g) => g.trim());
+
+    galos.forEach((galo) => {
+      if (!resultado.chamadasDele[galo]) {
+        resultado.chamadasDele[galo] = {
+          chamadasConcluidas: [],
+          chamadasEmAtendimento: [],
+          chamadasAtrasadas: [],
+          numeroConcluidas: 0,
+          numeroEmAtendimento: 0,
+          numeroAtrasadas: 0,
+          numeroTotalChamadas: 0,
+          tempoTotalChamadas: 0,
+          tempoMedioAtendimento: 0,
+          ocorrencias: 0,
+        };
+      }
+
+      const info = resultado.chamadasDele[galo];
+
+      info.numeroTotalChamadas!++;
+
+      switch (chamada.status) {
         case 2:
-          texto = "Fechado";
-          break;
-
-        case 3:
-          texto = "Pausado";
-          break;
-
-        case 4:
-          texto = "Aberto";
+          info.chamadasConcluidas.push(chamada);
+          info.numeroConcluidas!++;
           break;
 
         case 5:
-          texto = "Atrasado";
+          info.chamadasEmAtendimento.push(chamada);
+          info.numeroEmAtendimento!++;
+          break;
+
+        case 6:
+          info.chamadasAtrasadas.push(chamada);
+          info.numeroAtrasadas!++;
           break;
       }
-    setChamadasPorStatus((anterior) => ({
-      ...anterior,
-      [texto]: (anterior[texto] ?? 0) + 1,
-    }))
+
+      // if you have a duration field:
+      // info.tempoTotalChamadas! += chamada.tempo;
+    });
+  });
+
+  Object.values(resultado.chamadasDele).forEach((info) => {
+    if (info.numeroTotalChamadas) {
+      info.tempoMedioAtendimento =
+        info.tempoTotalChamadas! / info.numeroTotalChamadas;
     }
-    )
+  });
 
-
-  }, [chamadas.data, chamadas.isSuccess]);
-
+  setMegaInfoChamadas(resultado);
+}, [chamadas.data, chamadas.isSuccess]);
   return (
     <FiltrosChamadasContext.Provider
       value={{
