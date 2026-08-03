@@ -44,3 +44,16 @@ export function pegarChamadas() {
     },
   })
 }
+
+export function pegarAndamentos() {
+  return useQuery({
+    queryKey: ['andamentos'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('andamentos')
+        .select('*')
+      if (error) throw error
+      return data as Tables<'andamentos'>[]
+    },
+  })
+}

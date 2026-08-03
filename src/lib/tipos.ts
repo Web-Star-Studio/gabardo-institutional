@@ -45,6 +45,7 @@ export type Database = {
           id: string
           id_chamada: string
           motivo: number
+          quando: string | null
           quem_atualizou: string
         }
         Insert: {
@@ -52,6 +53,7 @@ export type Database = {
           id?: string
           id_chamada: string
           motivo: number
+          quando?: string | null
           quem_atualizou: string
         }
         Update: {
@@ -59,6 +61,7 @@ export type Database = {
           id?: string
           id_chamada?: string
           motivo?: number
+          quando?: string | null
           quem_atualizou?: string
         }
         Relationships: [
@@ -73,48 +76,60 @@ export type Database = {
       }
       chamadas: {
         Row: {
+          categoria: string
           contando_desde: string | null
           continuar_contagem: boolean
+          data_atendeu: string | null
           data_criacao: string | null
-          descricao: string | null
-          gerado_por: string
+          descricao: string
+          em_atendimento: boolean | null
+          email_requerente: string
           id: string
+          ip_requerente: string | null
           prazo_final: string | null
           prioridade: number | null
-          requerentes: string
-          segundos_restantes: number
+          requerente: string | null
+          segundos_restantes: number | null
           status: number | null
-          tecnicos: string
+          tecnicos: string | null
           titulo: string
         }
         Insert: {
+          categoria: string
           contando_desde?: string | null
           continuar_contagem?: boolean
+          data_atendeu?: string | null
           data_criacao?: string | null
-          descricao?: string | null
-          gerado_por?: string
+          descricao: string
+          em_atendimento?: boolean | null
+          email_requerente: string
           id?: string
+          ip_requerente?: string | null
           prazo_final?: string | null
           prioridade?: number | null
-          requerentes: string
-          segundos_restantes: number
+          requerente?: string | null
+          segundos_restantes?: number | null
           status?: number | null
-          tecnicos: string
+          tecnicos?: string | null
           titulo: string
         }
         Update: {
+          categoria?: string
           contando_desde?: string | null
           continuar_contagem?: boolean
+          data_atendeu?: string | null
           data_criacao?: string | null
-          descricao?: string | null
-          gerado_por?: string
+          descricao?: string
+          em_atendimento?: boolean | null
+          email_requerente?: string
           id?: string
+          ip_requerente?: string | null
           prazo_final?: string | null
           prioridade?: number | null
-          requerentes?: string
-          segundos_restantes?: number
+          requerente?: string | null
+          segundos_restantes?: number | null
           status?: number | null
-          tecnicos?: string
+          tecnicos?: string | null
           titulo?: string
         }
         Relationships: []
@@ -155,18 +170,21 @@ export type Database = {
           email: string
           id: string
           nome: string
+          online: boolean | null
         }
         Insert: {
           cargo?: string | null
           email: string
           id: string
           nome?: string
+          online?: boolean | null
         }
         Update: {
           cargo?: string | null
           email?: string
           id?: string
           nome?: string
+          online?: boolean | null
         }
         Relationships: []
       }

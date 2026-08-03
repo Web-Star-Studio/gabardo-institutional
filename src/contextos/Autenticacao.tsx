@@ -18,6 +18,10 @@ function AutenticacaoProvider({ children }: { children: React.ReactNode }) {
     const [carregando, setCarregando] = useState(false);
     const [erro, setErro] = useState("");
 
+    const limparErro = () => {
+      setErro("");
+    }
+
     const login = async (email: string, senha: string) => {
       setCarregando(true);
 
@@ -61,6 +65,7 @@ function AutenticacaoProvider({ children }: { children: React.ReactNode }) {
         login,
         logout,
         tecnicoLogado,
+        limparErro
       }}
     >
       {children}

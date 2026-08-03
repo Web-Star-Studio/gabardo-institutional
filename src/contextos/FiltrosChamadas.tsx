@@ -6,24 +6,68 @@ import { useAutenticacao } from './Autenticacao';
 import { useDados } from './Dados';
 import type { Tables } from '@/lib/tipos';
 
-
 const FiltrosChamadasContext = createContext<FiltrosChamadasContextType | null>(null);
 
 interface ChamadasDetalhadas {
-  chamadasConcluidas: Tables<'chamadas'>;
-  chamadasEmAtendimento: Tables<'chamadas'>;
-  chamadasAtrasadas: Tables<'chamadas'>;
-  numeroConcluidas: null | number;
-  numeroEmAtendimento: null | number;
-  numeroAtrasadas: null | number;
-  numeroTotalChamadas: null | number;
-  tempoTotalChamadas: null | number;
-  tempoMedioAtendimento: null | number;
-  ocorrencias: null | number;
+  chamadasConcluidas: Tables<'chamadas'>[];
+  chamadasConcluidasAtrasadas: Tables<'chamadas'>[];
+  chamadasEmAtendimento: Tables<'chamadas'>[];
+  chamadasAtrasadas: Tables<'chamadas'>[];
+  chamadasPausadas: Tables<'chamadas'>[];
+  numeroConcluidas: number | null;
+  numeroEmAtendimento: number | null;
+  numeroAtrasadas: number | null;
+  numeroConcluidasAtrasadas: number | null;
+  numeroPausadas: number | null;
+  numeroTotalChamadas: number | null;
+  tempoTotalChamadas: number | null;
+  tempoMedioAtendimento: number | null;
+  ocorrencias: number | null;
+  tempoParado: number | null;
 }
 
 interface GalosDetalhados {
   chamadasDele: Record<string, ChamadasDetalhadas>;
+  chamadasTotais: number;
+  chamadasEmAndamento: number;
+  chamadasPausadas: number;
+  chamadasAtrasadas: number;
+  chamadasParadas: number;
+  chamadasConcluidas: number;
+  chamadasConcluidasAtrasadas: number;
+}
+
+export function calcularTempo(chamada: Tables<"chamadas">, andamentos: Tables<"andamentos">[]) {
+  const eventos = [...andamentos].sort(
+    (a, b) => +new Date(a.quando) - +new Date(b.quando)
+  );
+
+  let total = 0;
+  let inicio = new Date(chamada.data_criacao).getTime();
+  let contando = true;
+
+  for (const a of eventos) {
+    const t = new Date(a.quando).getTime();
+
+    if (a.motivo === "Pausado" && contando) {
+      total += t - inicio;
+      contando = false;
+    }
+
+    if (a.motivo === "Retomado" && !contando) {
+      inicio = t;
+      contando = true;
+    }
+  }
+
+  if (contando) {
+    total +=
+      (chamada.data_atendeu
+        ? new Date(chamada.data_atendeu).getTime()
+        : Date.now()) - inicio;
+  }
+
+  return total; // milissegundos
 }
 
 function FiltrosChamadasProvider({ children }: { children: React.ReactNode }) {
@@ -115,6 +159,9 @@ function FiltrosChamadasProvider({ children }: { children: React.ReactNode }) {
     )
   }, [filtros, chamadas.data]);
 
+
+
+  // MINHAS CHAMADAS
   useEffect(() => {
     if (!chamadas.isSuccess) return;
 
@@ -137,74 +184,120 @@ function FiltrosChamadasProvider({ children }: { children: React.ReactNode }) {
     );
   }, [chamadas.isSuccess, chamadas.data, sessao])
 
+
+
+  // =========================================
   const [megaInfoChamadas, setMegaInfoChamadas] =
-  useState<GalosDetalhados>({
-    chamadasDele: {},
-  });
-
-useEffect(() => {
-  if (!chamadas.isSuccess) return;
-
-  const resultado: GalosDetalhados = {
-    chamadasDele: {},
-  };
-
-  chamadas.data.forEach((chamada) => {
-    const galos = chamada.tecnicos
-      .split(",")
-      .map((g) => g.trim());
-
-    galos.forEach((galo) => {
-      if (!resultado.chamadasDele[galo]) {
-        resultado.chamadasDele[galo] = {
-          chamadasConcluidas: [],
-          chamadasEmAtendimento: [],
-          chamadasAtrasadas: [],
-          numeroConcluidas: 0,
-          numeroEmAtendimento: 0,
-          numeroAtrasadas: 0,
-          numeroTotalChamadas: 0,
-          tempoTotalChamadas: 0,
-          tempoMedioAtendimento: 0,
-          ocorrencias: 0,
-        };
-      }
-
-      const info = resultado.chamadasDele[galo];
-
-      info.numeroTotalChamadas!++;
-
-      switch (chamada.status) {
-        case 2:
-          info.chamadasConcluidas.push(chamada);
-          info.numeroConcluidas!++;
-          break;
-
-        case 5:
-          info.chamadasEmAtendimento.push(chamada);
-          info.numeroEmAtendimento!++;
-          break;
-
-        case 6:
-          info.chamadasAtrasadas.push(chamada);
-          info.numeroAtrasadas!++;
-          break;
-      }
-
-      // if you have a duration field:
-      // info.tempoTotalChamadas! += chamada.tempo;
+    useState<GalosDetalhados>({
+      chamadasDele: {},
+      chamadasTotais: 0,
+      chamadasEmAndamento: 0,
+      chamadasPausadas: 0,
+      chamadasAtrasadas: 0,
+      chamadasParadas: 0,
+      chamadasConcluidas: 0,
+      chamadasConcluidasAtrasadas: 0
     });
-  });
 
-  Object.values(resultado.chamadasDele).forEach((info) => {
-    if (info.numeroTotalChamadas) {
-      info.tempoMedioAtendimento =
-        info.tempoTotalChamadas! / info.numeroTotalChamadas;
-    }
-  });
+  useEffect(() => {
+    if (!chamadas.isSuccess) return;
 
-  setMegaInfoChamadas(resultado);
-}, [chamadas.data, chamadas.isSuccess]);
+    const resultado: GalosDetalhados = {
+      chamadasDele: {},
+      chamadasTotais: 0,
+      chamadasEmAndamento: 0,
+      chamadasPausadas: 0,
+      chamadasAtrasadas: 0,
+      chamadasParadas: 0,
+      chamadasConcluidas: 0,
+      chamadasConcluidasAtrasadas: 0
+    };
+
+    chamadas.data.forEach((chamada) => {
+      const fechouAtrasou = chamada.status == 1;
+      const fechou = chamada.status == 2;
+      const nasceu = chamada.status == 3;
+      const pausou = chamada.status == 4;
+      const andou = chamada.status == 5;
+      const atrasou = chamada.status == 6;
+
+      resultado.chamadasTotais++;
+
+      const galos = chamada.tecnicos?.split(",")
+        .map((g) => g.trim());
+
+      if (galos) {
+        galos.forEach((galo) => {
+
+          if (!resultado.chamadasDele[galo]) {
+            resultado.chamadasDele[galo] = {
+              chamadasConcluidas: [],
+              chamadasConcluidasAtrasadas: [],
+              chamadasEmAtendimento: [],
+              chamadasAtrasadas: [],
+              chamadasPausadas: [],
+              numeroConcluidas: 0,
+              numeroEmAtendimento: 0,
+              numeroAtrasadas: 0,
+              numeroConcluidasAtrasadas: 0,
+              numeroPausadas: 0,
+              numeroTotalChamadas: 0,
+              tempoTotalChamadas: 0,
+              tempoMedioAtendimento: 0,
+              ocorrencias: 0,
+              
+              tempoParado: 0
+            };
+          }
+
+          const info = resultado.chamadasDele[galo];
+          info.numeroTotalChamadas!++;
+
+          if (fechouAtrasou) {
+            info.chamadasConcluidasAtrasadas.push(chamada);
+            info.numeroConcluidasAtrasadas!++;
+          }
+
+          if (fechou) {
+            info.chamadasConcluidas.push(chamada);
+            info.numeroConcluidas!++;
+          }
+
+          if (andou) {
+            info.chamadasEmAtendimento.push(chamada);
+            info.numeroEmAtendimento!++;
+          }
+
+          if (pausou) {
+            info.chamadasPausadas.push(chamada);
+            info.numeroPausadas!++;
+          }
+
+          if (atrasou) {
+            info.chamadasAtrasadas.push(chamada);
+            info.numeroAtrasadas!++;
+          }
+        });
+
+
+
+      }
+      else {
+        resultado.chamadasParadas++;
+      }
+    });
+
+    Object.values(resultado.chamadasDele).forEach((info) => {
+      if (info.numeroTotalChamadas) {
+        info.tempoMedioAtendimento =
+          info.tempoTotalChamadas! / info.numeroTotalChamadas;
+      }
+    });
+
+    setMegaInfoChamadas(resultado);
+  }, [chamadas.data, chamadas.isSuccess]);
+
+
   return (
     <FiltrosChamadasContext.Provider
       value={{

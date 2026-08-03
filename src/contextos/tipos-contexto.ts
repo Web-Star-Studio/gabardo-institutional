@@ -40,6 +40,7 @@ export type AutenticacaoContextType = {
     login: (email: string, senha: string) => void;
     logout: () => void;
     tecnicoLogado: Tables<'tecnicos'> | null;
+    limparErro: () => void;
 }
 
 export type FiltrosChamadasContextType = {
