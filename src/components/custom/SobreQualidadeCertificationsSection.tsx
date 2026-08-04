@@ -10,7 +10,7 @@ import FolderGalleryModal from '@/components/FolderGalleryModal';
 const certifications = [
   {
     icon: Award,
-    title: 'GHG Protocol - Selo Prata',
+    title: 'GHG Protocol - Selo Ouro',
     subtitle: 'Inventário de Emissões',
     description:
       'Transparência na gestão de gases de efeito estufa, com 100% de neutralização das emissões diretas e indiretas.',
@@ -54,7 +54,7 @@ const qualityBadges = [
   },
   {
     icon: Award,
-    title: 'ABNT FR 2030',
+    title: 'ABNT PR 2030',
     description:
       'Práticas ESG estruturadas que fortalecem a sustentabilidade e a responsabilidade corporativa.',
     downloadUrl: '/certifications/ESG-PR2030.pdf',
