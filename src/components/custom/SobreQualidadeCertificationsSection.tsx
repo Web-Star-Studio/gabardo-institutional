@@ -24,6 +24,7 @@ const certifications = [
       'Processos aduaneiros rastreados, compliance robusto e integração com portos e alfândegas brasileiras.',
     highlight: 'Status aduaneiro confiável',
   },
+
 ];
 
 const qualityBadges = [
@@ -51,6 +52,15 @@ const qualityBadges = [
     downloadUrl: 'https://gabardo.com/wp-content/uploads/2024/10/certificado-iso-39001.pdf',
     ctaLabel: 'Baixar certificado',
   },
+  {
+    icon: Award,
+    title: 'ABNT FR 2030',
+    description:
+      'Práticas ESG estruturadas que fortalecem a sustentabilidade e a responsabilidade corporativa.',
+    downloadUrl: '/certifications/ESG-PR2030.pdf',
+    ctaLabel: 'Baixar certificado',
+  },
+
   {
     icon: Award,
     title: 'OEA - Receita Federal',
@@ -113,6 +123,7 @@ const galleryCards = [
     label: 'OEA - Receita Federal',
     description: 'Compliance aduaneiro reconhecido com selo Operador Econômico Autorizado.',
   },
+
   {
     src: '/images/certifications/gcs-abnt-pr2030-esg.png',
     alt: 'Certificado GCS ABNT PR2030 ESG',
@@ -307,18 +318,16 @@ const SobreQualidadeCertificationsSection: React.FC = () => {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
                     </svg>
                   </motion.div>
-                  
-                  <div 
-                    className={`flex items-center justify-center rounded-3xl border border-white/15 bg-white/10 px-8 py-8 backdrop-blur-sm shadow-[0_18px_50px_-25px_rgba(19,45,81,0.65)] cursor-pointer group transition-all ${
-                      isFolderHovered ? 'border-gabardo-light-blue/40' : ''
-                    }`}
+
+                  <div
+                    className={`flex items-center justify-center rounded-3xl border border-white/15 bg-white/10 px-8 py-8 backdrop-blur-sm shadow-[0_18px_50px_-25px_rgba(19,45,81,0.65)] cursor-pointer group transition-all ${isFolderHovered ? 'border-gabardo-light-blue/40' : ''
+                      }`}
                     onClick={() => setIsModalOpen(true)}
                     onMouseEnter={() => setIsFolderHovered(true)}
                     onMouseLeave={() => setIsFolderHovered(false)}
                   >
-                    <div className={`transition-transform ${
-                      isFolderHovered ? 'scale-105' : ''
-                    }`}>
+                    <div className={`transition-transform ${isFolderHovered ? 'scale-105' : ''
+                      }`}>
                       <Folder
                         size={1.9}
                         color="#38B6FF"
@@ -327,7 +336,7 @@ const SobreQualidadeCertificationsSection: React.FC = () => {
                       />
                     </div>
                   </div>
-                  
+
                   {/* Right Arrow - Points left towards folder */}
                   <motion.div
                     animate={{ x: [4, 0, 4] }}
@@ -342,7 +351,7 @@ const SobreQualidadeCertificationsSection: React.FC = () => {
 
                 <div className="flex flex-col gap-6 p-6 pt-7">
                   <div>
-                    <h3 
+                    <h3
                       className="text-lg font-semibold uppercase tracking-[0.32em] text-white/80 hover:text-gabardo-light-blue transition-colors cursor-pointer"
                       onClick={() => setIsModalOpen(true)}
                       onMouseEnter={() => setIsFolderHovered(true)}
@@ -369,9 +378,8 @@ const SobreQualidadeCertificationsSection: React.FC = () => {
                               alt={item.alt}
                               fill
                               sizes="80px"
-                              className={`object-contain ${
-                                item.label === 'OEA - Receita Federal' ? 'scale-125' : ''
-                              }`}
+                              className={`object-contain ${item.label === 'OEA - Receita Federal' ? 'scale-125' : ''
+                                }`}
                             />
                           </div>
                           <div>
