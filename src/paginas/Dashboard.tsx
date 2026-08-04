@@ -30,7 +30,7 @@ export default function DashboardHeader() {
     >
       <motion.header
         animate={{
-          backgroundColor: bg,
+          backgroundColor: inputBg,
           borderColor: darkMode ? "#1f1f1f" : "#e5e5e5",
         }}
         className="w-full border-b sticky top-0 z-10"
@@ -44,7 +44,7 @@ export default function DashboardHeader() {
               }}
               className="text-3xl md:text-4xl font-semibold tracking-tight"
             >
-              Dashboard pessoal:
+              Meu dashboard:
             </motion.h1>
           </div>
 
@@ -54,12 +54,13 @@ export default function DashboardHeader() {
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.96 }}
             animate={{
-              backgroundColor: darkMode ? "#ffffff" : "#0a0a0a",
-              color: darkMode ? "#0a0a0a" : "#ffffff",
+              backgroundColor: "#0003cf",
+              color: "#ffffff",
             }}
-            className="w-11 h-11 md:w-12 md:h-12 rounded-md flex items-center justify-center shrink-0"
+            className="px-4 h-11 md:h-12 rounded-md flex items-center justify-center shrink-0"
           >
             <Plus size={20} strokeWidth={2.25} />
+            <span> Adicionar novo dashboard</span>
           </motion.button>
         </div>
       </motion.header>

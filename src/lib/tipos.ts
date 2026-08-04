@@ -44,24 +44,24 @@ export type Database = {
           descricao: string | null
           id: string
           id_chamada: string
-          motivo: number
-          quando: string | null
+          motivo: string
+          quando: string
           quem_atualizou: string
         }
         Insert: {
           descricao?: string | null
           id?: string
           id_chamada: string
-          motivo: number
-          quando?: string | null
+          motivo: string
+          quando?: string
           quem_atualizou: string
         }
         Update: {
           descricao?: string | null
           id?: string
           id_chamada?: string
-          motivo?: number
-          quando?: string | null
+          motivo?: string
+          quando?: string
           quem_atualizou?: string
         }
         Relationships: [
@@ -80,17 +80,19 @@ export type Database = {
           contando_desde: string | null
           continuar_contagem: boolean
           data_atendeu: string | null
-          data_criacao: string | null
+          data_criacao: string
+          data_finalizacao: string | null
           descricao: string
-          em_atendimento: boolean | null
+          em_atendimento: boolean
           email_requerente: string
+          fechou: boolean
           id: string
           ip_requerente: string | null
           prazo_final: string | null
-          prioridade: number | null
-          requerente: string | null
+          prioridade: number
+          requerente: string
           segundos_restantes: number | null
-          status: number | null
+          status: number
           tecnicos: string | null
           titulo: string
         }
@@ -99,17 +101,19 @@ export type Database = {
           contando_desde?: string | null
           continuar_contagem?: boolean
           data_atendeu?: string | null
-          data_criacao?: string | null
+          data_criacao?: string
+          data_finalizacao?: string | null
           descricao: string
-          em_atendimento?: boolean | null
+          em_atendimento?: boolean
           email_requerente: string
+          fechou?: boolean
           id?: string
           ip_requerente?: string | null
           prazo_final?: string | null
-          prioridade?: number | null
-          requerente?: string | null
+          prioridade?: number
+          requerente: string
           segundos_restantes?: number | null
-          status?: number | null
+          status?: number
           tecnicos?: string | null
           titulo: string
         }
@@ -118,17 +122,19 @@ export type Database = {
           contando_desde?: string | null
           continuar_contagem?: boolean
           data_atendeu?: string | null
-          data_criacao?: string | null
+          data_criacao?: string
+          data_finalizacao?: string | null
           descricao?: string
-          em_atendimento?: boolean | null
+          em_atendimento?: boolean
           email_requerente?: string
+          fechou?: boolean
           id?: string
           ip_requerente?: string | null
           prazo_final?: string | null
-          prioridade?: number | null
-          requerente?: string | null
+          prioridade?: number
+          requerente?: string
           segundos_restantes?: number | null
-          status?: number | null
+          status?: number
           tecnicos?: string | null
           titulo?: string
         }
@@ -170,21 +176,21 @@ export type Database = {
           email: string
           id: string
           nome: string
-          online: boolean | null
+          online: boolean
         }
         Insert: {
           cargo?: string | null
           email: string
           id: string
           nome?: string
-          online?: boolean | null
+          online?: boolean
         }
         Update: {
           cargo?: string | null
           email?: string
           id?: string
           nome?: string
-          online?: boolean | null
+          online?: boolean
         }
         Relationships: []
       }

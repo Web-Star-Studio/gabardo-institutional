@@ -2,8 +2,49 @@ import { type Session, type User } from '@supabase/supabase-js';
 import type { Tables } from '@/lib/tipos';
 import type { UseQueryResult } from "@tanstack/react-query";
 
+export interface ChamadasDetalhadas {
+  chamadasConcluidas: Tables<'chamadas'>[];
+  chamadasConcluidasAtrasadas: Tables<'chamadas'>[];
+  chamadasEmAtendimento: Tables<'chamadas'>[];
+  chamadasAtrasadas: Tables<'chamadas'>[];
+  chamadasPausadas: Tables<'chamadas'>[];
+  numeroConcluidas: number;
+  numeroEmAtendimento: number;
+  numeroAtrasadas: number;
+  numeroConcluidasAtrasadas: number;
+  numeroPausadas: number;
+  numeroTotalChamadas: number;
+  tempoTotalChamadas: number;
+  tempoAtendimento: number;
+  tempoParado: number;
+  tempoEspera: number;
+  ocorrencias: number;
+  tempoMedioAtendimento: number;
+}
+
+export interface GalosDetalhados {
+  chamadasDele: Record<string, ChamadasDetalhadas>;
+  chamadasTotais: number;
+  chamadasEmAndamento: number;
+  chamadasPausadas: number;
+  chamadasAtrasadas: number;
+  chamadasParadas: number;
+  chamadasConcluidas: number;
+  chamadasConcluidasAtrasadas: number;
+  listaChamadasParadas: Tables<'chamadas'>[];
+  listaChamadasAbertas: Tables<'chamadas'>[];
+  listaChamadasAtrasadas: Tables<'chamadas'>[];
+  listaChamadasConcluidas: Tables<'chamadas'>[];
+  listaChamadasConcluidasAtrasadas: Tables<'chamadas'>[];
+  listaChamadasPausadas: Tables<'chamadas'>[];
+  tempoTotalAndamento: number;
+  tempoTotalPausa: number;
+  tempoTotalEspera: number;
+}
+
 export type DadosContextType = {
     chamadas: UseQueryResult<Tables<"chamadas">[], Error>;
+    andamentos: UseQueryResult<Tables<"andamentos">[], Error>;
     tecnicos: UseQueryResult<Tables<"tecnicos">[], Error>;
     inventario: UseQueryResult<Tables<"inventario_mv">[], Error>;
     usuarios: Record<string, string>;
@@ -53,12 +94,11 @@ export type FiltrosChamadasContextType = {
     tirarTecnico: () => void;
     tirarChamada: () => void;
     tirarUsuario: () => void;
-    chamadasEmAndamento: Tables<'chamadas'>[] | undefined;
+    megaInfoChamadas: GalosDetalhados;
     aplicarFiltros: (filtros: string) => void;
     restringirChamadas: Tables<'chamadas'>[] | undefined;
     minhasChamadas: Tables<'chamadas'>[] | undefined;
     removerFiltros: () => void;
     incluirAntigas: boolean;
     antigasTambem: () => void;
-    chamadasPorStatus: Record<string, number>;
 }

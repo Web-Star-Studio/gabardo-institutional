@@ -1,81 +1,110 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useMemo } from 'react';
 import { type FiltrosChamadasContextType } from './tipos-contexto';
 import { useAutenticacao } from './Autenticacao';
 import { useDados } from './Dados';
 import type { Tables } from '@/lib/tipos';
+import type { GalosDetalhados } from "./tipos-contexto";
 
 const FiltrosChamadasContext = createContext<FiltrosChamadasContextType | null>(null);
 
-interface ChamadasDetalhadas {
-  chamadasConcluidas: Tables<'chamadas'>[];
-  chamadasConcluidasAtrasadas: Tables<'chamadas'>[];
-  chamadasEmAtendimento: Tables<'chamadas'>[];
-  chamadasAtrasadas: Tables<'chamadas'>[];
-  chamadasPausadas: Tables<'chamadas'>[];
-  numeroConcluidas: number | null;
-  numeroEmAtendimento: number | null;
-  numeroAtrasadas: number | null;
-  numeroConcluidasAtrasadas: number | null;
-  numeroPausadas: number | null;
-  numeroTotalChamadas: number | null;
-  tempoTotalChamadas: number | null;
-  tempoMedioAtendimento: number | null;
-  ocorrencias: number | null;
-  tempoParado: number | null;
-}
+export function calcularTempo(
+  chamada: Tables<"chamadas">,
+  andamentos: Tables<"andamentos">[]
+): { tempoAndamento: number; tempoPausa: number } {
 
-interface GalosDetalhados {
-  chamadasDele: Record<string, ChamadasDetalhadas>;
-  chamadasTotais: number;
-  chamadasEmAndamento: number;
-  chamadasPausadas: number;
-  chamadasAtrasadas: number;
-  chamadasParadas: number;
-  chamadasConcluidas: number;
-  chamadasConcluidasAtrasadas: number;
-}
-
-export function calcularTempo(chamada: Tables<"chamadas">, andamentos: Tables<"andamentos">[]) {
   const eventos = [...andamentos].sort(
-    (a, b) => +new Date(a.quando) - +new Date(b.quando)
+    (a, b) =>
+      new Date(a.quando).getTime() - new Date(b.quando).getTime()
   );
 
-  let total = 0;
-  let inicio = new Date(chamada.data_criacao).getTime();
-  let contando = true;
+  let tempoAndamento = 0;
+  let tempoPausa = 0;
+
+  let inicioAndamento: number | null = null;
+  let inicioPausa: number | null = null;
+  let contando = false;
 
   for (const a of eventos) {
-    const t = new Date(a.quando).getTime();
+    const tempo = new Date(a.quando).getTime();
 
-    if (a.motivo === "Pausado" && contando) {
-      total += t - inicio;
-      contando = false;
-    }
+    switch (a.motivo) {
+      case 'atendida':
 
-    if (a.motivo === "Retomado" && !contando) {
-      inicio = t;
-      contando = true;
+        inicioAndamento = tempo;
+        contando = true;
+        break;
+
+      case 'pausada':
+        if (contando && inicioAndamento !== null) {
+          tempoAndamento += tempo - inicioAndamento;
+          contando = false;
+          inicioAndamento = null;
+          inicioPausa = tempo;
+        }
+        break;
+
+      case 'retomada':
+        if (inicioPausa !== null) {
+          tempoPausa += tempo - inicioPausa;
+          inicioPausa = null;
+        }
+        inicioAndamento = tempo;
+        contando = true;
+        break;
+
+      case 'finalizada':
+        if (contando && inicioAndamento !== null) {
+          tempoAndamento += tempo - inicioAndamento;
+          contando = false;
+          inicioAndamento = null;
+        }
+        if (inicioPausa !== null) {
+          tempoPausa += tempo - inicioPausa;
+          inicioPausa = null;
+        }
+        break;
+
+      default:
+        break;
     }
   }
 
-  if (contando) {
-    total +=
-      (chamada.data_atendeu
-        ? new Date(chamada.data_atendeu).getTime()
-        : Date.now()) - inicio;
+  const agora = chamada.data_finalizacao
+    ? new Date(chamada.data_finalizacao).getTime()
+    : Date.now();
+
+  if (contando && inicioAndamento !== null) {
+    tempoAndamento += agora - inicioAndamento;
   }
 
-  return total; // milissegundos
+  if (inicioPausa !== null) {
+    tempoPausa += agora - inicioPausa;
+  }
+
+  return {
+    tempoAndamento,
+    tempoPausa,
+  };
+}
+
+function tempoAteAtender(chamada: Tables<'chamadas'>): number | null {
+  if (!chamada.data_atendeu) return null;
+
+  return (
+    new Date(chamada.data_atendeu).getTime() -
+    new Date(chamada.data_criacao).getTime()
+  );
 }
 
 function FiltrosChamadasProvider({ children }: { children: React.ReactNode }) {
-  const { sessao, tecnicoLogado } = useAutenticacao();
+  const authen = useAutenticacao();
   const {
     chamadas,
     tecnicos,
     inventario,
+    andamentos
   } = useDados();
 
   const [usuarioSelecionado, setUsuarioSelecionado] = useState<Tables<'inventario_mv'> | null>(null);
@@ -117,15 +146,11 @@ function FiltrosChamadasProvider({ children }: { children: React.ReactNode }) {
   const tirarChamada = () => setChamadaSelecionada(null);
   const tirarUsuario = () => setUsuarioSelecionado(null);
 
-  const [chamadasEmAndamento, setChamadasEmAndamento] = useState<Tables<'chamadas'>[]>([]);
   const [restringirChamadas, setRestringirChamadas] = useState<Tables<'chamadas'>[] | undefined>(undefined);
   const [minhasChamadas, setMinhasChamadas] = useState<undefined | Tables<'chamadas'>[]>(undefined);
-  const [chamadasPorStatus, setChamadasPorStatus] = useState<Record<string, number>>({});
-
 
   const [filtros, setFiltros] = useState<string[]>([]);
   const [incluirAntigas, setIncluirAntigas] = useState(false);
-
 
   const aplicarFiltros = (filtros: string) => {
     setFiltros(filtros.split(" "));
@@ -147,7 +172,7 @@ function FiltrosChamadasProvider({ children }: { children: React.ReactNode }) {
     if (!chamadas.isSuccess) return;
 
     setRestringirChamadas(
-      (incluirAntigas ? chamadas.data : chamadasEmAndamento).filter(chamada => {
+      (incluirAntigas ? chamadas.data : megaInfoChamadas.listaChamadasAbertas).filter(chamada => {
         filtros.some(filtro => {
           Object.values(chamada).some(
             propriedade => String(propriedade)
@@ -159,32 +184,25 @@ function FiltrosChamadasProvider({ children }: { children: React.ReactNode }) {
     )
   }, [filtros, chamadas.data]);
 
-
-
-  // MINHAS CHAMADAS
   useEffect(() => {
+    if (filtros.length === 0) {
+      setRestringirChamadas(undefined);
+      return;
+    }
     if (!chamadas.isSuccess) return;
 
-    const resultado = chamadas.data.filter(
-      chamada => chamada.status !== null && chamada.status > 2
-    )
-
-    setChamadasEmAndamento(
-      (resultado ?? [])
-    )
-    setMinhasChamadas(
-      chamadasEmAndamento?.filter(
-        chamada => (chamada.gerado_por == sessao?.user.id) ||
-          (
-            chamada.tecnicos.split(',').some(techChamada =>
-              techChamada.toLowerCase().trim() == tecnicoLogado?.nome.toLowerCase().trim()
-            )
+    setRestringirChamadas(
+      (incluirAntigas ? chamadas.data : megaInfoChamadas.listaChamadasAbertas).filter(chamada => {
+        filtros.some(filtro => {
+          Object.values(chamada).some(
+            propriedade => String(propriedade)
+              .toLowerCase()
+              .includes(filtro.toLowerCase())
           )
-      )
-    );
-  }, [chamadas.isSuccess, chamadas.data, sessao])
-
-
+        })
+      })
+    )
+  }, [filtros, chamadas.data]);
 
   // =========================================
   const [megaInfoChamadas, setMegaInfoChamadas] =
@@ -195,9 +213,33 @@ function FiltrosChamadasProvider({ children }: { children: React.ReactNode }) {
       chamadasPausadas: 0,
       chamadasAtrasadas: 0,
       chamadasParadas: 0,
+      listaChamadasParadas: [],
+      listaChamadasAbertas: [],
+      listaChamadasAtrasadas: [],
+      listaChamadasConcluidas: [],
+      listaChamadasConcluidasAtrasadas: [],
+      listaChamadasPausadas: [],
       chamadasConcluidas: 0,
-      chamadasConcluidasAtrasadas: 0
+      chamadasConcluidasAtrasadas: 0,
+      tempoTotalAndamento: 0,
+      tempoTotalPausa: 0,
+      tempoTotalEspera: 0,
     });
+
+
+  const andamentosPorChamada = useMemo(() => {
+    if (!andamentos.data) return {} as Record<string, Tables<'andamentos'>[]>;
+
+    return andamentos.data?.reduce<Record<string, Tables<'andamentos'>[]>>(
+      (acc, andamento) => {
+        const id = andamento.id_chamada;
+        if (!acc[id]) acc[id] = [];
+        acc[id].push(andamento);
+        return acc;
+      },
+      {}
+    );
+  }, [andamentos]);
 
   useEffect(() => {
     if (!chamadas.isSuccess) return;
@@ -209,94 +251,154 @@ function FiltrosChamadasProvider({ children }: { children: React.ReactNode }) {
       chamadasPausadas: 0,
       chamadasAtrasadas: 0,
       chamadasParadas: 0,
+      listaChamadasParadas: [],
+      listaChamadasAbertas: [],
+      listaChamadasAtrasadas: [],
+      listaChamadasConcluidas: [],
+      listaChamadasPausadas: [],
+      listaChamadasConcluidasAtrasadas: [],
       chamadasConcluidas: 0,
-      chamadasConcluidasAtrasadas: 0
+      chamadasConcluidasAtrasadas: 0,
+      tempoTotalAndamento: 0,
+      tempoTotalPausa: 0,
+      tempoTotalEspera: 0,
     };
 
-    chamadas.data.forEach((chamada) => {
-      const fechouAtrasou = chamada.status == 1;
-      const fechou = chamada.status == 2;
-      const nasceu = chamada.status == 3;
-      const pausou = chamada.status == 4;
-      const andou = chamada.status == 5;
-      const atrasou = chamada.status == 6;
+    const chamadasGaloAtual: Tables<'chamadas'>[] = [];
 
+    for (const chamada of chamadas.data) {
+      const status = chamada.status;
+
+      const fechouAtrasou = status === 1;
+      const fechou = status === 2;
+      const nasceu = status === 3;
+      const pausou = status === 4;
+      const andou = status === 5;
+      const atrasou = status === 6;
+
+      // GLOBAL, PEGA TUDO
       resultado.chamadasTotais++;
 
-      const galos = chamada.tecnicos?.split(",")
-        .map((g) => g.trim());
-
-      if (galos) {
-        galos.forEach((galo) => {
-
-          if (!resultado.chamadasDele[galo]) {
-            resultado.chamadasDele[galo] = {
-              chamadasConcluidas: [],
-              chamadasConcluidasAtrasadas: [],
-              chamadasEmAtendimento: [],
-              chamadasAtrasadas: [],
-              chamadasPausadas: [],
-              numeroConcluidas: 0,
-              numeroEmAtendimento: 0,
-              numeroAtrasadas: 0,
-              numeroConcluidasAtrasadas: 0,
-              numeroPausadas: 0,
-              numeroTotalChamadas: 0,
-              tempoTotalChamadas: 0,
-              tempoMedioAtendimento: 0,
-              ocorrencias: 0,
-              
-              tempoParado: 0
-            };
-          }
-
-          const info = resultado.chamadasDele[galo];
-          info.numeroTotalChamadas!++;
-
-          if (fechouAtrasou) {
-            info.chamadasConcluidasAtrasadas.push(chamada);
-            info.numeroConcluidasAtrasadas!++;
-          }
-
-          if (fechou) {
-            info.chamadasConcluidas.push(chamada);
-            info.numeroConcluidas!++;
-          }
-
-          if (andou) {
-            info.chamadasEmAtendimento.push(chamada);
-            info.numeroEmAtendimento!++;
-          }
-
-          if (pausou) {
-            info.chamadasPausadas.push(chamada);
-            info.numeroPausadas!++;
-          }
-
-          if (atrasou) {
-            info.chamadasAtrasadas.push(chamada);
-            info.numeroAtrasadas!++;
-          }
-        });
-
-
-
+      if (fechouAtrasou) {
+        resultado.chamadasConcluidasAtrasadas++;
+        resultado.listaChamadasConcluidasAtrasadas.push(chamada);
       }
-      else {
-        resultado.chamadasParadas++;
+      if (fechou) {
+        resultado.chamadasConcluidas++;
+        resultado.listaChamadasConcluidas.push(chamada);
       }
-    });
+      if (andou) {
+        resultado.chamadasEmAndamento++;
+        resultado.listaChamadasAbertas.push(chamada);
+      }
+      if (pausou) {
+        resultado.chamadasPausadas++;
+        resultado.chamadasEmAndamento++;
+        resultado.listaChamadasPausadas.push(chamada);
+      }
+      if (atrasou) {
+        resultado.chamadasAtrasadas++;
+        resultado.listaChamadasAtrasadas.push(chamada);
+      }
 
-    Object.values(resultado.chamadasDele).forEach((info) => {
-      if (info.numeroTotalChamadas) {
+      // TEMPO - PEGA O TEMPO DA CHAMADA
+      const andamentosDesta = andamentosPorChamada[chamada.id] ?? [];
+      const { tempoAndamento, tempoPausa } = calcularTempo(chamada, andamentosDesta);
+      const tempoEspera = tempoAteAtender(chamada) ?? 0;
+      resultado.tempoTotalAndamento += tempoAndamento;
+      resultado.tempoTotalPausa += tempoPausa;
+      resultado.tempoTotalEspera += tempoEspera;
+
+      // AGORA POR GALO DENTRO DE CADA CHAMADA:
+      const galos = chamada.tecnicos
+        ?.split(',')
+        .map((g) => g.trim().split(" ").slice(0, 2).join(" "))
+        .filter(Boolean);
+
+      if (!galos || galos.length === 0) {
+        if (nasceu) {
+          resultado.chamadasParadas++;
+          resultado.listaChamadasParadas.push(chamada);
+        }
+        continue;
+      }
+      // Vendo se o galo atual tem chamada:
+
+      const ids = chamada.tecnicos
+        ?.split(',')
+        .map(g => g.trim().split(" ")[2])
+        .filter(Boolean);
+
+      ids?.forEach((id) => {
+        if (id == authen.sessao?.user.id) {
+          chamadasGaloAtual.push(chamada);
+        }
+      });
+
+      // CALCULANDO AGORA POR GALO, NÃO MAIS GERAL:
+      for (const galo of galos) {
+        if (!resultado.chamadasDele[galo]) {
+          resultado.chamadasDele[galo] = {
+            chamadasConcluidas: [],
+            chamadasConcluidasAtrasadas: [],
+            chamadasEmAtendimento: [],
+            chamadasAtrasadas: [],
+            chamadasPausadas: [],
+            numeroConcluidas: 0,
+            numeroEmAtendimento: 0,
+            numeroAtrasadas: 0,
+            numeroConcluidasAtrasadas: 0,
+            numeroPausadas: 0,
+            numeroTotalChamadas: 0,
+            tempoTotalChamadas: 0,
+            tempoAtendimento: 0,
+            tempoParado: 0,
+            tempoEspera: 0,
+            ocorrencias: 0,
+            tempoMedioAtendimento: 0,
+          };
+        }
+
+        const info = resultado.chamadasDele[galo];
+        info.numeroTotalChamadas++;
+
+        if (fechouAtrasou) {
+          info.chamadasConcluidasAtrasadas.push(chamada);
+          info.numeroConcluidasAtrasadas++;
+        }
+        if (fechou) {
+          info.chamadasConcluidas.push(chamada);
+          info.numeroConcluidas++;
+        }
+        if (andou) {
+          info.chamadasEmAtendimento.push(chamada);
+          info.numeroEmAtendimento++;
+        }
+        if (pausou) {
+          info.chamadasPausadas.push(chamada);
+          info.numeroPausadas++;
+        }
+        if (atrasou) {
+          info.chamadasAtrasadas.push(chamada);
+          info.numeroAtrasadas++;
+        }
+
+        info.tempoTotalChamadas += tempoAndamento;
+        info.tempoParado += tempoPausa;
+        info.tempoEspera += tempoEspera;
+      }
+    }
+
+    // CÁLCULO PARA VER RAPIDEZ DO GALO:
+    for (const info of Object.values(resultado.chamadasDele)) {
+      if (info.numeroTotalChamadas > 0) {
         info.tempoMedioAtendimento =
-          info.tempoTotalChamadas! / info.numeroTotalChamadas;
+          info.tempoTotalChamadas / info.numeroTotalChamadas;
       }
-    });
-
+    }
+    setMinhasChamadas(chamadasGaloAtual);
     setMegaInfoChamadas(resultado);
-  }, [chamadas.data, chamadas.isSuccess]);
-
+  }, [chamadas.data, chamadas.isSuccess, andamentosPorChamada]);
 
   return (
     <FiltrosChamadasContext.Provider
@@ -310,14 +412,13 @@ function FiltrosChamadasProvider({ children }: { children: React.ReactNode }) {
         tirarTecnico,
         tirarChamada,
         tirarUsuario,
-        chamadasEmAndamento,
+        megaInfoChamadas,
         aplicarFiltros,
         restringirChamadas,
         minhasChamadas,
         removerFiltros,
         incluirAntigas,
         antigasTambem,
-        chamadasPorStatus,
       }}
     >
       {children}

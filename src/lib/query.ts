@@ -52,8 +52,10 @@ export function pegarAndamentos() {
       const { data, error } = await supabase
         .from('andamentos')
         .select('*')
-      if (error) throw error
-      return data as Tables<'andamentos'>[]
+        .order('quando', { ascending: true });
+
+      if (error) throw error;
+      return data as Tables<'andamentos'>[];
     },
-  })
+  });
 }

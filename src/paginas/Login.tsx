@@ -163,7 +163,7 @@ export default function Login() {
               animate={{ background: card, borderColor: border }}
             >
               <motion.button
-                onClick={() => {authen.limparErro(); setAba("painel");}}
+                onClick={() => { authen.limparErro(); setAba("painel"); }}
                 whileHover={{
                   scale: 1.05,
                 }}
@@ -476,6 +476,7 @@ export default function Login() {
                       </label>
                       <div className="relative">
                         <motion.button
+                          type="button"
                           onClick={() => abrirCategoria()}
                           value={categoriaChamada}
                           onChange={e => setCategoriaChamada(e.target.value)}
@@ -634,7 +635,7 @@ export default function Login() {
                   </div>
                 </div>
                 <AnimatePresence>
-                  {erroChamada && (
+                  {(erroChamada !== '') && (
                     <motion.div
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}

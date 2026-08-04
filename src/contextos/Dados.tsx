@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useState, useEffect } from 'react';
-import  { pegarInventario, pegarTecnicos, pegarChamadas } from "@/lib/query";
+import  { pegarInventario, pegarTecnicos, pegarChamadas, pegarAndamentos } from "@/lib/query";
 import { supabase } from '@/lib/supabase';
 import { useQueryClient } from "@tanstack/react-query";
 import type { DadosContextType } from './tipos-contexto';
@@ -15,6 +15,7 @@ function DadosProvider({ children }: { children: React.ReactNode }) {
   const chamadas = pegarChamadas();
   const tecnicos = pegarTecnicos();
   const inventario = pegarInventario();
+  const andamentos = pegarAndamentos();
   const dados = inventario.data as any;
 
 
@@ -264,6 +265,7 @@ function DadosProvider({ children }: { children: React.ReactNode }) {
     <DadosContext.Provider
     value={{
       chamadas,
+      andamentos,
       tecnicos,
       inventario,
       usuarios,
