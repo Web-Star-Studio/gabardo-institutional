@@ -10,7 +10,7 @@ import FolderGalleryModal from '@/components/FolderGalleryModal';
 const certifications = [
   {
     icon: Award,
-    title: 'GHG Protocol - Selo Prata',
+    title: 'GHG Protocol - Selo Ouro',
     subtitle: 'Inventário de Emissões',
     description:
       'Transparência na gestão de gases de efeito estufa, com 100% de neutralização das emissões diretas e indiretas.',
@@ -49,6 +49,14 @@ const qualityBadges = [
     description:
       'Protocolos rigorosos de segurança, central de controle 24/7 e treinamentos que garantem operações com zero avarias críticas.',
     downloadUrl: 'https://gabardo.com/wp-content/uploads/2024/10/certificado-iso-39001.pdf',
+    ctaLabel: 'Baixar certificado',
+  },
+  {
+    icon: Award,
+    title: 'ABNT PR 2030',
+    description:
+      'Práticas ESG estruturadas que fortalecem a sustentabilidade e a responsabilidade corporativa.',
+    downloadUrl: '/certifications/ESG-PR2030.pdf',
     ctaLabel: 'Baixar certificado',
   },
   {
@@ -307,18 +315,16 @@ const SobreQualidadeCertificationsSection: React.FC = () => {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
                     </svg>
                   </motion.div>
-                  
-                  <div 
-                    className={`flex items-center justify-center rounded-3xl border border-white/15 bg-white/10 px-8 py-8 backdrop-blur-sm shadow-[0_18px_50px_-25px_rgba(19,45,81,0.65)] cursor-pointer group transition-all ${
-                      isFolderHovered ? 'border-gabardo-light-blue/40' : ''
-                    }`}
+
+                  <div
+                    className={`flex items-center justify-center rounded-3xl border border-white/15 bg-white/10 px-8 py-8 backdrop-blur-sm shadow-[0_18px_50px_-25px_rgba(19,45,81,0.65)] cursor-pointer group transition-all ${isFolderHovered ? 'border-gabardo-light-blue/40' : ''
+                      }`}
                     onClick={() => setIsModalOpen(true)}
                     onMouseEnter={() => setIsFolderHovered(true)}
                     onMouseLeave={() => setIsFolderHovered(false)}
                   >
-                    <div className={`transition-transform ${
-                      isFolderHovered ? 'scale-105' : ''
-                    }`}>
+                    <div className={`transition-transform ${isFolderHovered ? 'scale-105' : ''
+                      }`}>
                       <Folder
                         size={1.9}
                         color="#38B6FF"
@@ -327,7 +333,7 @@ const SobreQualidadeCertificationsSection: React.FC = () => {
                       />
                     </div>
                   </div>
-                  
+
                   {/* Right Arrow - Points left towards folder */}
                   <motion.div
                     animate={{ x: [4, 0, 4] }}
@@ -342,7 +348,7 @@ const SobreQualidadeCertificationsSection: React.FC = () => {
 
                 <div className="flex flex-col gap-6 p-6 pt-7">
                   <div>
-                    <h3 
+                    <h3
                       className="text-lg font-semibold uppercase tracking-[0.32em] text-white/80 hover:text-gabardo-light-blue transition-colors cursor-pointer"
                       onClick={() => setIsModalOpen(true)}
                       onMouseEnter={() => setIsFolderHovered(true)}
@@ -369,9 +375,8 @@ const SobreQualidadeCertificationsSection: React.FC = () => {
                               alt={item.alt}
                               fill
                               sizes="80px"
-                              className={`object-contain ${
-                                item.label === 'OEA - Receita Federal' ? 'scale-125' : ''
-                              }`}
+                              className={`object-contain ${item.label === 'OEA - Receita Federal' ? 'scale-125' : ''
+                                }`}
                             />
                           </div>
                           <div>
