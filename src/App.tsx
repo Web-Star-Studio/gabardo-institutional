@@ -14,8 +14,8 @@ function App() {
           <FiltrosChamadasProvider>
             <HeaderProvider>
               <Header />
-              <Login />
-              {/*<DashboardHeader />*/}
+              {/*<Login />*/}
+              <DashboardHeader />
             </HeaderProvider>
           </FiltrosChamadasProvider>
         </AutenticacaoProvider>

@@ -239,7 +239,7 @@ function FiltrosChamadasProvider({ children }: { children: React.ReactNode }) {
       },
       {}
     );
-  }, [andamentos]);
+  }, [andamentos.data]);
 
   useEffect(() => {
     if (!chamadas.isSuccess) return;
@@ -268,7 +268,6 @@ function FiltrosChamadasProvider({ children }: { children: React.ReactNode }) {
 
     for (const chamada of chamadas.data) {
       const status = chamada.status;
-
       const fechouAtrasou = status === 1;
       const fechou = status === 2;
       const nasceu = status === 3;
@@ -396,6 +395,7 @@ function FiltrosChamadasProvider({ children }: { children: React.ReactNode }) {
           info.tempoTotalChamadas / info.numeroTotalChamadas;
       }
     }
+
     setMinhasChamadas(chamadasGaloAtual);
     setMegaInfoChamadas(resultado);
   }, [chamadas.data, chamadas.isSuccess, andamentosPorChamada]);

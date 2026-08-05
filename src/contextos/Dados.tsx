@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useState, useEffect } from 'react';
-import  { pegarInventario, pegarTecnicos, pegarChamadas, pegarAndamentos } from "@/lib/query";
+import { pegarInventario, pegarTecnicos, pegarChamadas, pegarAndamentos } from "@/lib/query";
 import { supabase } from '@/lib/supabase';
 import { useQueryClient } from "@tanstack/react-query";
 import type { DadosContextType } from './tipos-contexto';
@@ -19,37 +19,37 @@ function DadosProvider({ children }: { children: React.ReactNode }) {
   const dados = inventario.data as any;
 
 
-  const [ usuarios, setUsuarios ] = useState<Record<string, string>>({});
-  const [ numeroUsuarios, setNumeroUsuarios ] = useState<number>(0);
+  const [usuarios, setUsuarios] = useState<Record<string, string>>({});
+  const [numeroUsuarios, setNumeroUsuarios] = useState<number>(0);
 
-  const [ impressoras, setImpressoras] = useState<Record<string, number>>({});
-  const [ impressorasDrivers, setImpressorasDrivers ] = useState<Record<string, number>>({});
-  const [ impressorasStatus, setImpressorasStatus ] = useState<Record<string, number>>({});
-  
-  const [ processadores, setProcessadores] = useState<Record<string, number>>({});
-  
-  const [ computadoresModelos, setComputadoresModelos ] = useState<Record<string, number>>({});
-  const [ computadoresFabricantes, setComputadoresFabricantes ] = useState<Record<string, number>>({});
-  const [ computadoresSO, setComputadoresSO ] = useState<Record<string, number>>({});
-  const [ computadoresAtivacao, setComputadoresAtivacao ] = useState<Record<string, number>>({});
-  const [ computadoresArquitetura, setComputadoresArquitetura] = useState<Record<string, number>>({});
+  const [impressoras, setImpressoras] = useState<Record<string, number>>({});
+  const [impressorasDrivers, setImpressorasDrivers] = useState<Record<string, number>>({});
+  const [impressorasStatus, setImpressorasStatus] = useState<Record<string, number>>({});
 
-  const [ memoriasTipos, setMemoriasTipos ] = useState<Record<string, number>>({});
-  const [ memoriasVelocidades, setMemoriasVelocidades ] = useState<Record<string, number>>({});
-  const [ memoriasStatus, setMemoriasStatus ] = useState<Record<string, number>>({});
-  const [ memoriasCapacidades, setMemoriasCapacidades ] = useState<Record<string, number>>({});
+  const [processadores, setProcessadores] = useState<Record<string, number>>({});
 
-  const [ monitores, setMonitores ] = useState<Record<string, number>>({});
-  const [ monitoresStatus, setMonitoresStatus ] = useState<Record<string, number>>({});
-  const [ monitoresFabricantes, setMonitoresFabricantes ] = useState<Record<string, number>>({});
-  const [ monitoresContagem, setMonitoresContagem ] = useState<Record<string, number>>({});
+  const [computadoresModelos, setComputadoresModelos] = useState<Record<string, number>>({});
+  const [computadoresFabricantes, setComputadoresFabricantes] = useState<Record<string, number>>({});
+  const [computadoresSO, setComputadoresSO] = useState<Record<string, number>>({});
+  const [computadoresAtivacao, setComputadoresAtivacao] = useState<Record<string, number>>({});
+  const [computadoresArquitetura, setComputadoresArquitetura] = useState<Record<string, number>>({});
 
-  const [ placasMaeFabricantes, setPlacasMaeFabricantes ] = useState<Record<string, number>>({});
-  const [ placasMaeModelos, setPlacasMaeModelos ] = useState<Record<string, number>>({});
-  const [ placasMaeStatus, setPlacasMaeStatus ] = useState<Record<string, number>>({});
-  
-  const [ uac, setUac ] = useState<Record<string, number>>({});
-  const [ firewall, setFirewall ] = useState<Record<string, number>>({});
+  const [memoriasTipos, setMemoriasTipos] = useState<Record<string, number>>({});
+  const [memoriasVelocidades, setMemoriasVelocidades] = useState<Record<string, number>>({});
+  const [memoriasStatus, setMemoriasStatus] = useState<Record<string, number>>({});
+  const [memoriasCapacidades, setMemoriasCapacidades] = useState<Record<string, number>>({});
+
+  const [monitores, setMonitores] = useState<Record<string, number>>({});
+  const [monitoresStatus, setMonitoresStatus] = useState<Record<string, number>>({});
+  const [monitoresFabricantes, setMonitoresFabricantes] = useState<Record<string, number>>({});
+  const [monitoresContagem, setMonitoresContagem] = useState<Record<string, number>>({});
+
+  const [placasMaeFabricantes, setPlacasMaeFabricantes] = useState<Record<string, number>>({});
+  const [placasMaeModelos, setPlacasMaeModelos] = useState<Record<string, number>>({});
+  const [placasMaeStatus, setPlacasMaeStatus] = useState<Record<string, number>>({});
+
+  const [uac, setUac] = useState<Record<string, number>>({});
+  const [firewall, setFirewall] = useState<Record<string, number>>({});
 
 
   useEffect(() => {
@@ -63,7 +63,8 @@ function DadosProvider({ children }: { children: React.ReactNode }) {
       if (registro.hostname) {
         setUsuarios((anterior) => ({
           ...anterior,
-          [registro.hostname]: data?.coleta?.usuario_executando ?? "",        }));
+          [registro.hostname]: data?.coleta?.usuario_executando ?? "",
+        }));
       }
 
       const processador = data?.processador?.nome;
@@ -136,7 +137,7 @@ function DadosProvider({ children }: { children: React.ReactNode }) {
           ...anterior,
           [String(velocidade) + " mhz"]: (anterior[String(velocidade) + " mhz"] ?? 0) + 1,
         }));
-          
+
         setMemoriasCapacidades((anterior) => ({
           ...anterior,
           [String(capacidade) + " GB"]: (anterior[String(velocidade) + " GB"] ?? 0) + 1,
@@ -196,7 +197,7 @@ function DadosProvider({ children }: { children: React.ReactNode }) {
       if (placaMae?.status) {
         setPlacasMaeStatus((anterior) => ({
           ...anterior,
-          [placaMae.status]: (anterior[placaMae.status] ?? 0 ) + 1,
+          [placaMae.status]: (anterior[placaMae.status] ?? 0) + 1,
         }));
       }
 
@@ -206,13 +207,13 @@ function DadosProvider({ children }: { children: React.ReactNode }) {
       setUac((anterior) => ({
         ...anterior,
         [(seguranca.uac ?? "Não reconhecido")]:
-        (anterior[(seguranca.uac ?? "Não reconhecido")] ?? 0) + 1,
+          (anterior[(seguranca.uac ?? "Não reconhecido")] ?? 0) + 1,
       }));
 
       setFirewall((anterior) => ({
         ...anterior,
         [(seguranca.firewall ?? "Não reconhecido")]:
-        (anterior[(seguranca.firewall ?? "Não reconhecido")] ?? 0) + 1,
+          (anterior[(seguranca.firewall ?? "Não reconhecido")] ?? 0) + 1,
       }));
 
       // Impressoras
@@ -261,38 +262,39 @@ function DadosProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
+
   return (
     <DadosContext.Provider
-    value={{
-      chamadas,
-      andamentos,
-      tecnicos,
-      inventario,
-      usuarios,
-      numeroUsuarios,
-      impressoras,
-      impressorasDrivers,
-      impressorasStatus,
-      processadores,
-      computadoresModelos,
-      computadoresFabricantes,
-      computadoresSO,
-      computadoresAtivacao,
-      computadoresArquitetura,
-      memoriasTipos,
-      memoriasVelocidades,
-      memoriasStatus,
-      memoriasCapacidades,
-      monitores,
-      monitoresStatus,
-      monitoresFabricantes,
-      monitoresContagem,
-      placasMaeFabricantes,
-      placasMaeModelos,
-      placasMaeStatus,
-      uac,
-      firewall,
-    }}
+      value={{
+        chamadas,
+        andamentos,
+        tecnicos,
+        inventario,
+        usuarios,
+        numeroUsuarios,
+        impressoras,
+        impressorasDrivers,
+        impressorasStatus,
+        processadores,
+        computadoresModelos,
+        computadoresFabricantes,
+        computadoresSO,
+        computadoresAtivacao,
+        computadoresArquitetura,
+        memoriasTipos,
+        memoriasVelocidades,
+        memoriasStatus,
+        memoriasCapacidades,
+        monitores,
+        monitoresStatus,
+        monitoresFabricantes,
+        monitoresContagem,
+        placasMaeFabricantes,
+        placasMaeModelos,
+        placasMaeStatus,
+        uac,
+        firewall,
+      }}
     >
       {children}
     </DadosContext.Provider>
