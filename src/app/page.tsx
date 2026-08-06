@@ -6,6 +6,7 @@ import { Header } from "@/components/layout/Header";
 import HeroSection from "@/components/custom/HeroSection";
 import JSLInspiredServicesSection from "@/components/custom/JSLInspiredServicesSection";
 import PremiumInfoSection from '@/components/custom/PremiumInfoSection';
+import AlertModal from "@/components/custom/AlertModal";
 
 // Lazy load below-the-fold components for better performance
 const HomeClientsLogoSection = dynamic(() => import("@/components/custom/HomeClientsLogoSection"), {
@@ -36,6 +37,7 @@ export default function HomePage() {
     <main className="relative bg-gray-50">
       <Header variant="dark" />
       <HeroSection />
+      <AlertModal />
       
       <FadeInSection>
         <JSLInspiredServicesSection />
