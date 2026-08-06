@@ -55,125 +55,119 @@ function DadosProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (!inventario.isSuccess) return;
 
+    const dados = inventario.data ?? [];
+
     setNumeroUsuarios(dados.length || 0);
 
-    dados?.forEach((registro: any) => {
+    // Temporary accumulators
+    const tempUsuarios: Record<string, string> = {};
+    const tempProcessadores: Record<string, number> = {};
+    const tempComputadoresModelos: Record<string, number> = {};
+    const tempComputadoresFabricantes: Record<string, number> = {};
+    const tempComputadoresSO: Record<string, number> = {};
+    const tempComputadoresAtivacao: Record<string, number> = {};
+    const tempComputadoresArquitetura: Record<string, number> = {};
+    const tempMemoriasTipos: Record<string, number> = {};
+    const tempMemoriasStatus: Record<string, number> = {};
+    const tempMemoriasVelocidades: Record<string, number> = {};
+    const tempMemoriasCapacidades: Record<string, number> = {};
+    const tempMonitoresStatus: Record<string, number> = {};
+    const tempMonitoresFabricantes: Record<string, number> = {};
+    const tempMonitoresContagem: Record<string, number> = {};
+    const tempMonitores: Record<string, number> = {};
+    const tempPlacasMaeModelos: Record<string, number> = {};
+    const tempPlacasMaeFabricantes: Record<string, number> = {};
+    const tempPlacasMaeStatus: Record<string, number> = {};
+    const tempUac: Record<string, number> = {};
+    const tempFirewall: Record<string, number> = {};
+    const tempImpressoras: Record<string, number> = {};
+    const tempImpressorasDrivers: Record<string, number> = {};
+    const tempImpressorasStatus: Record<string, number> = {};
+
+    dados.forEach((registro: any) => {
       const data = registro.data as any;
 
+      // Usuários
       if (registro.hostname) {
-        setUsuarios((anterior) => ({
-          ...anterior,
-          [registro.hostname]: data?.coleta?.usuario_executando ?? "",
-        }));
+        tempUsuarios[registro.hostname] = data?.coleta?.usuario_executando ?? "";
       }
 
+      // Processadores
       const processador = data?.processador?.nome;
       if (processador) {
-        setProcessadores((anterior) => ({
-          ...anterior,
-          [processador]: (anterior[processador] ?? 0) + 1,
-        }));
+        tempProcessadores[processador] = (tempProcessadores[processador] ?? 0) + 1;
       }
 
+      // Sistema
       const sistema = data?.sistema;
 
       if (sistema?.modelo_computador) {
-        setComputadoresModelos((anterior) => ({
-          ...anterior,
-          [sistema.modelo_computador]: (anterior[sistema.modelo_computador] ?? 0) + 1,
-        }));
+        tempComputadoresModelos[sistema.modelo_computador] =
+          (tempComputadoresModelos[sistema.modelo_computador] ?? 0) + 1;
       }
 
       if (sistema?.fabricante_computador) {
-        setComputadoresFabricantes((anterior) => ({
-          ...anterior,
-          [sistema.fabricante_computador]: (anterior[sistema.fabricante_computador] ?? 0) + 1,
-        }));
+        tempComputadoresFabricantes[sistema.fabricante_computador] =
+          (tempComputadoresFabricantes[sistema.fabricante_computador] ?? 0) + 1;
       }
 
       if (sistema?.nome) {
-        setComputadoresSO((anterior) => ({
-          ...anterior,
-          [sistema.nome]: (anterior[sistema.nome] ?? 0) + 1,
-        }));
+        tempComputadoresSO[sistema.nome] = (tempComputadoresSO[sistema.nome] ?? 0) + 1;
       }
 
-      if (sistema?.ativacao) {
-        setComputadoresAtivacao((anterior) => ({
-          ...anterior,
-          [String(sistema.ativacao)]: (anterior[String(sistema.ativacao)] ?? 0) + 1,
-        }));
+      if (sistema?.ativacao !== undefined && sistema?.ativacao !== null) {
+        const key = String(sistema.ativacao);
+        tempComputadoresAtivacao[key] = (tempComputadoresAtivacao[key] ?? 0) + 1;
       }
 
       if (sistema?.arquitetura) {
-        setComputadoresArquitetura((anterior) => ({
-          ...anterior,
-          [sistema.arquitetura]: (anterior[sistema.arquitetura] ?? 0) + 1,
-        }));
+        tempComputadoresArquitetura[sistema.arquitetura] =
+          (tempComputadoresArquitetura[sistema.arquitetura] ?? 0) + 1;
       }
 
-      // Memória principal
+      // Memória
       const memoria = data?.memoria;
 
       if (memoria?.tipo) {
-        setMemoriasTipos((anterior) => ({
-          ...anterior,
-          [memoria.tipo]: (anterior[memoria.tipo] ?? 0) + 1,
-        }));
+        tempMemoriasTipos[memoria.tipo] = (tempMemoriasTipos[memoria.tipo] ?? 0) + 1;
       }
 
       if (memoria?.status) {
-        setMemoriasStatus((anterior) => ({
-          ...anterior,
-          [memoria.status]: (anterior[memoria.status] ?? 0) + 1,
-        }));
+        tempMemoriasStatus[memoria.status] = (tempMemoriasStatus[memoria.status] ?? 0) + 1;
       }
 
       memoria?.modulos?.forEach((modulo: any) => {
         const velocidade = String(modulo.velocidade_mhz);
         const capacidade = String(modulo.capacidade_gb);
 
-        setMemoriasVelocidades((anterior) => ({
-          ...anterior,
-          [String(velocidade) + " mhz"]: (anterior[String(velocidade) + " mhz"] ?? 0) + 1,
-        }));
+        const velKey = `${velocidade} mhz`;
+        tempMemoriasVelocidades[velKey] = (tempMemoriasVelocidades[velKey] ?? 0) + 1;
 
-        setMemoriasCapacidades((anterior) => ({
-          ...anterior,
-          [String(capacidade) + " GB"]: (anterior[String(velocidade) + " GB"] ?? 0) + 1,
-        }));
+        const capKey = `${capacidade} GB`;
+        tempMemoriasCapacidades[capKey] = (tempMemoriasCapacidades[capKey] ?? 0) + 1;
       });
 
       // Monitores
       const monitoresDados = data?.monitores;
 
       if (monitoresDados?.status) {
-        setMonitoresStatus((anterior) => ({
-          ...anterior,
-          [monitoresDados.status]: (anterior[monitoresDados.status] ?? 0) + 1,
-        }));
+        tempMonitoresStatus[monitoresDados.status] =
+          (tempMonitoresStatus[monitoresDados.status] ?? 0) + 1;
       }
 
       if (monitoresDados?.fabricante) {
-        setMonitoresFabricantes((anterior) => ({
-          ...anterior,
-          [monitoresDados.fabricante]: (anterior[monitoresDados.fabricante] ?? 0) + 1,
-        }));
+        tempMonitoresFabricantes[monitoresDados.fabricante] =
+          (tempMonitoresFabricantes[monitoresDados.fabricante] ?? 0) + 1;
       }
 
-      const quantidadeMonitores = String(data?.monitores_edid?.length ?? 0) + " monitor(es)";
-
-      setMonitoresContagem((anterior) => ({
-        ...anterior,
-        [quantidadeMonitores]: (anterior[quantidadeMonitores] ?? 0) + 1,
-      }));
+      const quantidadeMonitores = `${data?.monitores_edid?.length ?? 0} monitor(es)`;
+      tempMonitoresContagem[quantidadeMonitores] =
+        (tempMonitoresContagem[quantidadeMonitores] ?? 0) + 1;
 
       data?.monitores_edid?.forEach((monitor: any) => {
         if (monitor.nome_amigavel) {
-          setMonitores((anterior) => ({
-            ...anterior,
-            [monitor.nome_amigavel]: (anterior[monitor.nome_amigavel] ?? 0) + 1,
-          }));
+          tempMonitores[monitor.nome_amigavel] =
+            (tempMonitores[monitor.nome_amigavel] ?? 0) + 1;
         }
       });
 
@@ -181,62 +175,69 @@ function DadosProvider({ children }: { children: React.ReactNode }) {
       const placaMae = data?.placas_mae;
 
       if (placaMae?.modelo) {
-        setPlacasMaeModelos((anterior) => ({
-          ...anterior,
-          [placaMae.modelo]: (anterior[placaMae.modelo] ?? 0) + 1,
-        }));
+        tempPlacasMaeModelos[placaMae.modelo] =
+          (tempPlacasMaeModelos[placaMae.modelo] ?? 0) + 1;
       }
 
       if (placaMae?.fabricante) {
-        setPlacasMaeFabricantes((anterior) => ({
-          ...anterior,
-          [placaMae.fabricante]: (anterior[placaMae.fabricante] ?? 0) + 1,
-        }));
+        tempPlacasMaeFabricantes[placaMae.fabricante] =
+          (tempPlacasMaeFabricantes[placaMae.fabricante] ?? 0) + 1;
       }
 
       if (placaMae?.status) {
-        setPlacasMaeStatus((anterior) => ({
-          ...anterior,
-          [placaMae.status]: (anterior[placaMae.status] ?? 0) + 1,
-        }));
+        tempPlacasMaeStatus[placaMae.status] =
+          (tempPlacasMaeStatus[placaMae.status] ?? 0) + 1;
       }
 
       // Segurança
       const seguranca = data?.seguranca;
+      const uacKey = seguranca?.uac ?? "Não reconhecido";
+      tempUac[uacKey] = (tempUac[uacKey] ?? 0) + 1;
 
-      setUac((anterior) => ({
-        ...anterior,
-        [(seguranca.uac ?? "Não reconhecido")]:
-          (anterior[(seguranca.uac ?? "Não reconhecido")] ?? 0) + 1,
-      }));
-
-      setFirewall((anterior) => ({
-        ...anterior,
-        [(seguranca.firewall ?? "Não reconhecido")]:
-          (anterior[(seguranca.firewall ?? "Não reconhecido")] ?? 0) + 1,
-      }));
+      const firewallKey = seguranca?.firewall ?? "Não reconhecido";
+      tempFirewall[firewallKey] = (tempFirewall[firewallKey] ?? 0) + 1;
 
       // Impressoras
       data?.impressoras?.forEach((impressora: any) => {
-
-        setImpressoras((anterior) => ({
-          ...anterior,
-          [impressora.nome]: (anterior[impressora.nome] ?? 0) + 1,
-        }));
-
-        setImpressorasDrivers((anterior) => ({
-          ...anterior,
-          [impressora.drivers]: (anterior[impressora.drivers] ?? 0) + 1,
-        }));
-
-        setImpressorasStatus((anterior) => ({
-          ...anterior,
-          [impressora.status]: (anterior[impressora.status] ?? 0) + 1,
-        }));
+        if (impressora.nome) {
+          tempImpressoras[impressora.nome] = (tempImpressoras[impressora.nome] ?? 0) + 1;
+        }
+        if (impressora.drivers) {
+          tempImpressorasDrivers[impressora.drivers] =
+            (tempImpressorasDrivers[impressora.drivers] ?? 0) + 1;
+        }
+        if (impressora.status) {
+          tempImpressorasStatus[impressora.status] =
+            (tempImpressorasStatus[impressora.status] ?? 0) + 1;
+        }
       });
     });
-  }, [inventario.isSuccess, inventario.data]);
 
+    // Single setState calls after processing everything
+    setUsuarios(tempUsuarios);
+    setProcessadores(tempProcessadores);
+    setComputadoresModelos(tempComputadoresModelos);
+    setComputadoresFabricantes(tempComputadoresFabricantes);
+    setComputadoresSO(tempComputadoresSO);
+    setComputadoresAtivacao(tempComputadoresAtivacao);
+    setComputadoresArquitetura(tempComputadoresArquitetura);
+    setMemoriasTipos(tempMemoriasTipos);
+    setMemoriasStatus(tempMemoriasStatus);
+    setMemoriasVelocidades(tempMemoriasVelocidades);
+    setMemoriasCapacidades(tempMemoriasCapacidades);
+    setMonitoresStatus(tempMonitoresStatus);
+    setMonitoresFabricantes(tempMonitoresFabricantes);
+    setMonitoresContagem(tempMonitoresContagem);
+    setMonitores(tempMonitores);
+    setPlacasMaeModelos(tempPlacasMaeModelos);
+    setPlacasMaeFabricantes(tempPlacasMaeFabricantes);
+    setPlacasMaeStatus(tempPlacasMaeStatus);
+    setUac(tempUac);
+    setFirewall(tempFirewall);
+    setImpressoras(tempImpressoras);
+    setImpressorasDrivers(tempImpressorasDrivers);
+    setImpressorasStatus(tempImpressorasStatus);
+  }, [inventario.isSuccess, inventario.data]);
 
   useEffect(() => {
     const channel = supabase
