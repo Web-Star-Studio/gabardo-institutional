@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useState, useEffect } from 'react';
-import { pegarInventario, pegarTecnicos, pegarChamadas, pegarAndamentos } from "@/lib/query";
+import { pegarTecnicosChamadas, pegarInventario, pegarTecnicos, pegarChamadas, pegarAndamentos } from "@/lib/query";
 import { supabase } from '@/lib/supabase';
 import { useQueryClient } from "@tanstack/react-query";
 import type { DadosContextType } from './tipos-contexto';
@@ -16,8 +16,7 @@ function DadosProvider({ children }: { children: React.ReactNode }) {
   const tecnicos = pegarTecnicos();
   const inventario = pegarInventario();
   const andamentos = pegarAndamentos();
-  const dados = inventario.data as any;
-
+  const tecnicosChamadas = pegarTecnicosChamadas();
 
   const [usuarios, setUsuarios] = useState<Record<string, string>>({});
   const [numeroUsuarios, setNumeroUsuarios] = useState<number>(0);
@@ -52,6 +51,7 @@ function DadosProvider({ children }: { children: React.ReactNode }) {
   const [firewall, setFirewall] = useState<Record<string, number>>({});
 
 
+  // INVENTARIO
   useEffect(() => {
     if (!inventario.isSuccess) return;
 
@@ -213,7 +213,6 @@ function DadosProvider({ children }: { children: React.ReactNode }) {
       });
     });
 
-    // Single setState calls after processing everything
     setUsuarios(tempUsuarios);
     setProcessadores(tempProcessadores);
     setComputadoresModelos(tempComputadoresModelos);
@@ -263,6 +262,30 @@ function DadosProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
+  useEffect(() => {
+    const channel = supabase
+      .channel("tecnicos")
+
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "tecnicos",
+        },
+        () => {
+          queryClient.invalidateQueries({
+            queryKey: ["tecnicos"],
+          });
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
+
 
   return (
     <DadosContext.Provider
@@ -270,6 +293,7 @@ function DadosProvider({ children }: { children: React.ReactNode }) {
         chamadas,
         andamentos,
         tecnicos,
+        tecnicosChamadas,
         inventario,
         usuarios,
         numeroUsuarios,

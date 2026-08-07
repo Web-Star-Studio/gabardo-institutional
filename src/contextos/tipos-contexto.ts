@@ -46,6 +46,7 @@ export type DadosContextType = {
     chamadas: UseQueryResult<Tables<"chamadas">[], Error>;
     andamentos: UseQueryResult<Tables<"andamentos">[], Error>;
     tecnicos: UseQueryResult<Tables<"tecnicos">[], Error>;
+    tecnicosChamadas: UseQueryResult<Tables<"tecnico_chamadas">[], Error>;
     inventario: UseQueryResult<Tables<"inventario_mv">[], Error>;
     usuarios: Record<string, string>;
     numeroUsuarios: number;

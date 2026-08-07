@@ -170,6 +170,42 @@ export type Database = {
         }
         Relationships: []
       }
+      tecnico_chamadas: {
+        Row: {
+          created_at: string
+          id: string
+          id_chamada: string
+          id_tecnico: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          id_chamada: string
+          id_tecnico?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          id_chamada?: string
+          id_tecnico?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_tecnico_chamadas_chamada"
+            columns: ["id_chamada"]
+            isOneToOne: false
+            referencedRelation: "chamadas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tecnico_chamadas_id_tecnico_fkey"
+            columns: ["id_tecnico"]
+            isOneToOne: false
+            referencedRelation: "tecnicos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tecnicos: {
         Row: {
           cargo: string | null

@@ -59,3 +59,19 @@ export function pegarAndamentos() {
     },
   });
 }
+
+export function pegarTecnicosChamadas() {
+    return useQuery<Tables<"tecnico_chamadas">[]>({
+        queryKey: ["tecnico_chamadas"],
+        queryFn: async () => {
+            const { data, error } = await supabase
+                .from("tecnico_chamadas")
+                .select(`
+                    *,
+                    tecnicos (*)
+                `);
+
+            if (error) throw error;
+            return data satisfies Tables<"tecnico_chamadas">[];        }
+    });
+}
