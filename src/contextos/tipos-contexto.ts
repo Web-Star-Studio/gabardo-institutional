@@ -2,44 +2,35 @@ import { type Session, type User } from '@supabase/supabase-js';
 import type { Tables } from '@/lib/tipos';
 import type { UseQueryResult } from "@tanstack/react-query";
 
-export interface ChamadasDetalhadas {
-  chamadasConcluidas: Tables<'chamadas'>[];
-  chamadasConcluidasAtrasadas: Tables<'chamadas'>[];
-  chamadasEmAtendimento: Tables<'chamadas'>[];
-  chamadasAtrasadas: Tables<'chamadas'>[];
-  chamadasPausadas: Tables<'chamadas'>[];
-  numeroConcluidas: number;
-  numeroEmAtendimento: number;
-  numeroAtrasadas: number;
-  numeroConcluidasAtrasadas: number;
-  numeroPausadas: number;
-  numeroTotalChamadas: number;
-  tempoTotalChamadas: number;
-  tempoAtendimento: number;
-  tempoParado: number;
-  tempoEspera: number;
-  ocorrencias: number;
-  tempoMedioAtendimento: number;
+export type Chamada = Tables<"chamadas">;
+
+interface ChamadaMetricas {
+        numeroFinalizadasAtrasadas: number;
+        numeroFinalizadas: number;
+        numeroParadas: number;
+        numeroEmAndamento: number;
+        numeroPausadas: number;
+        numeroAtrasadas: number;
+
+        listaFinalizadasAtrasadas: Chamada[];
+        listaFinalizadas: Chamada[];
+        listaParadas: Chamada[];
+        listaEmAndamento: Chamada[];
+        listaPausadas: Chamada[];
+        listaAtrasadas: Chamada[];
+
+  chamadasBaixas: Chamada[]
+  chamadasMedias: Chamada[]
+  chamadasAltas: Chamada[]
+  chamadasUrgentes: Chamada[]
+
+  chamadasNovas: Chamada[]
+  chamadasVelhas: Chamada[]
 }
 
-export interface GalosDetalhados {
-  chamadasDele: Record<string, ChamadasDetalhadas>;
-  chamadasTotais: number;
-  chamadasEmAndamento: number;
-  chamadasPausadas: number;
-  chamadasAtrasadas: number;
-  chamadasParadas: number;
-  chamadasConcluidas: number;
-  chamadasConcluidasAtrasadas: number;
-  listaChamadasParadas: Tables<'chamadas'>[];
-  listaChamadasAbertas: Tables<'chamadas'>[];
-  listaChamadasAtrasadas: Tables<'chamadas'>[];
-  listaChamadasConcluidas: Tables<'chamadas'>[];
-  listaChamadasConcluidasAtrasadas: Tables<'chamadas'>[];
-  listaChamadasPausadas: Tables<'chamadas'>[];
-  tempoTotalAndamento: number;
-  tempoTotalPausa: number;
-  tempoTotalEspera: number;
+export interface DetalhesCompletos {
+  geral: ChamadaMetricas;
+  individual: Record<string, ChamadaMetricas>
 }
 
 export type DadosContextType = {
@@ -86,20 +77,5 @@ export type AutenticacaoContextType = {
 }
 
 export type FiltrosChamadasContextType = {
-    usuarioSelecionado: Tables<'inventario_mv'> | null;
-    tecnicoSelecionado: Tables<'tecnicos'> | null;
-    chamadaSelecionada: Tables<'chamadas'> | null;
-    selecionarTecnico: (tecnico: string) => void;
-    selecionarChamada: (chamada: string) => void;
-    selecionarUsuario: (usuario: string) => void;
-    tirarTecnico: () => void;
-    tirarChamada: () => void;
-    tirarUsuario: () => void;
-    megaInfoChamadas: GalosDetalhados;
-    aplicarFiltros: (filtros: string) => void;
-    restringirChamadas: Tables<'chamadas'>[] | undefined;
-    minhasChamadas: Tables<'chamadas'>[] | undefined;
-    removerFiltros: () => void;
-    incluirAntigas: boolean;
-    antigasTambem: () => void;
+
 }
