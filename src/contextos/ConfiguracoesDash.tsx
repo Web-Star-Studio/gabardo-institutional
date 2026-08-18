@@ -1,34 +1,38 @@
 'use client';
 
 import { createContext, useContext, useState, useEffect } from 'react';
-import { type User, type Session } from '@supabase/supabase-js'
-import { supabase } from "@/lib/supabase";
-import { type AutenticacaoContextType } from './tipos-contexto';
-import { useDados } from './Dados';
-import { type Tables } from '@/lib/tipos';
-import { useAutenticacao } from '@/contextos/Autenticacao';
 
 const ConfiguracoesContext = createContext<ConfiguracoesContextType | null>(null);
 
-function ConfiguracoesProvider({ children }: { children: React.ReactNode }) {  
-    const authen = useAutenticacao();
-    
-    const [configString, setConfigString] = useState("");
-    const [configStringSalva, setConfigStringSalva] = useState("");
-    const [carregandoConfigs, setCarregandoConfigs] = useState(false);
-    const [erro, setErro] = useState<string | null>(null);
+function ConfiguracoesProvider({ children }: { children: React.ReactNode }) {
 
-    const limparErro = () => {
-      setErro(null);
-    }
+  const [configuracoes, setConfiguracoes] = useState("");
 
-    const alterarConfiguracoes = (config: string) => {
-        setConfigString(config);
-    }
+  const idCards = {
+    0: "numeroChamadasTotal",
+    1: "numeroChamadasAtrasadas",
+    2: "numeroChamadasParadas",
+    3: "numeroChamadasAndamento",
+    4: "numeroChamadasPausadas",
+    5: "numeroChamadasFinalizadas",
+    6: "numeroChamadasFinalizadasAtrasadas",
+    7: "metricasChamadasTotal",
+    8: "metricasChamadasAtrasadas",
+    9: "metricasChamadasParadas",
+    10: "metricasChamadasAndamento",
+    11: "metricasChamadasPausadas",
+    12: "metricasChamadasFinalizadas",
+    13: "metricasChamadasFinalizadasAtrasadas",
+  }
 
-    useEffect(() => {
+  useEffect(() => {
+    if (configuracoes !== "") return;
 
-    }, [configStringSalva])
+    const configSalva = localStorage.getItem("config-salva");
+
+    if (configSalva) setConfiguracoes(configSalva);
+    return;
+  }, [])
 
   return (
     <ConfiguracoesContext.Provider
@@ -42,9 +46,9 @@ function ConfiguracoesProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function useAutenticacao() {
+export function useConfiguracoes() {
   const context = useContext(ConfiguracoesContext);
-  if (!context) throw new Error('useAutenticacao deve ser usado dentro do DadosProvider');
+  if (!context) throw new Error('useConfiguracoes deve ser usado dentro do DadosProvider');
   return context;
 }
 

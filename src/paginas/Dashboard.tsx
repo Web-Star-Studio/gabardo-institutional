@@ -2,7 +2,6 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, X } from "lucide-react";
 import { useHeader } from "@/contextos/Header";
-import ChartsMoveableMegaInfo from '@/componentes/personalizados/charts';
 
 export default function DashboardHeader() {
   const { darkMode } = useHeader();
@@ -65,7 +64,6 @@ export default function DashboardHeader() {
           </motion.button>
         </div>
       </motion.header>
-      <ChartsMoveableMegaInfo />
       <motion.main
         animate={{
           backgroundColor: inputBg,

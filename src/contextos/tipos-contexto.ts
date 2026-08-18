@@ -5,19 +5,19 @@ import type { UseQueryResult } from "@tanstack/react-query";
 export type Chamada = Tables<"chamadas">;
 
 interface ChamadaMetricas {
-        numeroFinalizadasAtrasadas: number;
-        numeroFinalizadas: number;
-        numeroParadas: number;
-        numeroEmAndamento: number;
-        numeroPausadas: number;
-        numeroAtrasadas: number;
+  numeroFinalizadasAtrasadas: number;
+  numeroFinalizadas: number;
+  numeroParadas: number;
+  numeroEmAndamento: number;
+  numeroPausadas: number;
+  numeroAtrasadas: number;
 
-        listaFinalizadasAtrasadas: Chamada[];
-        listaFinalizadas: Chamada[];
-        listaParadas: Chamada[];
-        listaEmAndamento: Chamada[];
-        listaPausadas: Chamada[];
-        listaAtrasadas: Chamada[];
+  listaFinalizadasAtrasadas: Chamada[];
+  listaFinalizadas: Chamada[];
+  listaParadas: Chamada[];
+  listaEmAndamento: Chamada[];
+  listaPausadas: Chamada[];
+  listaAtrasadas: Chamada[];
 
   chamadasBaixas: Chamada[]
   chamadasMedias: Chamada[]
@@ -77,5 +77,5 @@ export type AutenticacaoContextType = {
 }
 
 export type FiltrosChamadasContextType = {
-
+  megaInfoChamadas: DetalhesCompletos;
 }

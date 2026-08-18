@@ -7,7 +7,6 @@ import { useHeader } from '@/contextos/Header';
 import { useAutenticacao } from "@/contextos/Autenticacao";
 import LiquidEther from '@/componentes/animacoes/Fumaca';
 import { MessageSquarePlus, User2, ArrowLeft } from 'lucide-react';
-import BlurText from "@/componentes/animacoes/Texto";
 
 import { supabase } from '@/lib/supabase';
 

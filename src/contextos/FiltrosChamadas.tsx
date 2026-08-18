@@ -7,25 +7,24 @@
 -- 4 = Urgente
  */
 
-import { createContext, useContext, useState, useEffect, useMemo } from 'react';
+import { createContext, useContext, useMemo } from 'react';
 import { type FiltrosChamadasContextType } from './tipos-contexto';
-import { useAutenticacao } from './Autenticacao';
 import { useDados } from './Dados';
 import type { DetalhesCompletos, Chamada } from './tipos-contexto';
-import type { Tables } from '@/lib/tipos';
 
 const FiltrosChamadasContext = createContext<FiltrosChamadasContextType | null>(null);
 
 function FiltrosChamadasProvider({ children }: { children: React.ReactNode }) {
-  const authen = useAutenticacao();
   const {
     chamadas,
     tecnicos,
-    inventario,
-    andamentos,
     tecnicosChamadas
   } = useDados();
 
+  const dadosProntos =
+    chamadas.isSuccess &&
+    tecnicos.isSuccess &&
+    tecnicosChamadas.isSuccess;
 
   const chamadasPorId = useMemo<Map<string, Chamada>>(() => {
     return new Map(
@@ -36,16 +35,8 @@ function FiltrosChamadasProvider({ children }: { children: React.ReactNode }) {
     );
   }, [chamadas.data]);
 
-  const tecnicosPorId = useMemo<Map<string, Tables<"tecnicos">>>(() => {
-    return new Map(
-      (tecnicos.data ?? []).map((tecnico) => [
-        tecnico.id,
-        tecnico,
-      ])
-    );
-  }, [tecnicos.data]);
+  const megaInfoChamadas = useMemo<DetalhesCompletos>(() => {
 
-  const megaInfoChamadas = useMemo(() => {
     const repetidas = new Set<string>();
 
     const dados: DetalhesCompletos = {
@@ -246,8 +237,6 @@ function FiltrosChamadasProvider({ children }: { children: React.ReactNode }) {
             break;
         }
 
-
-
         switch (chamadaAtual.prioridade) {
           case 1:
             dados.geral
@@ -269,18 +258,23 @@ function FiltrosChamadasProvider({ children }: { children: React.ReactNode }) {
               .chamadasUrgentes.push(chamadaAtual)
             break;
         }
-
         repetidas.add(chamadaAtual.id);
       }
-
-
     });
-  }, [tecnicosChamadas.data]);
+    console.log(dados);
+    return dados;
+  }, [
+    dadosProntos,
+    chamadas.data,
+    tecnicos.data,
+    tecnicosChamadas.data,
+    chamadasPorId,
+  ]);
 
   return (
     <FiltrosChamadasContext.Provider
       value={{
-
+        megaInfoChamadas
       }}
     >
       {children}
