@@ -39,6 +39,7 @@ export interface TargetCursorProps {
   parallaxOn?: boolean;
   cursorColor?: string;
   cursorColorOnTarget?: string;
+  enabled?: boolean;
 }
 
 const TargetCursor: React.FC<TargetCursorProps> = ({
@@ -48,7 +49,8 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
   hoverDuration = 0.2,
   parallaxOn = true,
   cursorColor = '#ffffff',
-  cursorColorOnTarget
+  cursorColorOnTarget,
+  enabled = true
 }) => {
   const cursorRef = useRef<HTMLDivElement>(null);
   const cornersRef = useRef<NodeListOf<HTMLDivElement> | null>(null);
@@ -60,6 +62,9 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
   const targetCornerPositionsRef = useRef<{ x: number; y: number }[] | null>(null);
   const tickerFnRef = useRef<(() => void) | null>(null);
   const activeStrengthRef = useRef({ current: 0 });
+
+  const enabledRef = useRef(enabled);
+  const leaveCurrentTargetRef = useRef<(() => void) | null>(null);
 
   const isMobile = useMemo(() => {
     if (typeof window === 'undefined') return false;
@@ -78,6 +83,14 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
     const { x: offsetX, y: offsetY } = getContainingBlockOffset(containingBlockRef.current);
     gsap.to(cursorRef.current, { x: x - offsetX, y: y - offsetY, duration: 0.1, ease: 'power3.out' });
   }, []);
+
+  useEffect(() => {
+    enabledRef.current = enabled;
+
+    if (!enabled) {
+      leaveCurrentTargetRef.current?.();
+    }
+  }, [enabled]);
 
   useEffect(() => {
     if (isMobile || !cursorRef.current) return;
@@ -186,6 +199,8 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
     window.addEventListener('mouseup', mouseUpHandler);
 
     const enterHandler = (e: MouseEvent) => {
+      if (!enabledRef.current) return;
+
       const directTarget = e.target as Element;
       const allTargets: Element[] = [];
       let current: Element | null = directTarget;
@@ -312,8 +327,14 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
           resumeTimeout = null;
         }, 50);
         cleanupTarget(target);
+
+        if (leaveCurrentTargetRef.current === leaveHandler) {
+          leaveCurrentTargetRef.current = null;
+        }
       };
       currentLeaveHandler = leaveHandler;
+      leaveCurrentTargetRef.current = leaveHandler;
+
       target.addEventListener('mouseleave', leaveHandler);
     };
 

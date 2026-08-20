@@ -32,12 +32,14 @@ function AutenticacaoProvider({ children }: { children: React.ReactNode }) {
       if(error){
         setErro("Erro: " + error);
         setCarregando(false);
-        return;
+        return false;
       }
       setCarregando(false);
       setErro("");
       setUser(data.user);
       setSessao(data.session);
+
+      return true;
     }
     
     const logout = async () => {

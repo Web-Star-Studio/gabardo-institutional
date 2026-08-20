@@ -70,7 +70,7 @@ export type AutenticacaoContextType = {
     sessao: Session | null;
     carregando: boolean;
     erro: string;
-    login: (email: string, senha: string) => void;
+    login: (email: string, senha: string) => boolean;
     logout: () => void;
     tecnicoLogado: Tables<'tecnicos'> | null;
     limparErro: () => void;

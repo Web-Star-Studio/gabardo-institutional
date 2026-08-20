@@ -44,25 +44,25 @@ export type Database = {
           descricao: string | null
           id: string
           id_chamada: string
+          id_tecnico_atualizou: string
           motivo: string
           quando: string
-          quem_atualizou: string
         }
         Insert: {
           descricao?: string | null
           id?: string
           id_chamada: string
+          id_tecnico_atualizou?: string
           motivo: string
           quando?: string
-          quem_atualizou: string
         }
         Update: {
           descricao?: string | null
           id?: string
           id_chamada?: string
+          id_tecnico_atualizou?: string
           motivo?: string
           quando?: string
-          quem_atualizou?: string
         }
         Relationships: [
           {
@@ -70,6 +70,48 @@ export type Database = {
             columns: ["id_chamada"]
             isOneToOne: false
             referencedRelation: "chamadas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "andamentos_id_chamada_fkey"
+            columns: ["id_chamada"]
+            isOneToOne: false
+            referencedRelation: "chamadas_andamento"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "andamentos_id_chamada_fkey"
+            columns: ["id_chamada"]
+            isOneToOne: false
+            referencedRelation: "count_chamadas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "andamentos_id_chamada_fkey"
+            columns: ["id_chamada"]
+            isOneToOne: false
+            referencedRelation: "join_chamadas_andamento"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "andamentos_id_chamada_fkey"
+            columns: ["id_chamada"]
+            isOneToOne: false
+            referencedRelation: "minhas_chamadas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "andamentos_id_chamada_fkey"
+            columns: ["id_chamada"]
+            isOneToOne: false
+            referencedRelation: "minhas_chamadas_andamento"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "andamentos_id_tecnico_atualizou_fkey"
+            columns: ["id_tecnico_atualizou"]
+            isOneToOne: false
+            referencedRelation: "tecnicos"
             referencedColumns: ["id"]
           },
         ]
@@ -83,9 +125,7 @@ export type Database = {
           data_criacao: string
           data_finalizacao: string | null
           descricao: string
-          em_atendimento: boolean
           email_requerente: string
-          fechou: boolean
           id: string
           ip_requerente: string | null
           prazo_final: string | null
@@ -93,7 +133,6 @@ export type Database = {
           requerente: string
           segundos_restantes: number | null
           status: number
-          tecnicos: string | null
           titulo: string
         }
         Insert: {
@@ -104,9 +143,7 @@ export type Database = {
           data_criacao?: string
           data_finalizacao?: string | null
           descricao: string
-          em_atendimento?: boolean
           email_requerente: string
-          fechou?: boolean
           id?: string
           ip_requerente?: string | null
           prazo_final?: string | null
@@ -114,7 +151,6 @@ export type Database = {
           requerente: string
           segundos_restantes?: number | null
           status?: number
-          tecnicos?: string | null
           titulo: string
         }
         Update: {
@@ -125,9 +161,7 @@ export type Database = {
           data_criacao?: string
           data_finalizacao?: string | null
           descricao?: string
-          em_atendimento?: boolean
           email_requerente?: string
-          fechou?: boolean
           id?: string
           ip_requerente?: string | null
           prazo_final?: string | null
@@ -135,40 +169,480 @@ export type Database = {
           requerente?: string
           segundos_restantes?: number | null
           status?: number
-          tecnicos?: string | null
           titulo?: string
         }
         Relationships: []
       }
-      inventario: {
+      logs_usuarios: {
         Row: {
-          action: string | null
-          created_at: string | null
-          data: Json
-          hostname: string | null
-          id: string
-          timestamp: string | null
-          updated_at: string | null
+          created_at: string
+          descricao: string
+          gravidade: number
+          id: number
+          maquina_id: string
+          nome_usuario: string
+          titulo: string
+          tratado: boolean
         }
         Insert: {
-          action?: string | null
-          created_at?: string | null
-          data: Json
-          hostname?: string | null
-          id: string
-          timestamp?: string | null
-          updated_at?: string | null
+          created_at?: string
+          descricao: string
+          gravidade: number
+          id?: number
+          maquina_id: string
+          nome_usuario: string
+          titulo: string
+          tratado: boolean
         }
         Update: {
-          action?: string | null
-          created_at?: string | null
-          data?: Json
-          hostname?: string | null
+          created_at?: string
+          descricao?: string
+          gravidade?: number
+          id?: number
+          maquina_id?: string
+          nome_usuario?: string
+          titulo?: string
+          tratado?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "logs_usuarios_maquina_id_fkey"
+            columns: ["maquina_id"]
+            isOneToOne: false
+            referencedRelation: "maquinas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "logs_usuarios_nome_usuario_fkey"
+            columns: ["nome_usuario"]
+            isOneToOne: false
+            referencedRelation: "maquinas"
+            referencedColumns: ["nome_computador"]
+          },
+        ]
+      }
+      maquina_cpus: {
+        Row: {
+          clock_max_ghz: number | null
+          fabricante: string | null
+          id_processador: string | null
+          maquina_id: string
+          nome: string | null
+          nucleos: number | null
+          processadores_logicos: number | null
+          soquete: string | null
+        }
+        Insert: {
+          clock_max_ghz?: number | null
+          fabricante?: string | null
+          id_processador?: string | null
+          maquina_id: string
+          nome?: string | null
+          nucleos?: number | null
+          processadores_logicos?: number | null
+          soquete?: string | null
+        }
+        Update: {
+          clock_max_ghz?: number | null
+          fabricante?: string | null
+          id_processador?: string | null
+          maquina_id?: string
+          nome?: string | null
+          nucleos?: number | null
+          processadores_logicos?: number | null
+          soquete?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "maquina_cpus_maquina_id_fkey"
+            columns: ["maquina_id"]
+            isOneToOne: true
+            referencedRelation: "maquinas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      maquina_dados_brutos: {
+        Row: {
+          coletado_em: string | null
+          conexoes: Json | null
+          maquina_id: string
+          usuarios_locais: Json | null
+        }
+        Insert: {
+          coletado_em?: string | null
+          conexoes?: Json | null
+          maquina_id: string
+          usuarios_locais?: Json | null
+        }
+        Update: {
+          coletado_em?: string | null
+          conexoes?: Json | null
+          maquina_id?: string
+          usuarios_locais?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "maquina_dados_brutos_maquina_id_fkey"
+            columns: ["maquina_id"]
+            isOneToOne: true
+            referencedRelation: "maquinas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      maquina_gpus: {
+        Row: {
+          data_driver: string | null
+          id: string
+          maquina_id: string | null
+          nome: string | null
+          processador_video: string | null
+          resolucao: string | null
+          status: string | null
+          taxa_atualizacao: number | null
+          versao_driver: string | null
+          vram_gb: number | null
+        }
+        Insert: {
+          data_driver?: string | null
           id?: string
-          timestamp?: string | null
-          updated_at?: string | null
+          maquina_id?: string | null
+          nome?: string | null
+          processador_video?: string | null
+          resolucao?: string | null
+          status?: string | null
+          taxa_atualizacao?: number | null
+          versao_driver?: string | null
+          vram_gb?: number | null
+        }
+        Update: {
+          data_driver?: string | null
+          id?: string
+          maquina_id?: string | null
+          nome?: string | null
+          processador_video?: string | null
+          resolucao?: string | null
+          status?: string | null
+          taxa_atualizacao?: number | null
+          versao_driver?: string | null
+          vram_gb?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "maquina_gpus_maquina_id_fkey"
+            columns: ["maquina_id"]
+            isOneToOne: false
+            referencedRelation: "maquinas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      maquina_hds: {
+        Row: {
+          id: number
+          livre: string
+          maquina_id: string
+          modelo: string
+          p_usado: string
+          tipo: string
+          total: string
+          usado: string
+        }
+        Insert: {
+          id?: number
+          livre: string
+          maquina_id: string
+          modelo: string
+          p_usado: string
+          tipo: string
+          total: string
+          usado: string
+        }
+        Update: {
+          id?: number
+          livre?: string
+          maquina_id?: string
+          modelo?: string
+          p_usado?: string
+          tipo?: string
+          total?: string
+          usado?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hd_maquina_id_fkey"
+            columns: ["maquina_id"]
+            isOneToOne: false
+            referencedRelation: "maquinas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      maquina_monitores: {
+        Row: {
+          ativo: boolean | null
+          fabricante: string | null
+          id: string
+          maquina_id: string | null
+          modelo: string | null
+          numero_serie: string | null
+        }
+        Insert: {
+          ativo?: boolean | null
+          fabricante?: string | null
+          id?: string
+          maquina_id?: string | null
+          modelo?: string | null
+          numero_serie?: string | null
+        }
+        Update: {
+          ativo?: boolean | null
+          fabricante?: string | null
+          id?: string
+          maquina_id?: string | null
+          modelo?: string | null
+          numero_serie?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "maquina_monitores_maquina_id_fkey"
+            columns: ["maquina_id"]
+            isOneToOne: false
+            referencedRelation: "maquinas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      maquina_rams: {
+        Row: {
+          capacidade: string
+          id: number
+          maquina_id: string
+          slot: string
+          tipo: string
+          velocidade: string
+          velocidade_atual: string
+        }
+        Insert: {
+          capacidade?: string
+          id?: number
+          maquina_id: string
+          slot?: string
+          tipo?: string
+          velocidade?: string
+          velocidade_atual?: string
+        }
+        Update: {
+          capacidade?: string
+          id?: number
+          maquina_id?: string
+          slot?: string
+          tipo?: string
+          velocidade?: string
+          velocidade_atual?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "maquina_rams_maquina_id_fkey"
+            columns: ["maquina_id"]
+            isOneToOne: false
+            referencedRelation: "maquinas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      maquinas: {
+        Row: {
+          arquitetura: string | null
+          criado_em: string | null
+          dominio: string | null
+          fabricante: string | null
+          familia_sistema: string | null
+          id: string
+          ip_interno: string | null
+          ip_publico: string | null
+          modelo: string | null
+          nome_computador: string
+          placa_mae_fabricante: string | null
+          placa_mae_produto: string | null
+          placa_mae_serial: string | null
+          sistema_operacional: string | null
+          ultimo_visto: string | null
+          usuario_atual: string | null
+          versao_so: string | null
+        }
+        Insert: {
+          arquitetura?: string | null
+          criado_em?: string | null
+          dominio?: string | null
+          fabricante?: string | null
+          familia_sistema?: string | null
+          id?: string
+          ip_interno?: string | null
+          ip_publico?: string | null
+          modelo?: string | null
+          nome_computador: string
+          placa_mae_fabricante?: string | null
+          placa_mae_produto?: string | null
+          placa_mae_serial?: string | null
+          sistema_operacional?: string | null
+          ultimo_visto?: string | null
+          usuario_atual?: string | null
+          versao_so?: string | null
+        }
+        Update: {
+          arquitetura?: string | null
+          criado_em?: string | null
+          dominio?: string | null
+          fabricante?: string | null
+          familia_sistema?: string | null
+          id?: string
+          ip_interno?: string | null
+          ip_publico?: string | null
+          modelo?: string | null
+          nome_computador?: string
+          placa_mae_fabricante?: string | null
+          placa_mae_produto?: string | null
+          placa_mae_serial?: string | null
+          sistema_operacional?: string | null
+          ultimo_visto?: string | null
+          usuario_atual?: string | null
+          versao_so?: string | null
         }
         Relationships: []
+      }
+      maquinas_programas: {
+        Row: {
+          id: string
+          maquina_id: string
+          programa_id: number
+        }
+        Insert: {
+          id?: string
+          maquina_id: string
+          programa_id: number
+        }
+        Update: {
+          id?: string
+          maquina_id?: string
+          programa_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "maquina_programas_maquina_id_fkey"
+            columns: ["maquina_id"]
+            isOneToOne: false
+            referencedRelation: "maquinas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "maquinas_programas_programa_id_fkey"
+            columns: ["programa_id"]
+            isOneToOne: false
+            referencedRelation: "programas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      maquinas_programas_flags: {
+        Row: {
+          created_at: string
+          id: number
+          maquina_id: string
+          permitiu: boolean
+          programa_id: number
+          tecnico_permitiu: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          maquina_id?: string
+          permitiu?: boolean
+          programa_id: number
+          tecnico_permitiu?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          maquina_id?: string
+          permitiu?: boolean
+          programa_id?: number
+          tecnico_permitiu?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "maquinas_programas_flags_maquina_id_fkey"
+            columns: ["maquina_id"]
+            isOneToOne: false
+            referencedRelation: "maquinas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "maquinas_programas_flags_programa_id_fkey"
+            columns: ["programa_id"]
+            isOneToOne: false
+            referencedRelation: "programas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "maquinas_programas_flags_tecnico_permitiu_fkey"
+            columns: ["tecnico_permitiu"]
+            isOneToOne: false
+            referencedRelation: "tecnicos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      programas: {
+        Row: {
+          flag: boolean
+          id: number
+          nome: string
+          publisher: string | null
+          versao: string | null
+        }
+        Insert: {
+          flag?: boolean
+          id?: number
+          nome?: string
+          publisher?: string | null
+          versao?: string | null
+        }
+        Update: {
+          flag?: boolean
+          id?: number
+          nome?: string
+          publisher?: string | null
+          versao?: string | null
+        }
+        Relationships: []
+      }
+      programas_blacklist: {
+        Row: {
+          id: number
+          id_tecnico: string | null
+          nome: string
+        }
+        Insert: {
+          id?: number
+          id_tecnico?: string | null
+          nome?: string
+        }
+        Update: {
+          id?: number
+          id_tecnico?: string | null
+          nome?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "programas_blacklist_id_tecnico_fkey"
+            columns: ["id_tecnico"]
+            isOneToOne: false
+            referencedRelation: "tecnicos"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       tecnico_chamadas: {
         Row: {
@@ -191,10 +665,45 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "fk_tecnico_chamadas_chamada"
+            foreignKeyName: "tecnico_chamadas_id_chamada_fkey"
             columns: ["id_chamada"]
             isOneToOne: false
             referencedRelation: "chamadas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tecnico_chamadas_id_chamada_fkey"
+            columns: ["id_chamada"]
+            isOneToOne: false
+            referencedRelation: "chamadas_andamento"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tecnico_chamadas_id_chamada_fkey"
+            columns: ["id_chamada"]
+            isOneToOne: false
+            referencedRelation: "count_chamadas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tecnico_chamadas_id_chamada_fkey"
+            columns: ["id_chamada"]
+            isOneToOne: false
+            referencedRelation: "join_chamadas_andamento"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tecnico_chamadas_id_chamada_fkey"
+            columns: ["id_chamada"]
+            isOneToOne: false
+            referencedRelation: "minhas_chamadas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tecnico_chamadas_id_chamada_fkey"
+            columns: ["id_chamada"]
+            isOneToOne: false
+            referencedRelation: "minhas_chamadas_andamento"
             referencedColumns: ["id"]
           },
           {
@@ -232,24 +741,234 @@ export type Database = {
       }
     }
     Views: {
-      inventario_mv: {
+      chamadas_andamento: {
         Row: {
-          action: string | null
-          created_at: string | null
-          data: Json | null
-          hostname: string | null
+          categoria: string | null
+          contando_desde: string | null
+          continuar_contagem: boolean | null
+          data_atendeu: string | null
+          data_criacao: string | null
+          data_finalizacao: string | null
+          descricao: string | null
+          email_requerente: string | null
           id: string | null
-          timestamp: string | null
-          updated_at: string | null
+          id_tecnico: string | null
+          ip_requerente: string | null
+          prazo_final: string | null
+          prioridade: number | null
+          requerente: string | null
+          segundos_restantes: number | null
+          status: number | null
+          titulo: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tecnico_chamadas_id_tecnico_fkey"
+            columns: ["id_tecnico"]
+            isOneToOne: false
+            referencedRelation: "tecnicos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      count_chamadas: {
+        Row: {
+          categoria: string | null
+          contando_desde: string | null
+          continuar_contagem: boolean | null
+          data_atendeu: string | null
+          data_criacao: string | null
+          data_finalizacao: string | null
+          descricao: string | null
+          email_requerente: string | null
+          id: string | null
+          id_tecnico: string | null
+          ip_requerente: string | null
+          prazo_final: string | null
+          prioridade: number | null
+          requerente: string | null
+          segundos_restantes: number | null
+          status: number | null
+          titulo: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tecnico_chamadas_id_tecnico_fkey"
+            columns: ["id_tecnico"]
+            isOneToOne: false
+            referencedRelation: "tecnicos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      count_chamadas_abertas: {
+        Row: {
+          id_tecnico: string | null
+          total: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tecnico_chamadas_id_tecnico_fkey"
+            columns: ["id_tecnico"]
+            isOneToOne: false
+            referencedRelation: "tecnicos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      count_chamadas_atrasadas: {
+        Row: {
+          id_tecnico: string | null
+          total: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tecnico_chamadas_id_tecnico_fkey"
+            columns: ["id_tecnico"]
+            isOneToOne: false
+            referencedRelation: "tecnicos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      count_chamadas_fechadas: {
+        Row: {
+          total: number | null
         }
         Relationships: []
       }
+      count_chamadas_fechadas_atraso: {
+        Row: {
+          total: number | null
+        }
+        Relationships: []
+      }
+      count_chamadas_paradas: {
+        Row: {
+          total: number | null
+        }
+        Relationships: []
+      }
+      count_chamadas_pausadas: {
+        Row: {
+          id_tecnico: string | null
+          total: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tecnico_chamadas_id_tecnico_fkey"
+            columns: ["id_tecnico"]
+            isOneToOne: false
+            referencedRelation: "tecnicos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      join_chamadas_andamento: {
+        Row: {
+          categoria: string | null
+          contando_desde: string | null
+          continuar_contagem: boolean | null
+          data_atendeu: string | null
+          data_criacao: string | null
+          data_finalizacao: string | null
+          descricao: string | null
+          email_requerente: string | null
+          id: string | null
+          id_tecnico: string | null
+          ip_requerente: string | null
+          prazo_final: string | null
+          prioridade: number | null
+          requerente: string | null
+          segundos_restantes: number | null
+          status: number | null
+          titulo: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tecnico_chamadas_id_tecnico_fkey"
+            columns: ["id_tecnico"]
+            isOneToOne: false
+            referencedRelation: "tecnicos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      minhas_chamadas: {
+        Row: {
+          categoria: string | null
+          contando_desde: string | null
+          continuar_contagem: boolean | null
+          data_atendeu: string | null
+          data_criacao: string | null
+          data_finalizacao: string | null
+          descricao: string | null
+          email_requerente: string | null
+          id: string | null
+          id_tecnico: string | null
+          ip_requerente: string | null
+          prazo_final: string | null
+          prioridade: number | null
+          requerente: string | null
+          segundos_restantes: number | null
+          status: number | null
+          titulo: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tecnico_chamadas_id_tecnico_fkey"
+            columns: ["id_tecnico"]
+            isOneToOne: false
+            referencedRelation: "tecnicos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      minhas_chamadas_andamento: {
+        Row: {
+          categoria: string | null
+          contando_desde: string | null
+          continuar_contagem: boolean | null
+          data_atendeu: string | null
+          data_criacao: string | null
+          data_finalizacao: string | null
+          descricao: string | null
+          email_requerente: string | null
+          id: string | null
+          id_tecnico: string | null
+          ip_requerente: string | null
+          prazo_final: string | null
+          prioridade: number | null
+          requerente: string | null
+          segundos_restantes: number | null
+          status: number | null
+          titulo: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tecnico_chamadas_id_tecnico_fkey"
+            columns: ["id_tecnico"]
+            isOneToOne: false
+            referencedRelation: "tecnicos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
-      atualizar_status_chamadas: { Args: never; Returns: undefined }
-      continuar_timer: { Args: { chamada_id: string }; Returns: undefined }
-      pausar_timer: { Args: { chamada_id: string }; Returns: undefined }
-      tempo_restante: { Args: { chamada_id: string }; Returns: number }
+      criar_chamada: {
+        Args: {
+          p_categoria: string
+          p_client_id: string
+          p_descricao: string
+          p_email: string
+          p_ip?: string
+          p_requerente: string
+          p_titulo: string
+        }
+        Returns: string
+      }
+      upsert_maquina_inventario: { Args: { payload: Json }; Returns: undefined }
     }
     Enums: {
       [_ in never]: never

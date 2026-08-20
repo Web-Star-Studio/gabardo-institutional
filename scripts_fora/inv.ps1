@@ -60,6 +60,73 @@ Select-Object `
 @{Name = 'taxa_atualizacao'; Expression = { $_.CurrentRefreshRate } },
 @{Name = 'status'; Expression = { $_.Status } }
 
+
+$DDR = @{
+    '20' = 'DDR'
+    '21' = 'DDR2'
+    '24' = 'DDR3'
+    '26' = 'DDR4'
+    '30' = 'LPDDR4'
+    '34' = 'DDR5'
+    '35' = 'LPDDR5'
+}
+
+$rams = @(Get-CimInstance Win32_PhysicalMemory -ErrorAction SilentlyContinue |
+    Select-Object `
+    @{Name = 'slot'; Expression = { $_.DeviceLocator } },
+    @{Name = 'capacidade_gb'; Expression = {
+            if ($_.Capacity) {
+                [math]::Round($_.Capacity / 1GB, 2)
+            }
+            else {
+                $null
+            }
+        }
+    },
+    @{Name = 'velocidade'; Expression = { $_.Speed } },
+    @{Name = 'velocidade_configurada'; Expression = { $_.ConfiguredClockSpeed } },
+    @{Name = 'tipo'; Expression = {
+            $DDR[$_.SMBIOSMemoryType.ToString()]
+        }
+    }
+)
+
+$hd = Get-PhysicalDisk | ForEach-Object {
+    $disk = $_
+
+    $windowsDisk = Get-Disk | Where-Object {
+        $_.FriendlyName -eq $disk.FriendlyName
+    } | Select-Object -First 1
+
+    $volumes = @()
+
+    if ($windowsDisk) {
+        $volumes = Get-Partition -DiskNumber $windowsDisk.Number -ErrorAction SilentlyContinue |
+        Get-Volume -ErrorAction SilentlyContinue |
+        Where-Object { $_.DriveLetter }
+    }
+
+    $totalSpace = ($volumes | Measure-Object Size -Sum).Sum
+    $freeSpace = ($volumes | Measure-Object SizeRemaining -Sum).Sum
+
+    [PSCustomObject]@{
+        modelo  = $disk.FriendlyName
+        serial  = $disk.SerialNumber
+        tipo    = $disk.MediaType
+        tipoBus = $disk.BusType
+        status  = $disk.HealthStatus
+        total   = [math]::Round($disk.Size / 1GB, 2)
+        livre   = [math]::Round($freeSpace / 1GB, 2)
+        usado   = [math]::Round(($totalSpace - $freeSpace) / 1GB, 2)
+        pUsado  = if ($totalSpace -and $totalSpace -gt 0) {
+            [math]::Round((($totalSpace - $freeSpace) / $totalSpace) * 100, 2)
+        }
+        else {
+            0
+        }
+    }
+}
+
 $cpuRaw = Get-CimInstance Win32_Processor | Select-Object -First 1
 $cpu = [PSCustomObject]@{
     nome                  = $cpuRaw.Name
@@ -89,6 +156,15 @@ Select-Object `
 @{Name = 'status'; Expression = { $_.Status } } |
 Sort-Object pnp_class, nome
 
+$ipPublico = (Invoke-RestMethod -Uri "https://api.ipify.org").Trim()
+
+$ipsInternos = (
+    Get-NetIPAddress -AddressFamily IPv4 |
+    Where-Object {
+        $_.PrefixOrigin -ne 'WellKnown'
+    }
+).IPAddress -join ' '
+
 $payload = [PSCustomObject]@{
     nome_computador      = $user.Name
     dominio              = $user.Domain
@@ -102,7 +178,11 @@ $payload = [PSCustomObject]@{
     sistema_operacional  = $os.Caption
     versao_so            = $os.Version
     arquitetura          = $os.OSArchitecture
+    ram                  = $rams
+    memoria              = $hd
 
+    ips_internos         = $ipsInternos
+    ip_publico           = $ipPublico
     cpu                  = $cpu
     gpus                 = @($gpus)
     monitores            = @($monitores)
@@ -124,8 +204,6 @@ $bodyObject = @{
 
 $jsonBody = $bodyObject | ConvertTo-Json -Depth 20 -Compress
 
-Write-Host "Tamanho do JSON: $($jsonBody.Length) caracteres" -ForegroundColor Cyan
-
 try {
     $response = Invoke-RestMethod `
         -Uri "$supabaseUrl/rest/v1/rpc/upsert_maquina_inventario" `
@@ -134,26 +212,10 @@ try {
         -Body ([System.Text.Encoding]::UTF8.GetBytes($jsonBody)) `
         -ContentType "application/json; charset=utf-8"
 
-    Write-Host "`n✅ Sucesso! Resposta:" -ForegroundColor Green
     $response
 }
 catch {
-    Write-Host "`n❌ ERRO DETALHADO:" -ForegroundColor Red
-    Write-Host "Mensagem: $($_.Exception.Message)" -ForegroundColor Red
 
     if ($_.ErrorDetails.Message) {
-        Write-Host "Detalhes do Supabase:" -ForegroundColor Yellow
-        Write-Host $_.ErrorDetails.Message
     }
-
-    # Tenta ler o body do erro
-    try {
-        $stream = $_.Exception.Response.GetResponseStream()
-        if ($stream) {
-            $reader = New-Object System.IO.StreamReader($stream)
-            $errorBody = $reader.ReadToEnd()
-            Write-Host "Body do erro: $errorBody" -ForegroundColor Yellow
-        }
-    }
-    catch {}
 }
