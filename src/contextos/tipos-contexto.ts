@@ -38,39 +38,14 @@ export type DadosContextType = {
     andamentos: UseQueryResult<Tables<"andamentos">[], Error>;
     tecnicos: UseQueryResult<Tables<"tecnicos">[], Error>;
     tecnicosChamadas: UseQueryResult<Tables<"tecnico_chamadas">[], Error>;
-    inventario: UseQueryResult<Tables<"inventario_mv">[], Error>;
-    usuarios: Record<string, string>;
-    numeroUsuarios: number;
-    impressoras: Record<string, number>;
-    impressorasDrivers: Record<string, number>;
-    impressorasStatus: Record<string, number>;
-    processadores: Record<string, number>;
-    computadoresModelos: Record<string, number>;
-    computadoresFabricantes: Record<string, number>;
-    computadoresSO: Record<string, number>;
-    computadoresAtivacao: Record<string, number>;
-    computadoresArquitetura: Record<string, number>;
-    memoriasTipos: Record<string, number>;
-    memoriasVelocidades: Record<string, number>;
-    memoriasStatus: Record<string, number>;
-    memoriasCapacidades: Record<string, number>;
-    monitores: Record<string, number>;
-    monitoresStatus: Record<string, number>;
-    monitoresFabricantes: Record<string, number>;
-    monitoresContagem: Record<string, number>;
-    placasMaeFabricantes: Record<string, number>;
-    placasMaeModelos: Record<string, number>;
-    placasMaeStatus: Record<string, number>;
-    uac: Record<string, number>;
-    firewall: Record<string, number>;
-}
+  }
 
 export type AutenticacaoContextType = {
     user: User | null;
     sessao: Session | null;
     carregando: boolean;
     erro: string;
-    login: (email: string, senha: string) => boolean;
+    login: (email: string, senha: string) => Promise<boolean>;
     logout: () => void;
     tecnicoLogado: Tables<'tecnicos'> | null;
     limparErro: () => void;

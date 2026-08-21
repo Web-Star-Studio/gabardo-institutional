@@ -74,11 +74,11 @@ export default function Login() {
         errosContagem++;
       }
       if (categoriaChamada == "- Selecione uma categoria -") {
-        erros += '\nPor favor, selecione o tema!'
+        erros += '\nPor favor, selecione o tema!';
         errosContagem++;
       }
       if (detalhesChamada.length < 8) {
-        erros += `\nPor favor, dê mais detalhes!`
+        erros += `\nPor favor, dê mais detalhes!`;
         errosContagem++;
       }
       if (!idUser) {

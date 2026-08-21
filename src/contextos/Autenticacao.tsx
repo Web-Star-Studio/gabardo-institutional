@@ -9,53 +9,60 @@ import { type Tables } from '@/lib/tipos';
 
 const AutenticacaoContext = createContext<AutenticacaoContextType | null>(null);
 
-function AutenticacaoProvider({ children }: { children: React.ReactNode }) {  
-    const [user, setUser] = useState<User | null>(null);
-    const [sessao, setSessao] = useState<Session | null>(null);
-    const [tecnicoLogado, setTecnicoLogado] = useState<Tables<'tecnicos'> | null>(null);
-    const { tecnicos }= useDados();
+function AutenticacaoProvider({ children }: { children: React.ReactNode }) {
+  const [user, setUser] = useState<User | null>(null);
+  const [sessao, setSessao] = useState<Session | null>(null);
+  const [tecnicoLogado, setTecnicoLogado] = useState<Tables<'tecnicos'> | null>(null);
+  const { tecnicos } = useDados();
 
-    const [carregando, setCarregando] = useState(false);
-    const [erro, setErro] = useState("");
+  const [carregando, setCarregando] = useState(false);
+  const [erro, setErro] = useState("");
 
-    const limparErro = () => {
-      setErro("");
-    }
+  const limparErro = () => {
+    setErro("");
+  }
 
-    const login = async (email: string, senha: string) => {
-      setCarregando(true);
+  const login = async (email: string, senha: string) => {
+    setCarregando(true);
 
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: email,
-        password: senha,
-      })
-      if(error){
-        setErro("Erro: " + error);
-        setCarregando(false);
-        return false;
-      }
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: senha,
+    })
+    if (error) {
+      setErro("Erro: " + error);
       setCarregando(false);
-      setErro("");
-      setUser(data.user);
-      setSessao(data.session);
-
-      return true;
+      return false;
     }
-    
-    const logout = async () => {
-      await supabase.auth.signOut();
-      setUser(null);
-      setSessao(null);
-      setTecnicoLogado(null);
-    }
+    setCarregando(false);
+    setErro("");
+    setUser(data.user);
+    setSessao(data.session);
 
-    useEffect(() => {
-      if (!sessao) return;
+    const tecAtual =
+      tecnicos.data?.find(
+        tech => tech.id === data.user.id
+      ) ?? null;
 
-      setTecnicoLogado(
-        (tecnicos.data?.find(tech => tech.id == sessao.user.id) ?? null)
-      );
-    }, [sessao]);
+    setTecnicoLogado(tecAtual);
+
+    return true;
+  }
+
+  const logout = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    setSessao(null);
+    setTecnicoLogado(null);
+  }
+
+  useEffect(() => {
+    if (!sessao) return;
+
+    setTecnicoLogado(
+      (tecnicos.data?.find(tech => tech.id == sessao.user.id) ?? null)
+    );
+  }, [sessao]);
 
   return (
     <AutenticacaoContext.Provider

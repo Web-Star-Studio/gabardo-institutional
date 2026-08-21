@@ -5,20 +5,6 @@ import { supabase } from './supabase'
 import type { Tables } from './tipos';
 
 
-export function pegarInventario() {
-  return useQuery({
-    queryKey: ['inventario'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('inventario_mv')
-        .select('*')
-        .order('created_at', { ascending: false })
-      if (error) throw error
-      return data as Tables<'inventario_mv'>[]
-    },
-  })
-}
-
 export function pegarTecnicos() {
   return useQuery({
     queryKey: ['tecnicos'],

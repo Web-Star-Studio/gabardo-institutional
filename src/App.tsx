@@ -5,7 +5,8 @@ import { FiltrosChamadasProvider } from './contextos/FiltrosChamadas';
 import Header from './componentes/Header';
 
 import Login from "@/pages/Login";
-import Painel from "@/pages/Login";
+import Principal from "@/pages/Painel";
+import LoggedRoute from "@/pages/LoggedRoutes";
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
@@ -21,7 +22,10 @@ function App() {
               <BrowserRouter>
                 <Routes>
                   <Route path="/" element={<Login />} />
-                  <Route path="/painel" element={<Painel />} />
+
+                  <Route element={<LoggedRoute />}>
+                    <Route path="/painel" element={<Principal />} />
+                  </Route>
                 </Routes>
               </BrowserRouter>
               {/*<DashboardHeader />*/}
