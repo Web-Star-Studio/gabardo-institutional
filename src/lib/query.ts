@@ -5,9 +5,10 @@ import { supabase } from './supabase'
 import type { Tables } from './tipos';
 
 
-export function pegarTecnicos() {
+export function pegarTecnicos(enabled = true) {
   return useQuery({
     queryKey: ['tecnicos'],
+    enabled,
     queryFn: async () => {
       const { data, error } = await supabase
         .from('tecnicos')
@@ -18,22 +19,37 @@ export function pegarTecnicos() {
   })
 }
 
-export function pegarChamadas() {
+export function pegarChamadas(enabled = true) {
   return useQuery({
     queryKey: ['chamadas'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('chamadas')
-        .select('*')
-      if (error) throw error
-      return data as Tables<'chamadas'>[]
-    },
+    enabled,
+queryFn: async () => {
+  console.log("🔥 EXECUTANDO QUERY CHAMADAS");
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  console.log("👤 USER:", user);
+
+  const { data, error } = await supabase
+    .from("chamadas")
+    .select("*");
+
+  console.log("📦 DATA:", data);
+  console.log("❌ ERROR:", error);
+
+  if (error) throw error;
+
+  return data as Tables<'chamadas'>[];
+},
   })
 }
 
-export function pegarAndamentos() {
+export function pegarAndamentos(enabled = true) {
   return useQuery({
     queryKey: ['andamentos'],
+    enabled,
     queryFn: async () => {
       const { data, error } = await supabase
         .from('andamentos')
@@ -46,9 +62,10 @@ export function pegarAndamentos() {
   });
 }
 
-export function pegarTecnicosChamadas() {
+export function pegarTecnicosChamadas(enabled = true) {
     return useQuery<Tables<"tecnico_chamadas">[]>({
         queryKey: ["tecnico_chamadas"],
+        enabled,
         queryFn: async () => {
             const { data, error } = await supabase
                 .from("tecnico_chamadas")

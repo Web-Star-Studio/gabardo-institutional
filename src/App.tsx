@@ -14,8 +14,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 function App() {
   return (
     <>
-      <DadosProvider>
-        <AutenticacaoProvider>
+      <AutenticacaoProvider>
+        <DadosProvider>
+
           <FiltrosChamadasProvider>
             <HeaderProvider>
               <Header />
@@ -31,8 +32,8 @@ function App() {
               {/*<DashboardHeader />*/}
             </HeaderProvider>
           </FiltrosChamadasProvider>
-        </AutenticacaoProvider>
-      </DadosProvider>
+        </DadosProvider>
+      </AutenticacaoProvider>
     </>
   )
 }

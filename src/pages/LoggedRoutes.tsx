@@ -2,9 +2,9 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useAutenticacao } from "@/contextos/Autenticacao";
 
 export default function LoggedRoute() {
-  const { sessao, carregando } = useAutenticacao();
+  const { sessao, carregandoAuth } = useAutenticacao();
 
-  if (carregando) {
+  if (carregandoAuth) {
     return null;
   }
 

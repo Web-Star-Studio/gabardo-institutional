@@ -99,7 +99,8 @@ export default function Login() {
       });
 
       if (error) {
-        setErroChamada(`error.message`);
+        setErroChamada(error.message);
+        return;
       }
 
       setTituloChamada('');

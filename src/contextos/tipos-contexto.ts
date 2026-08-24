@@ -49,6 +49,7 @@ export type AutenticacaoContextType = {
     logout: () => void;
     tecnicoLogado: Tables<'tecnicos'> | null;
     limparErro: () => void;
+    carregandoAuth : boolean;
 }
 
 export type FiltrosChamadasContextType = {

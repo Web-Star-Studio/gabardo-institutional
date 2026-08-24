@@ -1,78 +1,136 @@
 'use client';
 
 import { createContext, useContext, useState, useEffect } from 'react';
-import { type User, type Session } from '@supabase/supabase-js'
+import { type User, type Session } from '@supabase/supabase-js';
 import { supabase } from "@/lib/supabase";
 import { type AutenticacaoContextType } from './tipos-contexto';
-import { useDados } from './Dados';
 import { type Tables } from '@/lib/tipos';
 
-const AutenticacaoContext = createContext<AutenticacaoContextType | null>(null);
+const AutenticacaoContext =
+  createContext<AutenticacaoContextType | null>(null);
 
-function AutenticacaoProvider({ children }: { children: React.ReactNode }) {
+function AutenticacaoProvider({
+  children
+}: {
+  children: React.ReactNode
+}) {
   const [user, setUser] = useState<User | null>(null);
   const [sessao, setSessao] = useState<Session | null>(null);
-  const [tecnicoLogado, setTecnicoLogado] = useState<Tables<'tecnicos'> | null>(null);
-  const { tecnicos } = useDados();
+
+  const [tecnicoLogado, setTecnicoLogado] =
+    useState<Tables<'tecnicos'> | null>(null);
 
   const [carregando, setCarregando] = useState(false);
+
+  const [carregandoAuth, setCarregandoAuth] = useState(true);
+
   const [erro, setErro] = useState("");
 
   const limparErro = () => {
     setErro("");
-  }
+  };
 
-  const login = async (email: string, senha: string) => {
+  const login = async (email: string, password: string) => {
     setCarregando(true);
 
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: senha,
-    })
+    const { data, error } =
+      await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
     if (error) {
-      setErro("Erro: " + error);
+      setErro("Erro: " + error.message);
       setCarregando(false);
+
       return false;
     }
-    setCarregando(false);
+
     setErro("");
     setUser(data.user);
     setSessao(data.session);
 
-    const tecAtual =
-      tecnicos.data?.find(
-        tech => tech.id === data.user.id
-      ) ?? null;
-
-    setTecnicoLogado(tecAtual);
+    setCarregando(false);
 
     return true;
-  }
+  };
 
   const logout = async () => {
     await supabase.auth.signOut();
+
     setUser(null);
     setSessao(null);
     setTecnicoLogado(null);
-  }
+  };
 
   useEffect(() => {
-    if (!sessao) return;
+    if (!sessao?.user.id) {
+      setTecnicoLogado(null);
+      return;
+    }
 
-    setTecnicoLogado(
-      (tecnicos.data?.find(tech => tech.id == sessao.user.id) ?? null)
+    const buscarTecnico = async () => {
+      const { data } = await supabase
+        .from("tecnicos")
+        .select("*")
+        .eq("id", sessao.user.id)
+        .single();
+
+      setTecnicoLogado(data);
+    };
+
+    buscarTecnico();
+  }, [sessao?.user.id]);
+
+  useEffect(() => {
+    const recuperarSessao = async () => {
+      console.log("🔵 Recuperando sessão...");
+
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      console.log("🟢 Sessão recuperada:", session);
+
+
+      setSessao(session);
+      setUser(session?.user ?? null);
+
+      setCarregandoAuth(false);
+    };
+
+    recuperarSessao();
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setSessao(session);
+        setUser(session?.user ?? null);
+
+        setCarregandoAuth(false);
+      }
     );
-  }, [sessao]);
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
 
   return (
     <AutenticacaoContext.Provider
       value={{
         user,
         sessao,
+
         carregando,
+        carregandoAuth,
+
         erro,
+
         login,
         logout,
+
         tecnicoLogado,
         limparErro
       }}
@@ -84,7 +142,13 @@ function AutenticacaoProvider({ children }: { children: React.ReactNode }) {
 
 export function useAutenticacao() {
   const context = useContext(AutenticacaoContext);
-  if (!context) throw new Error('useAutenticacao deve ser usado dentro do DadosProvider');
+
+  if (!context) {
+    throw new Error(
+      'useAutenticacao deve ser usado dentro do AutenticacaoProvider'
+    );
+  }
+
   return context;
 }
 

@@ -94,7 +94,9 @@ function FiltrosChamadasProvider({ children }: { children: React.ReactNode }) {
     });
 
     tecnicosChamadas.data?.forEach((chamada) => {
-      const chamadaAtual = chamadasPorId.get(chamada.id_chamada)!;
+      const chamadaAtual = chamadasPorId.get(chamada.id_chamada);
+
+      if (!chamadaAtual) return;
       /*
       -- 1 = Fechado com atraso
       -- 2 = Fechado
@@ -264,7 +266,6 @@ function FiltrosChamadasProvider({ children }: { children: React.ReactNode }) {
     console.log(dados);
     return dados;
   }, [
-    dadosProntos,
     chamadas.data,
     tecnicos.data,
     tecnicosChamadas.data,

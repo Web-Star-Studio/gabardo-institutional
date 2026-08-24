@@ -10,7 +10,9 @@ import {
   AlertTriangle,
   BookUser
 } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
+import { useFiltrosChamadas } from '@/contextos/FiltrosChamadas';
+import { useDados } from '@/contextos/Dados';
 
 import MenuEsquerdo from './menu-esquerdo/MenuEsquerdo';
 
@@ -25,9 +27,15 @@ export default function Header() {
     alterarTema,
     fecharMenus,
   } = useHeader();
+  const { chamadas } = useDados();
 
-  const [num, setNum] = useState(11);
+  const { megaInfoChamadas } = useFiltrosChamadas();
 
+  const numAlertas = 0;
+
+  const numNotificacoes = megaInfoChamadas?.geral?.numeroParadas ?? 0;
+
+  const numMinhasChamadas = 0;
   const auten = useAutenticacao();
 
   return (
@@ -158,19 +166,19 @@ export default function Header() {
               >
                 <motion.div
                   animate={
-                    num > 0
+                    numMinhasChamadas > 0
                       ? { x: [0, -2, 2, -2, 2, 0] }
                       : { x: 0 }
                   }
                   transition={{
                     duration: 0.3,
-                    repeat: num > 0 ? Infinity : 0,
+                    repeat: numMinhasChamadas > 0 ? Infinity : 0,
                     repeatDelay: 1,
                   }}
                 >
-                  {num > 0 && (
+                  {numMinhasChamadas > 0 && (
                     <span className="absolute -right-1 -top-2 flex h-5 w-7 items-center justify-center rounded-full bg-red-500 text-base text-white">
-                      {num < 10 ? num : "+9"}
+                      {numMinhasChamadas < 10 ? numMinhasChamadas : "+9"}
                     </span>
                   )}
                   <BookUser
@@ -215,19 +223,19 @@ export default function Header() {
               >
                 <motion.div
                   animate={
-                    num > 0
+                    numAlertas > 0
                       ? { x: [0, -2, 2, -2, 2, 0] }
                       : { x: 0 }
                   }
                   transition={{
                     duration: 0.3,
-                    repeat: num > 0 ? Infinity : 0,
+                    repeat: numAlertas > 0 ? Infinity : 0,
                     repeatDelay: 1,
                   }}
                 >
-                  {num > 0 && (
+                  {numAlertas > 0 && (
                     <span className="absolute -right-1 -top-2 flex h-5 w-7 items-center justify-center rounded-full bg-red-500 text-base text-white">
-                      {num < 10 ? num : "+9"}
+                      {numAlertas < 10 ? numAlertas : "+9"}
                     </span>
                   )}
                   <AlertTriangle
@@ -270,22 +278,22 @@ export default function Header() {
               >
                 <motion.div
                   animate={
-                    num > 0
+                    numNotificacoes > 0
                       ? { x: [0, -2, 2, -2, 2, 0] }
                       : { x: 0 }
                   }
                   transition={{
                     duration: 0.3,
-                    repeat: num > 0 ? Infinity : 0,
+                    repeat: numNotificacoes > 0 ? Infinity : 0,
                     repeatDelay: 1,
                   }}
                 >
-                  {num > 0 && (
+                  {numNotificacoes > 0 && (
                     <span className="absolute -right-1 -top-2 flex h-5 w-7 items-center justify-center rounded-full bg-red-500 text-base text-white">
-                      {num < 10 ? num : "+9"}
+                      {numNotificacoes < 10 ? numNotificacoes : "+9"}
                     </span>
                   )}
-                  {num > 0 ? (
+                  {numNotificacoes > 0 ? (
                     <BellRing
                       size={40}
                       className="select-none"
