@@ -9,10 +9,17 @@ function HeaderProvider({ children }: { children: React.ReactNode }) {
   const [menuAbertoEsquerdo, abrirMenuEsquerdo] = useState(false);
   const [darkMode, ativarDarkMode] = useState(() => localStorage.getItem('tema') === 'dark');
 
+  const [menuAbertoNotificacoes, abrirMenuNotificacoes] = useState(false);
+  const [menuAbertoAlertas, abrirMenuAlertas] = useState(false);
+  const [menuAbertoMinhasChamadas, abrirMenuMinhasChamadas] = useState(false);
+
   const fecharMenus = () => {
     abrirMenuEsquerdo(false);
+    abrirMenuNotificacoes(false);
+    abrirMenuAlertas(false);
+    abrirMenuMinhasChamadas(false);
   };
-  
+
   useEffect(() => {
     if (darkMode) {
       localStorage.setItem('tema', 'dark');
@@ -33,6 +40,18 @@ function HeaderProvider({ children }: { children: React.ReactNode }) {
     abrirMenuEsquerdo((prev) => !prev);
   };
 
+  const alterarMenuNotificacoes = () => {
+    abrirMenuNotificacoes((prev) => !prev);
+  };
+
+  const alterarMenuAlertas = () => {
+    abrirMenuAlertas((prev) => !prev);
+  };
+
+  const alterarMenuMinhasChamadas = () => {
+    abrirMenuMinhasChamadas((prev) => !prev);
+  };
+
   const alterarTema = () => ativarDarkMode((prev) => !prev);
 
   return (
@@ -43,6 +62,12 @@ function HeaderProvider({ children }: { children: React.ReactNode }) {
         alterarMenuEsquerdo,
         alterarTema,
         fecharMenus,
+        menuAbertoNotificacoes,
+        menuAbertoAlertas,
+        menuAbertoMinhasChamadas,
+        alterarMenuNotificacoes,
+        alterarMenuAlertas,
+        alterarMenuMinhasChamadas
       }}
     >
       {children}

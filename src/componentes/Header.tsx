@@ -26,8 +26,13 @@ export default function Header() {
     alterarMenuEsquerdo,
     alterarTema,
     fecharMenus,
+    menuAbertoNotificacoes,
+    menuAbertoAlertas,
+    menuAbertoMinhasChamadas,
+    alterarMenuNotificacoes,
+    alterarMenuAlertas,
+    alterarMenuMinhasChamadas,
   } = useHeader();
-  const { chamadas } = useDados();
 
   const { megaInfoChamadas } = useFiltrosChamadas();
 
@@ -37,6 +42,12 @@ export default function Header() {
 
   const numMinhasChamadas = 0;
   const auten = useAutenticacao();
+
+  useEffect(() => {
+    if (!megaInfoChamadas) return;
+
+    console.log(megaInfoChamadas.geral.numeroParadas);
+  }, [megaInfoChamadas]);
 
   return (
     <>
@@ -218,7 +229,7 @@ export default function Header() {
                     damping: 30,
                   },
                 }}
-                onClick={alterarTema}
+                onClick={alterarMenuAlertas}
                 className="group relative flex h-full w-12 items-center"
               >
                 <motion.div
@@ -248,7 +259,7 @@ export default function Header() {
 
             {auten.sessao && (
               <motion.button
-                key="minhas"
+                key="notificacoes"
                 layout
                 initial={{ opacity: 0, scale: 0.7, x: 20 }}
                 animate={{ opacity: 1, scale: 1, x: 0 }}
@@ -273,7 +284,7 @@ export default function Header() {
                     damping: 30,
                   },
                 }}
-                onClick={alterarTema}
+                onClick={alterarMenuNotificacoes}
                 className="group relative flex h-full w-12 items-center"
               >
                 <motion.div
@@ -387,17 +398,259 @@ export default function Header() {
         </div>
       </motion.header >
 
-      {/* OVERLAY */}
-      {
-        (menuAbertoEsquerdo) && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            onClick={fecharMenus}
-            className="fixed inset-0 z-[299] bg-black/40"
-          />
-        )
-      }
+      <AnimatePresence mode='wait'>
+        {/* OVERLAY */}
+        {
+          (menuAbertoEsquerdo || menuAbertoNotificacoes || menuAbertoAlertas || menuAbertoMinhasChamadas) && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={fecharMenus}
+              className={`fixed inset-0 ${menuAbertoEsquerdo ? "z-[299]" : "z-[999]"
+                } bg-black/40`} />
+          )
+        }
+        {
+          menuAbertoAlertas && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 10 }}
+              transition={{
+                type: "spring",
+                stiffness: 400,
+                damping: 30,
+              }}
+              onClick={(e) => e.stopPropagation()}
+              className={`
+        fixed left-1/2 top-1/3 z-[1000]
+        w-[min(90vw,900px)]
+        -translate-x-1/2 -translate-y-1/2
+        overflow-hidden rounded-2xl border shadow-2xl
+        ${darkMode
+                  ? "border-zinc-700 bg-zinc-900 text-zinc-100"
+                  : "border-zinc-200 bg-white text-zinc-900"
+                }
+      `}
+            >
+              {/* HEADER */}
+              <div
+                className={`
+          flex items-center justify-between
+          border-b px-5 py-4
+          ${darkMode
+                    ? "border-zinc-700"
+                    : "border-zinc-200"
+                  }
+        `}
+              >
+                <div className="flex items-center gap-3">
+                  <AlertTriangle
+                    size={28}
+                    className="select-none"
+                  />
+
+                  <h2 className="text-lg font-semibold">
+                    Alertas
+                  </h2>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={fecharMenus}
+                  className={`
+            rounded-lg px-3 py-1 text-sm
+            transition-colors
+            ${darkMode
+                      ? "hover:bg-zinc-800"
+                      : "hover:bg-zinc-100"
+                    }
+          `}
+                >
+                  Fechar
+                </button>
+              </div>
+
+              {/* CONTENT */}
+              <div className="max-h-[60vh] overflow-y-auto p-5">
+                {numAlertas > 0 ? (
+                  <div className="space-y-3">
+                    {/* Alertas entrarão aqui */}
+                  </div>
+                ) : (
+                  <div className="flex min-h-32 items-center justify-center">
+                    <p
+                      className={
+                        darkMode
+                          ? "text-zinc-400"
+                          : "text-zinc-500"
+                      }
+                    >
+                      Nenhum alerta no momento.
+                    </p>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          )
+        }
+        {
+          menuAbertoNotificacoes && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 10 }}
+              transition={{
+                type: "spring",
+                stiffness: 400,
+                damping: 30,
+              }}
+              onClick={(e) => e.stopPropagation()}
+              className={`
+        fixed left-1/2 top-1/3 z-[1000]
+        w-[min(1100vw,900px)]
+        -translate-x-1/2 -translate-y-1/2
+        overflow-hidden rounded-2xl border shadow-2xl
+        ${darkMode
+                  ? "border-zinc-700 bg-zinc-900 text-zinc-100"
+                  : "border-zinc-200 bg-white text-zinc-900"
+                }
+      `}
+            >
+              {/* HEADER */}
+              <div
+                className={`
+          flex items-center justify-between
+          border-b px-5 py-4
+          ${darkMode
+                    ? "border-zinc-700"
+                    : "border-zinc-200"
+                  }
+        `}
+              >
+                <div className="flex items-center gap-3">
+                  <Bell
+                    size={28}
+                    className="select-none"
+                  />
+
+                  <h2 className="text-lg font-semibold">
+                    Notificações
+                  </h2>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={fecharMenus}
+                  className={`
+            rounded-lg px-3 py-1 text-sm
+            transition-colors
+            ${darkMode
+                      ? "hover:bg-zinc-800"
+                      : "hover:bg-zinc-100"
+                    }
+          `}
+                >
+                  Fechar
+                </button>
+              </div>
+
+              <div className="max-h-[60vh] overflow-hidden p-5">
+                {numNotificacoes > 0 ? (
+                  <div className="space-y-3">
+                    {megaInfoChamadas?.geral?.listaParadas?.map((parada) => (
+                      <div
+                        key={parada.id}
+                        className={`
+      rounded-xl border p-4
+      ${darkMode
+                            ? "border-zinc-700 bg-zinc-800/60"
+                            : "border-zinc-200 bg-zinc-50"
+                          }
+    `}
+                      >
+                        <div className="mb-2 flex items-start justify-between gap-3">
+                          <h3 className="text-base font-semibold leading-snug">
+                            {parada.titulo}
+                          </h3>
+                          {parada.categoria && (
+                            <span
+                              className={`
+            shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium
+            ${darkMode
+                                  ? "bg-zinc-700 text-zinc-200"
+                                  : "bg-zinc-200 text-zinc-700"
+                                }
+          `}
+                            >
+                              {parada.categoria}
+                            </span>
+                          )}
+                        </div>
+
+                        {parada.descricao && (
+                          <p
+                            className={`
+          mb-3 break-words text-sm leading-relaxed
+          ${darkMode ? "text-zinc-300" : "text-zinc-600"}
+        `}
+                          >
+                            {parada.descricao}
+                          </p>
+                        )}
+
+                        <div
+                          className={`
+        flex flex-col gap-1 border-t pt-3 text-sm
+        ${darkMode ? "border-zinc-700" : "border-zinc-200"}
+      `}
+                        >
+                          {parada.requerente && (
+                            <div className="flex gap-2">
+                              <span
+                                className={
+                                  darkMode ? "text-zinc-500" : "text-zinc-400"
+                                }
+                              >
+                                Requerente:
+                              </span>
+                              <span className="font-medium">{parada.requerente}</span>
+                            </div>
+                          )}
+                          {parada.email_requerente && (
+                            <div className="flex gap-2">
+                              <span
+                                className={
+                                  darkMode ? "text-zinc-500" : "text-zinc-400"
+                                }
+                              >
+                                E-mail:
+                              </span>
+                              <span className="truncate">{parada.email_requerente}</span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))}                  </div>
+                ) : (
+                  <div className="flex min-h-32 items-center justify-center">
+                    <p
+                      className={
+                        darkMode
+                          ? "text-zinc-400"
+                          : "text-zinc-500"
+                      }
+                    >
+                      Nenhuma notificação no momento.
+                    </p>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          )
+        }
+      </AnimatePresence >
     </>
   );
 }

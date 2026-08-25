@@ -3,9 +3,12 @@ import {
 } from "@tanstack/react-query";
 import { supabase } from './supabase'
 import type { Tables } from './tipos';
+import { useRealtimeTable } from "./realTime";
 
 
 export function pegarTecnicos(enabled = true) {
+  useRealtimeTable("tecnicos", "tecnicos");
+
   return useQuery({
     queryKey: ['tecnicos'],
     enabled,
@@ -20,24 +23,20 @@ export function pegarTecnicos(enabled = true) {
 }
 
 export function pegarChamadas(enabled = true) {
+  useRealtimeTable("chamadas", "chamadas");
+
   return useQuery({
     queryKey: ['chamadas'],
     enabled,
 queryFn: async () => {
-  console.log("🔥 EXECUTANDO QUERY CHAMADAS");
 
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  console.log("👤 USER:", user);
-
   const { data, error } = await supabase
     .from("chamadas")
     .select("*");
-
-  console.log("📦 DATA:", data);
-  console.log("❌ ERROR:", error);
 
   if (error) throw error;
 
@@ -47,6 +46,8 @@ queryFn: async () => {
 }
 
 export function pegarAndamentos(enabled = true) {
+  useRealtimeTable("andamentos", "andamentos");
+
   return useQuery({
     queryKey: ['andamentos'],
     enabled,
@@ -63,6 +64,11 @@ export function pegarAndamentos(enabled = true) {
 }
 
 export function pegarTecnicosChamadas(enabled = true) {
+  useRealtimeTable(
+    "tecnico_chamadas",
+    "tecnico_chamadas"
+  );
+
     return useQuery<Tables<"tecnico_chamadas">[]>({
         queryKey: ["tecnico_chamadas"],
         enabled,

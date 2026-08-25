@@ -53,7 +53,6 @@ function DadosProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-
 export function useDados() {
   const context = useContext(DadosContext);
   if (!context) throw new Error('useDados deve ser usado dentro do Header');

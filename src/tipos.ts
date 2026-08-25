@@ -4,4 +4,10 @@ export type HeaderContextType = {
     alterarMenuEsquerdo: () => void;
     alterarTema: () => void;
     fecharMenus: () => void;
+    menuAbertoNotificacoes: boolean;
+    menuAbertoAlertas: boolean;
+    menuAbertoMinhasChamadas: boolean;
+    alterarMenuNotificacoes: () => void;
+    alterarMenuAlertas: () => void;
+    alterarMenuMinhasChamadas: () => void;
 }

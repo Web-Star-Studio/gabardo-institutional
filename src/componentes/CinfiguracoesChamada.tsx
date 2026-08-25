@@ -1,2 +1,0 @@
-import { FuncoesChamadas } from '@/contextos/'.
-
