@@ -38,6 +38,7 @@ export type DadosContextType = {
     andamentos: UseQueryResult<Tables<"andamentos">[], Error>;
     tecnicos: UseQueryResult<Tables<"tecnicos">[], Error>;
     tecnicosChamadas: UseQueryResult<Tables<"tecnico_chamadas">[], Error>;
+    assumirChamada: (idChamada: string, idTecnico: string) => void;
   }
 
 export type AutenticacaoContextType = {

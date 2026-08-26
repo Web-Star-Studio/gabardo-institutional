@@ -8,6 +8,7 @@ import {
   pegarAndamentos
 } from "@/lib/query";
 import { useAutenticacao } from "./Autenticacao";
+import { supabase } from "@/lib/supabase";
 
 import type { DadosContextType } from './tipos-contexto';
 
@@ -17,21 +18,20 @@ function DadosProvider({ children }: { children: React.ReactNode }) {
 
   const { sessao, carregandoAuth } = useAutenticacao();
 
-  const autenticado = !carregandoAuth && !!sessao;
-
-  console.log("AUTH:", {
-    carregandoAuth,
-    sessao,
-    autenticado,
-  });
+  const assumirChamada = async (
+    idChamada: string,
+    idTecnico: string
+  ) => {
+    await supabase.rpc(
+      "inserir_tecnico_chamada",
+      {
+        p_id_chamada: idChamada,
+        p_id_tecnico: idTecnico,
+      }
+    );
+  }
 
   const chamadas = pegarChamadas(!carregandoAuth && !!sessao);
-
-  console.log("CHAMADAS QUERY:", {
-    enabled: autenticado,
-    status: chamadas.status,
-    data: chamadas.data,
-  });
 
   const tecnicos = pegarTecnicos(!carregandoAuth && !!sessao);
   const andamentos = pegarAndamentos(!carregandoAuth && !!sessao);
@@ -45,7 +45,8 @@ function DadosProvider({ children }: { children: React.ReactNode }) {
         chamadas,
         andamentos,
         tecnicos,
-        tecnicosChamadas
+        tecnicosChamadas,
+        assumirChamada
       }}
     >
       {children}

@@ -1,21 +1,3 @@
-1)
-
-No novo menuzinho de notificação:
-    adicionar botão para se inscrever na chamada
-
-
-
-No banco de dados:
-    adicionar funções e link entre software blacklist
-    e os softwares normais
-
-    Adicionar função para se tuver en yna whitelist,
-    não sinalizar nada
-    adicionar função para deixar passar a ocorrência,
-    ou seja, deixar na whitelist.
-
-    Garantir RLS e indexação decente.
-
 Adicionar tanto nos menus quanto na tabela principal:
     botão e funcionalidade de paginação, pra não
     foder a performance toda hora.
@@ -42,14 +24,25 @@ Linkar alertas com o novo menu
 
 instalar miniSearch para fazer a lógica do input de busca ficar performático.
 
-
-
-
-
-
-
 //////////////////////////////////////
 
 Após todas as alterações acima, criar menu para visualizar câmeras
 
 Criar mapa com HTML para conseguirmos clicar e ver áreas dinamicamente na empresa.
+
+
+
+///////////////////////////////////////////////
+
+
+Software:
+    Alertas
+    Lista
+    Blacklist
+    Whitelist
+
+
+
+
+////////////////////////////////
+    CAMERA E AS GRIDS

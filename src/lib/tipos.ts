@@ -10,7 +10,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.5"
+    PostgrestVersion: "14.17"
   }
   graphql_public: {
     Tables: {
@@ -44,7 +44,7 @@ export type Database = {
           descricao: string | null
           id: string
           id_chamada: string
-          id_tecnico_atualizou: string
+          id_tecnico_atualizou: string | null
           motivo: string
           quando: string
         }
@@ -52,7 +52,7 @@ export type Database = {
           descricao?: string | null
           id?: string
           id_chamada: string
-          id_tecnico_atualizou?: string
+          id_tecnico_atualizou?: string | null
           motivo: string
           quando?: string
         }
@@ -60,7 +60,7 @@ export type Database = {
           descricao?: string | null
           id?: string
           id_chamada?: string
-          id_tecnico_atualizou?: string
+          id_tecnico_atualizou?: string | null
           motivo?: string
           quando?: string
         }
@@ -119,7 +119,9 @@ export type Database = {
       chamadas: {
         Row: {
           categoria: string
+          client_id: string | null
           contando_desde: string | null
+          conteudo_hash: string | null
           continuar_contagem: boolean
           data_atendeu: string | null
           data_criacao: string
@@ -128,6 +130,7 @@ export type Database = {
           email_requerente: string
           id: string
           ip_requerente: string | null
+          numero_tecnicos: number
           prazo_final: string | null
           prioridade: number
           requerente: string
@@ -137,7 +140,9 @@ export type Database = {
         }
         Insert: {
           categoria: string
+          client_id?: string | null
           contando_desde?: string | null
+          conteudo_hash?: string | null
           continuar_contagem?: boolean
           data_atendeu?: string | null
           data_criacao?: string
@@ -146,6 +151,7 @@ export type Database = {
           email_requerente: string
           id?: string
           ip_requerente?: string | null
+          numero_tecnicos?: number
           prazo_final?: string | null
           prioridade?: number
           requerente: string
@@ -155,7 +161,9 @@ export type Database = {
         }
         Update: {
           categoria?: string
+          client_id?: string | null
           contando_desde?: string | null
+          conteudo_hash?: string | null
           continuar_contagem?: boolean
           data_atendeu?: string | null
           data_criacao?: string
@@ -164,6 +172,7 @@ export type Database = {
           email_requerente?: string
           id?: string
           ip_requerente?: string | null
+          numero_tecnicos?: number
           prazo_final?: string | null
           prioridade?: number
           requerente?: string
@@ -644,6 +653,24 @@ export type Database = {
           },
         ]
       }
+      tabela_tempo: {
+        Row: {
+          id: number
+          prioridade: number | null
+          tempo: number
+        }
+        Insert: {
+          id?: number
+          prioridade?: number | null
+          tempo: number
+        }
+        Update: {
+          id?: number
+          prioridade?: number | null
+          tempo?: number
+        }
+        Relationships: []
+      }
       tecnico_chamadas: {
         Row: {
           created_at: string
@@ -956,6 +983,38 @@ export type Database = {
       }
     }
     Functions: {
+      adicionar_tecnico_chamada: {
+        Args: { p_id_chamada: string; p_id_tecnico?: string }
+        Returns: {
+          created_at: string
+          id: string
+          id_chamada: string
+          id_tecnico: string | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "tecnico_chamadas"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      criar_andamento: {
+        Args: { p_id_chamada: string; p_id_tecnico?: string; p_motivo: string }
+        Returns: {
+          descricao: string | null
+          id: string
+          id_chamada: string
+          id_tecnico_atualizou: string | null
+          motivo: string
+          quando: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "andamentos"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       criar_chamada: {
         Args: {
           p_categoria: string
@@ -968,7 +1027,23 @@ export type Database = {
         }
         Returns: string
       }
+      inserir_tecnico_chamada: {
+        Args: { p_id_chamada: string; p_id_tecnico: string }
+        Returns: {
+          created_at: string
+          id: string
+          id_chamada: string
+          id_tecnico: string | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "tecnico_chamadas"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       upsert_maquina_inventario: { Args: { payload: Json }; Returns: undefined }
+      verificar_chamadas_atrasadas: { Args: never; Returns: number }
     }
     Enums: {
       [_ in never]: never

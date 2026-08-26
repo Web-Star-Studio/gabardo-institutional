@@ -813,7 +813,7 @@ export default function Login() {
                               </svg>
                               Enviando...
                             </motion.span>
-                          ) : 'Entrar'}
+                          ) : 'Enviar'}
                         </motion.button>
                       </motion.form>
                     </motion.div>

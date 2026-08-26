@@ -1,8 +1,13 @@
 import { useDados } from "@/contextos/Dados";
+import { useAutenticacao } from "@/contextos/Autenticacao";
+import { useFiltrosChamadas } from "@/contextos/FiltrosChamadas";
 import { useHeader } from "@/contextos/Header";
 import { motion } from 'motion/react';
 import { Settings, Users2, Users } from 'lucide-react';
 import { useState } from 'react';
+import useTimerChamada from '@/lib/timerChamada';
+import { Tables } from '@/lib/tipos';
+
 
 type Coluna = {
     id: string;
@@ -11,11 +16,186 @@ type Coluna = {
     align?: "left" | "center" | "right";
 };
 
+type LinhaChamadaProps = {
+    linha: any;
+    colunas: readonly Coluna[];
+    colunasData: string[];
+    darkMode: boolean;
+    formatarData: (data: string | null) => string;
+    onSelecionar: (id: string) => void;
+};
+
+function LinhaChamada({
+    linha,
+    colunas,
+    colunasData,
+    darkMode,
+    formatarData,
+    onSelecionar,
+}: LinhaChamadaProps) {
+
+    const tempo = useTimerChamada(linha);
+    const bg = darkMode ? '#18181B' : '#f7f7f9'
+
+    const formatarTempo = (segundosTotal: number) => {
+        const horas = Math.floor(segundosTotal / 3600);
+
+        const minutos = Math.floor(
+            (segundosTotal % 3600) / 60
+        );
+
+        const segundos = segundosTotal % 60;
+
+
+
+        return `${horas
+            .toString()
+            .padStart(2, "0")}:${minutos
+                .toString()
+                .padStart(2, "0")}:${segundos
+                    .toString()
+                    .padStart(2, "0")}`;
+    };
+
+    return (
+        <motion.tr
+            initial={{
+                opacity: 0,
+                y: 8,
+            }}
+            animate={{
+                opacity: 1,
+                y: 0,
+            }}
+        >
+            {colunas.map((coluna) => {
+                const valor =
+                    linha[coluna.id as keyof typeof linha];
+
+                const botao =
+                    coluna.id === "acoes";
+
+                const ehTempo =
+                    coluna.id === "segundos_restantes";
+
+                return (
+                    <motion.td
+                        key={coluna.id}
+                        style={{
+                            width: coluna.width,
+                            maxWidth: coluna.width,
+                            textAlign: coluna.align,
+                        }}
+                        animate={{
+                            borderColor: darkMode
+                                ? "#ffffff31"
+                                : "#00000055",
+                            backgroundColor: botao ? bg : '',
+                        }}
+                        className={`
+    px-10 border py-5 whitespace-normal break-words
+
+    ${botao
+                                ? "sticky right-0 z-20 border-l"
+                                : ""
+                            }
+
+    ${darkMode
+                                ? "hover:bg-[#18181a]"
+                                : "hover:bg-[#eaeaf0]"
+                            }
+`}
+                    >
+                        {botao ? (
+                            <motion.button
+                                onClick={() =>
+                                    onSelecionar(linha.id)
+                                }
+                            >
+                                <Settings
+                                    className="outline-none"
+                                    size={40}
+                                />
+                            </motion.button>
+
+                        ) : ehTempo ? (
+
+                            formatarTempo(tempo)
+
+                        ) : colunasData.includes(coluna.id) ? (
+
+                            formatarData(
+                                valor as string | null
+                            )
+
+                        ) : (
+
+                            String(valor ?? "-")
+
+                        )}
+                    </motion.td>
+                );
+            })}
+        </motion.tr>
+    );
+}
 
 export default function TabelaChamadas() {
     const { chamadas } = useDados();
     const [abrirConfiguracoes, setAbrirConfiguracoes] = useState(false);
     const [selecionarChamada, setSelecionarChamada] = useState("");
+    const [pagina, setPagina] = useState(1);
+
+    const { megaInfoChamadas } = useFiltrosChamadas();
+    const { user } = useAutenticacao();
+
+
+
+    const [meusDados, setMeusDados] = useState<typeof(megaInfoChamadas.individual)>(); 
+
+    const itensPorPagina = 25;
+
+    const totalItens = chamadas.data?.length ?? 0;
+
+    const totalPaginas = Math.ceil(totalItens / itensPorPagina);
+
+    const inicio = (pagina - 1) * itensPorPagina;
+    const fim = inicio + itensPorPagina;
+
+    const paginasVisiveis = () => {
+        const paginas: (number | "...")[] = [];
+
+        if (totalPaginas <= 7) {
+            for (let i = 1; i <= totalPaginas; i++) {
+                paginas.push(i);
+            }
+
+            return paginas;
+        }
+
+        paginas.push(1);
+
+        if (pagina > 4) {
+            paginas.push("...");
+        }
+
+        const inicio = Math.max(2, pagina - 1);
+        const fim = Math.min(totalPaginas - 1, pagina + 1);
+
+        for (let i = inicio; i <= fim; i++) {
+            paginas.push(i);
+        }
+
+        if (pagina < totalPaginas - 3) {
+            paginas.push("...");
+        }
+
+        paginas.push(totalPaginas);
+
+        return paginas;
+    };
+
+    const chamadasPagina = chamadas.data?.slice(inicio, fim) ?? [];
 
     const { darkMode } = useHeader();
     const bg = darkMode ? '#020202' : '#f7f7f9'
@@ -26,6 +206,10 @@ export default function TabelaChamadas() {
         "data_finalizacao",
         "prazo_final",
     ];
+
+    const verificarMinhaChamada = (chamada: Tables<'chamadas'>) => {
+        if(chamada in )
+    };
 
     const formatarData = (data: string | null) => {
         if (!data) return "-";
@@ -101,7 +285,7 @@ export default function TabelaChamadas() {
         {
             id: "segundos_restantes",
             header: "Tempo",
-            width: 120,
+            width: 160,
             align: "center",
         },
         {
@@ -113,7 +297,7 @@ export default function TabelaChamadas() {
         {
             id: "acoes",
             header: "Ações",
-            width: 100,
+            width: 130,
             align: "center",
         },
     ] as const;
@@ -169,9 +353,22 @@ export default function TabelaChamadas() {
                                             ? "#18181a"
                                             : "#f4f4f5",
                                     }}
-                                    className={` 
-                                    border sticky top-0 z-10 px-5 py-4 text-xs font-semibold uppercase tracking-wider backdrop-blur-sm
-                                 `}
+                                    className={`
+    border
+    sticky top-0
+    z-10
+    px-5 py-4
+    text-xs
+    font-semibold
+    uppercase
+    tracking-wider
+    backdrop-blur-sm
+
+    ${header.id === "acoes"
+                                            ? "right-0 border-r"
+                                            : ""
+                                        }
+`}
                                 >
                                     {header.header}
                                 </motion.th>
@@ -179,62 +376,81 @@ export default function TabelaChamadas() {
                         </motion.tr>
                     </thead>
                     <tbody>
-                        {chamadas.data?.map((linha) => (
-                            <motion.tr
+                        {chamadasPagina.map((linha) => (
+                            <LinhaChamada
                                 key={linha.id}
-                                initial={{
-                                    opacity: 0,
-                                    y: 8,
-                                }}
-                                animate={{
-                                    opacity: 1,
-                                    y: 0,
-                                }}
-                            >
-                                {colunas.map((coluna) => {
-                                    const valor = linha[coluna.id as keyof typeof linha];
-                                    const botao = coluna.id === 'acoes';
-                                    return (
-                                        <motion.td
-                                            key={coluna.id}
-                                            style={{
-                                                width: coluna.width,
-                                                maxWidth: coluna.width,
-                                                textAlign: coluna.align,
-                                            }}
-                                            animate={{
-                                                borderColor: darkMode
-                                                    ? "#ffffff31"
-                                                    : "#00000055",
-                                            }}
-
-
-                                            className={`
-        px-10 border py-5 whitespace-normal break-words
-        ${darkMode
-                                                    ? "hover:bg-[#18181a]"
-                                                    : "hover:bg-[#eaeaf0]"
-                                                }
-    `}
-                                        >{botao ? (
-                                            <motion.button
-                                                onClick={() => setSelecionarChamada(linha.id)}
-                                            >
-                                                <Settings className="outline-none" size={40} />
-                                            </motion.button>
-                                        ) : (
-                                            colunasData.includes(coluna.id)
-                                                ? formatarData(valor as string | null)
-                                                : String(valor ?? "-")
-                                        )}
-                                        </motion.td>
-                                    );
-                                })}
-                            </motion.tr>
+                                linha={linha}
+                                colunas={colunas}
+                                colunasData={colunasData}
+                                darkMode={darkMode}
+                                formatarData={formatarData}
+                                onSelecionar={setSelecionarChamada}
+                            />
                         ))}
                     </tbody>
                 </motion.table>
             </motion.div >
+            <motion.div
+                animate={{
+                    color: darkMode ? "#fafafa" : "#18181b",
+                }}
+                className="flex items-center justify-center gap-2 py-5"
+            >
+                <button
+                    onClick={() => setPagina((p) => p - 1)}
+                    disabled={pagina === 1}
+                    className="
+            rounded-md border px-4 py-2
+            disabled:cursor-not-allowed
+            disabled:opacity-40
+        "
+                >
+                    Anterior
+                </button>
+
+                {paginasVisiveis().map((item, index) =>
+                    item === "..." ? (
+                        <span
+                            key={`ellipsis-${index}`}
+                            className="px-2"
+                        >
+                            ...
+                        </span>
+                    ) : (
+                        <button
+                            key={item}
+                            onClick={() => setPagina(item)}
+                            className={`
+                rounded-md
+                border
+                px-3
+                py-2
+
+                ${pagina === item
+                                    ? darkMode
+                                        ? "bg-white text-black"
+                                        : "bg-black text-white"
+                                    : ""
+                                }
+            `}
+                        >
+                            {item}
+                        </button>
+                    )
+                )}
+
+                <button
+                    onClick={() => setPagina((p) => p + 1)}
+                    disabled={pagina === totalPaginas}
+                    className="
+            rounded-md border px-4 py-2
+            disabled:cursor-not-allowed
+            disabled:opacity-40
+        "
+                >
+                    Próxima
+                </button>
+            </motion.div>
             {
                 (abrirConfiguracoes) && (
                     <motion.div

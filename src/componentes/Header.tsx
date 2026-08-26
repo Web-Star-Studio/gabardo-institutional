@@ -14,6 +14,8 @@ import { useState, useEffect, useMemo } from 'react';
 import { useFiltrosChamadas } from '@/contextos/FiltrosChamadas';
 import { useDados } from '@/contextos/Dados';
 
+import useTimerChamada from '@/lib/timerChamada';
+
 import MenuEsquerdo from './menu-esquerdo/MenuEsquerdo';
 
 import logo from '../assets/128x128.png';
@@ -35,13 +37,23 @@ export default function Header() {
   } = useHeader();
 
   const { megaInfoChamadas } = useFiltrosChamadas();
+  const { assumirChamada } = useDados();
+  const auten = useAutenticacao();
 
-  const numAlertas = 0;
+  const meuId = auten.user?.id!;
+  const meusDados = megaInfoChamadas.individual[meuId];
 
+  const [numAlertas, setNumAlertas] = useState(0);
+  const [numMinhasChamadas, setNumMinhasChamadas] = useState(0);
   const numNotificacoes = megaInfoChamadas?.geral?.numeroParadas ?? 0;
 
-  const numMinhasChamadas = 0;
-  const auten = useAutenticacao();
+  useEffect(() => {
+    if (!megaInfoChamadas.individual[meuId]) return;
+
+    setNumMinhasChamadas(megaInfoChamadas.individual[meuId].chamadasNovas.length);
+  }, [megaInfoChamadas]);
+
+
 
   useEffect(() => {
     if (!megaInfoChamadas) return;
@@ -411,6 +423,9 @@ export default function Header() {
                 } bg-black/40`} />
           )
         }
+
+
+
         {
           menuAbertoAlertas && (
             <motion.div
@@ -424,26 +439,26 @@ export default function Header() {
               }}
               onClick={(e) => e.stopPropagation()}
               className={`
-        fixed left-1/2 top-1/3 z-[1000]
-        w-[min(90vw,900px)]
-        -translate-x-1/2 -translate-y-1/2
-        overflow-hidden rounded-2xl border shadow-2xl
-        ${darkMode
+              fixed left-1/2 top-1/3 z-[1000]
+              w-[min(90vw,900px)]
+              -translate-x-1/2 -translate-y-1/2
+              overflow-hidden rounded-2xl border shadow-2xl
+              ${darkMode
                   ? "border-zinc-700 bg-zinc-900 text-zinc-100"
                   : "border-zinc-200 bg-white text-zinc-900"
                 }
-      `}
+              `}
             >
               {/* HEADER */}
               <div
                 className={`
-          flex items-center justify-between
-          border-b px-5 py-4
-          ${darkMode
+                flex items-center justify-between
+                border-b px-5 py-4
+                ${darkMode
                     ? "border-zinc-700"
                     : "border-zinc-200"
                   }
-        `}
+              `}
               >
                 <div className="flex items-center gap-3">
                   <AlertTriangle
@@ -495,12 +510,27 @@ export default function Header() {
             </motion.div>
           )
         }
+
+
+
         {
           menuAbertoNotificacoes && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 10 }}
+              initial={{
+                opacity: 0,
+                scale: 0.9,
+                y: 10
+              }}
+              animate={{
+                opacity: 1,
+                scale: 1,
+                y: 0
+              }}
+              exit={{
+                opacity: 0,
+                scale: 0.9,
+                y: 10
+              }}
               transition={{
                 type: "spring",
                 stiffness: 400,
@@ -508,26 +538,26 @@ export default function Header() {
               }}
               onClick={(e) => e.stopPropagation()}
               className={`
-        fixed left-1/2 top-1/3 z-[1000]
-        w-[min(1100vw,900px)]
-        -translate-x-1/2 -translate-y-1/2
-        overflow-hidden rounded-2xl border shadow-2xl
-        ${darkMode
+              fixed left-1/2 top-1/3 z-[1000]
+              w-[min(1100vw,900px)]
+              -translate-x-1/2 -translate-y-1/2
+              overflow-hidden rounded-2xl border shadow-2xl
+              ${darkMode
                   ? "border-zinc-700 bg-zinc-900 text-zinc-100"
                   : "border-zinc-200 bg-white text-zinc-900"
                 }
-      `}
+              `}
             >
               {/* HEADER */}
               <div
                 className={`
-          flex items-center justify-between
-          border-b px-5 py-4
-          ${darkMode
+                flex items-center justify-between
+                border-b px-5 py-4
+                ${darkMode
                     ? "border-zinc-700"
                     : "border-zinc-200"
                   }
-        `}
+                `}
               >
                 <div className="flex items-center gap-3">
                   <Bell
@@ -544,13 +574,13 @@ export default function Header() {
                   type="button"
                   onClick={fecharMenus}
                   className={`
-            rounded-lg px-3 py-1 text-sm
-            transition-colors
-            ${darkMode
+                  rounded-lg px-3 py-1 text-sm
+                  transition-colors
+                  ${darkMode
                       ? "hover:bg-zinc-800"
                       : "hover:bg-zinc-100"
                     }
-          `}
+                `}
                 >
                   Fechar
                 </button>
@@ -563,12 +593,12 @@ export default function Header() {
                       <div
                         key={parada.id}
                         className={`
-      rounded-xl border p-4
-      ${darkMode
+                        rounded-xl border p-4
+                          ${darkMode
                             ? "border-zinc-700 bg-zinc-800/60"
                             : "border-zinc-200 bg-zinc-50"
                           }
-    `}
+                        `}
                       >
                         <div className="mb-2 flex items-start justify-between gap-3">
                           <h3 className="text-base font-semibold leading-snug">
@@ -577,12 +607,12 @@ export default function Header() {
                           {parada.categoria && (
                             <span
                               className={`
-            shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium
-            ${darkMode
+                              shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium
+                                ${darkMode
                                   ? "bg-zinc-700 text-zinc-200"
                                   : "bg-zinc-200 text-zinc-700"
                                 }
-          `}
+                              `}
                             >
                               {parada.categoria}
                             </span>
@@ -592,9 +622,9 @@ export default function Header() {
                         {parada.descricao && (
                           <p
                             className={`
-          mb-3 break-words text-sm leading-relaxed
-          ${darkMode ? "text-zinc-300" : "text-zinc-600"}
-        `}
+                            mb-3 break-words text-sm leading-relaxed
+                            ${darkMode ? "text-zinc-300" : "text-zinc-600"}
+                          `}
                           >
                             {parada.descricao}
                           </p>
@@ -602,37 +632,55 @@ export default function Header() {
 
                         <div
                           className={`
-        flex flex-col gap-1 border-t pt-3 text-sm
-        ${darkMode ? "border-zinc-700" : "border-zinc-200"}
-      `}
+                          flex flex-row justify-between gap-1 border-t pt-3 text-sm
+                          ${darkMode ? "border-zinc-700" : "border-zinc-200"}
+                        `}
                         >
-                          {parada.requerente && (
-                            <div className="flex gap-2">
-                              <span
-                                className={
-                                  darkMode ? "text-zinc-500" : "text-zinc-400"
-                                }
-                              >
-                                Requerente:
-                              </span>
-                              <span className="font-medium">{parada.requerente}</span>
-                            </div>
-                          )}
-                          {parada.email_requerente && (
-                            <div className="flex gap-2">
-                              <span
-                                className={
-                                  darkMode ? "text-zinc-500" : "text-zinc-400"
-                                }
-                              >
-                                E-mail:
-                              </span>
-                              <span className="truncate">{parada.email_requerente}</span>
-                            </div>
-                          )}
+                          <div>
+                            {parada.requerente && (
+                              <div className="flex gap-2">
+                                <span
+                                  className={
+                                    darkMode ? "text-zinc-500" : "text-zinc-400"
+                                  }
+                                >
+                                  Requerente:
+                                </span>
+                                <span className="font-medium">{parada.requerente}</span>
+                              </div>
+                            )}
+                            {parada.email_requerente && (
+                              <div className="flex gap-2">
+                                <span
+                                  className={
+                                    darkMode ? "text-zinc-500" : "text-zinc-400"
+                                  }
+                                >
+                                  E-mail:
+                                </span>
+                                <span className="truncate">{parada.email_requerente}</span>
+                              </div>
+                            )}
+                          </div>
+                          <div className="h-auto w-auto pr-10">
+                            <motion.button
+                              onClick={() =>
+                                assumirChamada(parada.id, auten.tecnicoLogado!.id)
+                              }
+                              className="w-50 h-full rounded-lg text-2xl font-semibold"
+                              animate={{}}
+                              whileHover={{
+                                backgroundColor: "#1111bb",
+                                color: "#fff"
+                              }}
+                            >
+                              ATENDER
+                            </motion.button>
+                          </div>
                         </div>
                       </div>
-                    ))}                  </div>
+                    ))}
+                  </div>
                 ) : (
                   <div className="flex min-h-32 items-center justify-center">
                     <p

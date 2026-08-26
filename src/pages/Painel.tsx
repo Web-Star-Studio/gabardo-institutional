@@ -22,7 +22,7 @@ export default function Principal() {
   const [chamadaEnviada, setChamadaEnviada] = useState(false);
   const abrirCategoria = () => setMenuCategoria(anterior => !anterior);
 
-  const bg = darkMode ? '#020202' : '#f7f7f9'
+  const bg = darkMode ? '#18181B' : '#f7f7f9'
   const card = darkMode ? '#1414178b' : '#ffffff98'
   const border = darkMode ? '#2f2f3e' : '#9090ffbb'
   const text = darkMode ? '#e8e8ea' : '#0f172a'
@@ -44,7 +44,7 @@ export default function Principal() {
       }}
     >
       <motion.div
-        className="flex items-end justify-between border-b border-zinc-200 pt-12 pb-10 dark:border-zinc-800"
+        className="flex items-end justify-between  pt-12 pb-10"
       >
         <motion.div className="w-200">
           <motion.h2
