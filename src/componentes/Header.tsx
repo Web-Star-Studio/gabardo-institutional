@@ -10,11 +10,12 @@ import {
   AlertTriangle,
   BookUser
 } from 'lucide-react';
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { useFiltrosChamadas } from '@/contextos/FiltrosChamadas';
 import { useDados } from '@/contextos/Dados';
-
-import useTimerChamada from '@/lib/timerChamada';
+import { CardChamadaNova } from '@/componentes/MinhasChamadas';
+import { Paginacao } from '@/componentes/Paginacao';
+import { usePaginacao } from '@/hooks/usePaginacao';
 
 import MenuEsquerdo from './menu-esquerdo/MenuEsquerdo';
 
@@ -41,25 +42,20 @@ export default function Header() {
   const auten = useAutenticacao();
 
   const meuId = auten.user?.id!;
-  const meusDados = megaInfoChamadas.individual[meuId];
 
   const [numAlertas, setNumAlertas] = useState(0);
   const [numMinhasChamadas, setNumMinhasChamadas] = useState(0);
   const numNotificacoes = megaInfoChamadas?.geral?.numeroParadas ?? 0;
 
+  const pagChamadas = usePaginacao(numMinhasChamadas, 10);
+
+  const pagNotificacoes = usePaginacao(numNotificacoes, 10);
+
   useEffect(() => {
     if (!megaInfoChamadas.individual[meuId]) return;
 
     setNumMinhasChamadas(megaInfoChamadas.individual[meuId].chamadasNovas.length);
-  }, [megaInfoChamadas]);
-
-
-
-  useEffect(() => {
-    if (!megaInfoChamadas) return;
-
-    console.log(megaInfoChamadas.geral.numeroParadas);
-  }, [megaInfoChamadas]);
+  }, [megaInfoChamadas, meuId]);
 
   return (
     <>
@@ -184,7 +180,7 @@ export default function Header() {
                     damping: 30,
                   },
                 }}
-                onClick={alterarTema}
+                onClick={alterarMenuMinhasChamadas}
                 className="group relative flex h-full w-12 items-center"
               >
                 <motion.div
@@ -424,6 +420,100 @@ export default function Header() {
           )
         }
 
+        {
+          menuAbertoMinhasChamadas && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 10 }}
+              transition={{
+                type: "spring",
+                stiffness: 400,
+                damping: 30,
+              }}
+              onClick={(e) => e.stopPropagation()}
+              className={`
+              fixed left-1/2 top-1/3 z-[1000]
+              w-[min(90vw,900px)]
+              -translate-x-1/2 -translate-y-1/2
+              overflow-hidden rounded-2xl border shadow-2xl
+              ${darkMode
+                  ? "border-zinc-700 bg-zinc-900 text-zinc-100"
+                  : "border-zinc-200 bg-white text-zinc-900"
+                }
+              `}
+            >
+              {/* HEADER */}
+              <div
+                className={`
+                flex items-center justify-between
+                border-b px-5 py-4
+                ${darkMode
+                    ? "border-zinc-700"
+                    : "border-zinc-200"
+                  }
+              `}
+              >
+                <div className="flex items-center gap-3">
+                  <BookUser
+                    size={28}
+                    className="select-none"
+                  />
+
+                  <h2 className="text-lg font-semibold">
+                    Minhas Chamadas
+                  </h2>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={fecharMenus}
+                  className={`
+            rounded-lg px-3 py-1 text-sm
+            transition-colors
+            ${darkMode
+                      ? "hover:bg-zinc-800"
+                      : "hover:bg-zinc-100"
+                    }
+          `}
+                >
+                  Fechar
+                </button>
+              </div>
+
+              {/* CONTENT */}
+              <div className="max-h-[60vh] overflow-y-auto p-5">
+                <Paginacao
+                  pagina={pagChamadas.pagina}
+                  totalPaginas={pagChamadas.totalPaginas}
+                  setPagina={pagChamadas.setPagina}
+                  darkMode={darkMode}
+                />
+                {numMinhasChamadas > 0 ? (
+                  <div className="space-y-3">
+                    {megaInfoChamadas?.individual[meuId].chamadasNovas
+                      ?.slice(pagChamadas.inicio, pagChamadas.fim)
+                      .map((nova) => (
+                        <CardChamadaNova key={nova.id} nova={nova} />
+                      ))}
+                  </div>
+                ) : (
+                  <div className="flex min-h-32 items-center justify-center">
+                    <p
+                      className={
+                        darkMode
+                          ? "text-zinc-400"
+                          : "text-zinc-500"
+                      }
+                    >
+                      Sem chamadas no momento.
+                    </p>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          )
+        }
 
 
         {
@@ -587,99 +677,108 @@ export default function Header() {
               </div>
 
               <div className="max-h-[60vh] overflow-hidden p-5">
+                <Paginacao
+                  pagina={pagNotificacoes.pagina}
+                  totalPaginas={pagNotificacoes.totalPaginas}
+                  setPagina={pagNotificacoes.setPagina}
+                  darkMode={darkMode}
+                />
                 {numNotificacoes > 0 ? (
                   <div className="space-y-3">
-                    {megaInfoChamadas?.geral?.listaParadas?.map((parada) => (
-                      <div
-                        key={parada.id}
-                        className={`
+                    {megaInfoChamadas?.geral?.listaParadas?.slice(
+                      pagNotificacoes.inicio,
+                      pagNotificacoes.fim)
+                      .map((parada) => (
+                        <div
+                          key={parada.id}
+                          className={`
                         rounded-xl border p-4
                           ${darkMode
-                            ? "border-zinc-700 bg-zinc-800/60"
-                            : "border-zinc-200 bg-zinc-50"
-                          }
+                              ? "border-zinc-700 bg-zinc-800/60"
+                              : "border-zinc-200 bg-zinc-50"
+                            }
                         `}
-                      >
-                        <div className="mb-2 flex items-start justify-between gap-3">
-                          <h3 className="text-base font-semibold leading-snug">
-                            {parada.titulo}
-                          </h3>
-                          {parada.categoria && (
-                            <span
-                              className={`
+                        >
+                          <div className="mb-2 flex items-start justify-between gap-3">
+                            <h3 className="text-base font-semibold leading-snug">
+                              {parada.titulo}
+                            </h3>
+                            {parada.categoria && (
+                              <span
+                                className={`
                               shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium
                                 ${darkMode
-                                  ? "bg-zinc-700 text-zinc-200"
-                                  : "bg-zinc-200 text-zinc-700"
-                                }
+                                    ? "bg-zinc-700 text-zinc-200"
+                                    : "bg-zinc-200 text-zinc-700"
+                                  }
                               `}
-                            >
-                              {parada.categoria}
-                            </span>
-                          )}
-                        </div>
+                              >
+                                {parada.categoria}
+                              </span>
+                            )}
+                          </div>
 
-                        {parada.descricao && (
-                          <p
-                            className={`
+                          {parada.descricao && (
+                            <p
+                              className={`
                             mb-3 break-words text-sm leading-relaxed
                             ${darkMode ? "text-zinc-300" : "text-zinc-600"}
                           `}
-                          >
-                            {parada.descricao}
-                          </p>
-                        )}
+                            >
+                              {parada.descricao}
+                            </p>
+                          )}
 
-                        <div
-                          className={`
+                          <div
+                            className={`
                           flex flex-row justify-between gap-1 border-t pt-3 text-sm
                           ${darkMode ? "border-zinc-700" : "border-zinc-200"}
                         `}
-                        >
-                          <div>
-                            {parada.requerente && (
-                              <div className="flex gap-2">
-                                <span
-                                  className={
-                                    darkMode ? "text-zinc-500" : "text-zinc-400"
-                                  }
-                                >
-                                  Requerente:
-                                </span>
-                                <span className="font-medium">{parada.requerente}</span>
-                              </div>
-                            )}
-                            {parada.email_requerente && (
-                              <div className="flex gap-2">
-                                <span
-                                  className={
-                                    darkMode ? "text-zinc-500" : "text-zinc-400"
-                                  }
-                                >
-                                  E-mail:
-                                </span>
-                                <span className="truncate">{parada.email_requerente}</span>
-                              </div>
-                            )}
-                          </div>
-                          <div className="h-auto w-auto pr-10">
-                            <motion.button
-                              onClick={() =>
-                                assumirChamada(parada.id, auten.tecnicoLogado!.id)
-                              }
-                              className="w-50 h-full rounded-lg text-2xl font-semibold"
-                              animate={{}}
-                              whileHover={{
-                                backgroundColor: "#1111bb",
-                                color: "#fff"
-                              }}
-                            >
-                              ATENDER
-                            </motion.button>
+                          >
+                            <div>
+                              {parada.requerente && (
+                                <div className="flex gap-2">
+                                  <span
+                                    className={
+                                      darkMode ? "text-zinc-500" : "text-zinc-400"
+                                    }
+                                  >
+                                    Requerente:
+                                  </span>
+                                  <span className="font-medium">{parada.requerente}</span>
+                                </div>
+                              )}
+                              {parada.email_requerente && (
+                                <div className="flex gap-2">
+                                  <span
+                                    className={
+                                      darkMode ? "text-zinc-500" : "text-zinc-400"
+                                    }
+                                  >
+                                    E-mail:
+                                  </span>
+                                  <span className="truncate">{parada.email_requerente}</span>
+                                </div>
+                              )}
+                            </div>
+                            <div className="h-auto w-auto pr-10">
+                              <motion.button
+                                onClick={() =>
+                                  assumirChamada(parada.id, auten.tecnicoLogado!.id)
+                                }
+                                className="w-50 h-full rounded-lg text-2xl font-semibold"
+                                animate={{}}
+                                whileHover={{
+                                  backgroundColor: "#1111bb",
+                                  color: "#fff"
+                                }}
+                              >
+                                ATENDER
+                              </motion.button>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
                   </div>
                 ) : (
                   <div className="flex min-h-32 items-center justify-center">

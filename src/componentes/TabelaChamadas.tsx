@@ -5,9 +5,7 @@ import { useHeader } from "@/contextos/Header";
 import { motion } from 'motion/react';
 import { Settings, Users2, Users } from 'lucide-react';
 import { useState } from 'react';
-import useTimerChamada from '@/lib/timerChamada';
-import { Tables } from '@/lib/tipos';
-
+import useTimerFormatado from '@/hooks/useTimerFormatado';
 
 type Coluna = {
     id: string;
@@ -34,28 +32,8 @@ function LinhaChamada({
     onSelecionar,
 }: LinhaChamadaProps) {
 
-    const tempo = useTimerChamada(linha);
     const bg = darkMode ? '#18181B' : '#f7f7f9'
-
-    const formatarTempo = (segundosTotal: number) => {
-        const horas = Math.floor(segundosTotal / 3600);
-
-        const minutos = Math.floor(
-            (segundosTotal % 3600) / 60
-        );
-
-        const segundos = segundosTotal % 60;
-
-
-
-        return `${horas
-            .toString()
-            .padStart(2, "0")}:${minutos
-                .toString()
-                .padStart(2, "0")}:${segundos
-                    .toString()
-                    .padStart(2, "0")}`;
-    };
+    const timer = useTimerFormatado(linha);
 
     return (
         <motion.tr
@@ -120,7 +98,7 @@ function LinhaChamada({
 
                         ) : ehTempo ? (
 
-                            formatarTempo(tempo)
+                            timer
 
                         ) : colunasData.includes(coluna.id) ? (
 
@@ -151,7 +129,7 @@ export default function TabelaChamadas() {
 
 
 
-    const [meusDados, setMeusDados] = useState<typeof(megaInfoChamadas.individual)>(); 
+    //const [meusDados, setMeusDados] = useState<typeof(megaInfoChamadas.individual)>(); 
 
     const itensPorPagina = 25;
 
@@ -207,9 +185,6 @@ export default function TabelaChamadas() {
         "prazo_final",
     ];
 
-    const verificarMinhaChamada = (chamada: Tables<'chamadas'>) => {
-        if(chamada in )
-    };
 
     const formatarData = (data: string | null) => {
         if (!data) return "-";
@@ -451,17 +426,6 @@ export default function TabelaChamadas() {
                     Próxima
                 </button>
             </motion.div>
-            {
-                (abrirConfiguracoes) && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        onClick={() => setAbrirConfiguracoes(false)}
-                        className="fixed inset-0 z-[501] bg-black/40"
-                    />
-                )
-            }
-
         </>
     )
 }
