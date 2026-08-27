@@ -1,12 +1,12 @@
 import { useDados } from "@/contextos/Dados";
 import { useAutenticacao } from "@/contextos/Autenticacao";
-import { useFiltrosChamadas } from "@/contextos/FiltrosChamadas";
 import { useHeader } from "@/contextos/Header";
-import { motion } from 'motion/react';
-import { Settings, Users2, Users } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { useState } from 'react';
 import useTimerFormatado from '@/hooks/useTimerFormatado';
 import { BotaoAcoesChamada } from './BotaoAcoesChamada';
+import { ModalAcoes } from './ModalAcoes';
+import { ModalCooperacoes } from './ModalCooperacoes';
 
 type Coluna = {
     id: string;
@@ -26,6 +26,88 @@ type LinhaChamadaProps = {
     meuId: string;
     onAcaoClick: (id: string, acao: 'acoes' | 'cooperacao') => void;
 };
+
+type BadgeProps = {
+    label: string;
+    className: string;
+};
+
+const PRIORIDADES = {
+    1: {
+        label: "Baixa",
+        className: "bg-green-500/10 text-green-600 border-green-500/30",
+    },
+    2: {
+        label: "Média",
+        className: "bg-yellow-500/10 text-yellow-600 border-yellow-500/30",
+    },
+    3: {
+        label: "Alta",
+        className: "bg-orange-500/10 text-orange-600 border-orange-500/30",
+    },
+    4: {
+        label: "Crítica",
+        className: "bg-red-500/10 text-red-600 border-red-500/30",
+    },
+} as const;
+
+
+const STATUS = {
+    1: {
+        label: "Encerrada com atraso",
+        className: "bg-red-500/10 text-red-600 border-red-500/30",
+    },
+    2: {
+        label: "Encerrada",
+        className: "bg-zinc-500/10 text-zinc-500 border-zinc-500/30",
+    },
+    3: {
+        label: "Parada",
+        className: "bg-blue-500/10 text-blue-600 border-blue-500/30",
+    },
+    4: {
+        label: "Pausada",
+        className: "bg-yellow-500/10 text-yellow-600 border-yellow-500/30",
+    },
+    5: {
+        label: "Em andamento",
+        className: "bg-green-500/10 text-green-600 border-green-500/30",
+    },
+    6: {
+        label: "Atrasada",
+        className: "bg-red-500/10 text-red-600 border-red-500/30",
+    },
+} as const;
+
+function Badge({ label, className }: BadgeProps) {
+    return (
+        <motion.span
+            initial={{
+                opacity: 0,
+                scale: 0.9,
+            }}
+            animate={{
+                opacity: 1,
+                scale: 1,
+            }}
+            className={`
+                inline-flex
+                items-center
+                justify-center
+                rounded-full
+                border
+                px-3
+                py-1
+                text-xs
+                font-semibold
+                whitespace-nowrap
+                ${className}
+            `}
+        >
+            {label}
+        </motion.span>
+    );
+}
 
 function LinhaChamada({
     linha,
@@ -59,6 +141,12 @@ function LinhaChamada({
                 const botao =
                     coluna.id === "acoes";
 
+                const ehStatus =
+                    coluna.id === 'status';
+
+                const ehPrioridade =
+                    coluna.id === "prioridade";
+
                 const ehTempo =
                     coluna.id === "segundos_restantes";
 
@@ -91,10 +179,17 @@ function LinhaChamada({
 `}
                     >
                         {botao ? (
+
                             <BotaoAcoesChamada
                                 idChamada={linha.id}
-                                idTecnicoResponsavel={linha.tecnico_id}
-                                meuId={meuId}
+                                idTecnicoResponsavel={
+                                    linha.tecnico_chamadas?.some(
+                                        (relacao: any) =>
+                                            relacao.id_tecnico === meuId
+                                    )
+                                        ? meuId
+                                        : null
+                                }
                                 numeroTecnicos={linha.numero_tecnicos || 0}
                                 aoClicar={onAcaoClick}
                             />
@@ -103,11 +198,39 @@ function LinhaChamada({
 
                             timer
 
+                        ) : ehStatus ? (
+
+                            <Badge
+                                label={
+                                    STATUS[linha.status as keyof typeof STATUS]
+                                        ?.label ?? "Desconhecido"
+                                }
+                                className={
+                                    STATUS[linha.status as keyof typeof STATUS]
+                                        ?.className ??
+                                    "bg-zinc-500/10 text-zinc-500"
+                                }
+                            />
+
+                        ) : ehPrioridade ? (
+
+                            <Badge
+                                label={
+                                    PRIORIDADES[
+                                        linha.prioridade as keyof typeof PRIORIDADES
+                                    ]?.label ?? "-"
+                                }
+                                className={
+                                    PRIORIDADES[
+                                        linha.prioridade as keyof typeof PRIORIDADES
+                                    ]?.className ??
+                                    "bg-zinc-500/10 text-zinc-500"
+                                }
+                            />
+
                         ) : colunasData.includes(coluna.id) ? (
 
-                            formatarData(
-                                valor as string | null
-                            )
+                            formatarData(valor as string | null)
 
                         ) : (
 
@@ -123,16 +246,11 @@ function LinhaChamada({
 
 export default function TabelaChamadas() {
     const { chamadas } = useDados();
-    const [abrirConfiguracoes, setAbrirConfiguracoes] = useState(false);
     const [selecionarChamada, setSelecionarChamada] = useState<string | null>(null);
     const [modalAberto, setModalAberto] = useState<'acoes' | 'cooperacao' | null>(null);
     const [pagina, setPagina] = useState(1);
 
-    const { megaInfoChamadas } = useFiltrosChamadas();
     const { user } = useAutenticacao();
-
-
-    //const [meusDados, setMeusDados] = useState<typeof(megaInfoChamadas.individual)>(); 
 
     const itensPorPagina = 25;
 
@@ -179,7 +297,6 @@ export default function TabelaChamadas() {
     const chamadasPagina = chamadas.data?.slice(inicio, fim) ?? [];
 
     const { darkMode } = useHeader();
-    const bg = darkMode ? '#020202' : '#f7f7f9'
 
     const colunasData = [
         "data_atendeu",
@@ -188,6 +305,10 @@ export default function TabelaChamadas() {
         "prazo_final",
     ];
 
+    const fecharModal = () => {
+        setModalAberto(null);
+        setSelecionarChamada(null);
+    };
 
     const formatarData = (data: string | null) => {
         if (!data) return "-";
@@ -215,7 +336,7 @@ export default function TabelaChamadas() {
         {
             id: "prioridade",
             header: "Prioridade",
-            width: 120,
+            width: 180,
             align: "center",
         },
         {
@@ -269,7 +390,7 @@ export default function TabelaChamadas() {
         {
             id: "status",
             header: "Status",
-            width: 140,
+            width: 220,
             align: "center",
         },
         {
@@ -435,6 +556,58 @@ export default function TabelaChamadas() {
                     Próxima
                 </button>
             </motion.div>
+
+
+            <AnimatePresence>
+                {modalAberto === 'cooperacao' && selecionarChamada && (
+                    <motion.div
+                        key="modal-cooperacao"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={fecharModal}
+                        className="
+                            fixed inset-0 z-[999]
+                            flex items-center justify-center
+                            bg-black/40
+                        "
+                    >
+                        <div
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <ModalCooperacoes
+                                idChamada={selecionarChamada}
+                                fecharModal={fecharModal}
+                            />
+                        </div>
+                    </motion.div>
+                )}
+
+                {modalAberto === 'acoes' && selecionarChamada && (
+                    <motion.div
+                        key="modal-acoes"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={fecharModal}
+                        className="
+                            fixed inset-0 z-[999]
+                            flex items-center justify-center
+                            bg-black/40
+                        "
+                    >
+                        <div
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <ModalAcoes
+                                idChamada={selecionarChamada}
+                                fecharModal={fecharModal}
+                                statusChamada={chamadasPagina.find(c => c.id === selecionarChamada)?.status || 3}
+                            />
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </>
     )
 }

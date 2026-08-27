@@ -36,7 +36,7 @@ queryFn: async () => {
 
   const { data, error } = await supabase
     .from("chamadas")
-    .select("*");
+    .select("*, tecnico_chamadas(id_tecnico)");
 
   if (error) throw error;
 
