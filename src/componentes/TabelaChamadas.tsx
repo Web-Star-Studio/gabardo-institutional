@@ -6,6 +6,7 @@ import { motion } from 'motion/react';
 import { Settings, Users2, Users } from 'lucide-react';
 import { useState } from 'react';
 import useTimerFormatado from '@/hooks/useTimerFormatado';
+import { BotaoAcoesChamada } from './BotaoAcoesChamada';
 
 type Coluna = {
     id: string;
@@ -21,6 +22,9 @@ type LinhaChamadaProps = {
     darkMode: boolean;
     formatarData: (data: string | null) => string;
     onSelecionar: (id: string) => void;
+
+    meuId: string;
+    onAcaoClick: (id: string, acao: 'acoes' | 'cooperacao') => void;
 };
 
 function LinhaChamada({
@@ -30,6 +34,8 @@ function LinhaChamada({
     darkMode,
     formatarData,
     onSelecionar,
+    meuId,
+    onAcaoClick
 }: LinhaChamadaProps) {
 
     const bg = darkMode ? '#18181B' : '#f7f7f9'
@@ -85,16 +91,13 @@ function LinhaChamada({
 `}
                     >
                         {botao ? (
-                            <motion.button
-                                onClick={() =>
-                                    onSelecionar(linha.id)
-                                }
-                            >
-                                <Settings
-                                    className="outline-none"
-                                    size={40}
-                                />
-                            </motion.button>
+                            <BotaoAcoesChamada
+                                idChamada={linha.id}
+                                idTecnicoResponsavel={linha.tecnico_id}
+                                meuId={meuId}
+                                numeroTecnicos={linha.numero_tecnicos || 0}
+                                aoClicar={onAcaoClick}
+                            />
 
                         ) : ehTempo ? (
 
@@ -121,12 +124,12 @@ function LinhaChamada({
 export default function TabelaChamadas() {
     const { chamadas } = useDados();
     const [abrirConfiguracoes, setAbrirConfiguracoes] = useState(false);
-    const [selecionarChamada, setSelecionarChamada] = useState("");
+    const [selecionarChamada, setSelecionarChamada] = useState<string | null>(null);
+    const [modalAberto, setModalAberto] = useState<'acoes' | 'cooperacao' | null>(null);
     const [pagina, setPagina] = useState(1);
 
     const { megaInfoChamadas } = useFiltrosChamadas();
     const { user } = useAutenticacao();
-
 
 
     //const [meusDados, setMeusDados] = useState<typeof(megaInfoChamadas.individual)>(); 
@@ -360,6 +363,12 @@ export default function TabelaChamadas() {
                                 darkMode={darkMode}
                                 formatarData={formatarData}
                                 onSelecionar={setSelecionarChamada}
+
+                                meuId={user?.id || ''}
+                                onAcaoClick={(id, acao) => {
+                                    setSelecionarChamada(id);
+                                    setModalAberto(acao);
+                                }}
                             />
                         ))}
                     </tbody>
