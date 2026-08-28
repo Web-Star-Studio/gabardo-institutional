@@ -17,16 +17,7 @@ export function ModalAcoes({ idChamada, statusChamada, fecharModal }: ModalAcoes
     const { darkMode } = useHeader();
 
     const bg = darkMode ? '#181818' : '#f7f7f9'
-    const card = darkMode ? '#1414178b' : '#ffffff98'
-    const border = darkMode ? '#2f2f3e' : '#9090ffbb'
     const text = darkMode ? '#e8e8ea' : '#0f172a'
-    const muted = darkMode ? '#6b6b78' : '#6b7280'
-    const primary = darkMode ? '#1e3a8a' : '#1904fd'
-    const primaryHover = darkMode ? '#1e40af' : '#1904fd'
-    const inputBg = darkMode ? '#1c1c21' : '#F9F9F7'
-    const accent = darkMode ? '#3b83f638' : '#1904fd28'
-    const cursorzinho = 'cursor-target';
-
 
     const [descricao, setDescricao] = useState('');
 
@@ -63,7 +54,7 @@ export function ModalAcoes({ idChamada, statusChamada, fecharModal }: ModalAcoes
                 backgroundColor: bg,
                 color: text
             }}
-            className="w-180 p-6  rounded-lg shadow-xl border ">
+            className="w-180 z-1500 p-6  rounded-lg shadow-xl border ">
 
             <motion.h2 className="text-xl font-bold mb-4">
                 Ações da Chamada

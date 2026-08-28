@@ -192,6 +192,7 @@ function LinhaChamada({
                                 }
                                 numeroTecnicos={linha.numero_tecnicos || 0}
                                 aoClicar={onAcaoClick}
+                                status={linha.status}
                             />
 
                         ) : ehTempo ? (

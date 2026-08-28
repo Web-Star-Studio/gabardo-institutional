@@ -8,7 +8,11 @@ import {
   Bell,
   BellRing,
   AlertTriangle,
-  BookUser
+  BookUser,
+  MonitorSmartphone,
+  User,
+  ShieldAlert,
+  ShieldCheck
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useFiltrosChamadas } from '@/contextos/FiltrosChamadas';
@@ -17,6 +21,7 @@ import { CardChamadaNova } from '@/componentes/MinhasChamadas';
 import { Paginacao } from '@/componentes/Paginacao';
 import { usePaginacao } from '@/hooks/usePaginacao';
 
+import { usePegarAlertas, usePermitirSoftware } from '@/lib/query';
 import MenuEsquerdo from './menu-esquerdo/MenuEsquerdo';
 
 import logo from '../assets/128x128.png';
@@ -40,20 +45,30 @@ export default function Header() {
   const { megaInfoChamadas } = useFiltrosChamadas();
   const { assumirChamada } = useDados();
   const auten = useAutenticacao();
-
   const meuId = auten.user?.id!;
 
-  const [numAlertas, setNumAlertas] = useState(0);
+  // 1. Busca os alertas do banco usando React Query
+  const { data: alertasRaw, isLoading: carregandoAlertas } = usePegarAlertas();
+  const { mutate: permitir, isPending: permitindo } = usePermitirSoftware();
+
+  // 2. Filtra apenas os alertas que NÃO foram permitidos (infrações ativas)
+  const alertas = alertasRaw?.filter((alerta) => !alerta.permitiu) || [];
+
+  // 3. O estado numAlertas agora é derivado diretamente dos dados reais
+  const numAlertas = alertas.length;
+
   const [numMinhasChamadas, setNumMinhasChamadas] = useState(0);
   const numNotificacoes = megaInfoChamadas?.geral?.numeroParadas ?? 0;
 
+  // Instâncias dos hooks de paginação
   const pagChamadas = usePaginacao(numMinhasChamadas, 10);
-
   const pagNotificacoes = usePaginacao(numNotificacoes, 10);
+
+  // NOVA INSTÂNCIA: Paginação conectada ao total de alertas ativos
+  const pagAlertas = usePaginacao(numAlertas, 10);
 
   useEffect(() => {
     if (!megaInfoChamadas.individual[meuId]) return;
-
     setNumMinhasChamadas(megaInfoChamadas.individual[meuId].chamadasNovas.length);
   }, [megaInfoChamadas, meuId]);
 
@@ -68,27 +83,16 @@ export default function Header() {
         animate={{
           opacity: menuAbertoEsquerdo ? 0.85 : 1,
           x: menuAbertoEsquerdo ? 287 : 0,
-          backgroundColor: darkMode
-            ? "#18181b"
-            : "#ffffff",
-
-          color: darkMode
-            ? "#f4f4f5"
-            : "#18181b",
-
-          borderColor: darkMode
-            ? "#3f3f46"
-            : "#d4d4d8",
-
+          backgroundColor: darkMode ? "#18181b" : "#ffffff",
+          color: darkMode ? "#f4f4f5" : "#18181b",
+          borderColor: darkMode ? "#3f3f46" : "#d4d4d8",
           borderRightWidth: 1,
           borderRightStyle: "solid",
           borderBottomWidth: 1,
           borderBottomStyle: "solid",
-
           boxShadow: darkMode
             ? "8px 0 30px rgba(0, 0, 0, 0.35)"
             : "8px 0 30px rgba(0, 0, 0, 0.10)",
-
         }}
         className={`
           fixed left-0 z-[501]
@@ -96,9 +100,7 @@ export default function Header() {
           ${!auten.sessao ? "invisible pointer-events-none" : ""}
         `}
       >
-        <AlignCenter size={40}
-          className="select-none shadow"
-        />
+        <AlignCenter size={40} className="select-none shadow" />
       </motion.button>
 
       {/* NAVBAR */}
@@ -124,17 +126,7 @@ export default function Header() {
               opacity: { duration: 0.25 },
               x: { duration: 0.25 },
             }}
-            className="
-              absolute left-30 top-1/2
-              -translate-y-1/2
-              whitespace-nowrap
-              rounded-full
-              border
-              px-3 py-1
-              text-sm font-medium
-              shadow-sm
-              select-none
-            "
+            className="absolute left-30 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-full border px-3 py-1 text-sm font-medium shadow-sm select-none"
           >
             {auten.tecnicoLogado.nome}
           </motion.span>
@@ -150,9 +142,7 @@ export default function Header() {
         </div>
 
         <div className="absolute right-8 top-1/2 flex -translate-y-1/2 items-center gap-5">
-
           <AnimatePresence mode="popLayout">
-
             {auten.sessao && (
               <motion.button
                 key="minhas"
@@ -161,56 +151,29 @@ export default function Header() {
                 animate={{ opacity: 1, scale: 1, x: 0 }}
                 exit={{ opacity: 0, scale: 0.7, x: 20 }}
                 transition={{
-                  layout: {
-                    type: "spring",
-                    stiffness: 500,
-                    damping: 35,
-                  },
-                  opacity: {
-                    duration: 0.15,
-                  },
-                  scale: {
-                    type: "spring",
-                    stiffness: 500,
-                    damping: 30,
-                  },
-                  x: {
-                    type: "spring",
-                    stiffness: 500,
-                    damping: 30,
-                  },
+                  layout: { type: "spring", stiffness: 500, damping: 35 },
+                  opacity: { duration: 0.15 },
+                  scale: { type: "spring", stiffness: 500, damping: 30 },
+                  x: { type: "spring", stiffness: 500, damping: 30 },
                 }}
                 onClick={alterarMenuMinhasChamadas}
                 className="group relative flex h-full w-12 items-center"
               >
                 <motion.div
-                  animate={
-                    numMinhasChamadas > 0
-                      ? { x: [0, -2, 2, -2, 2, 0] }
-                      : { x: 0 }
-                  }
-                  transition={{
-                    duration: 0.3,
-                    repeat: numMinhasChamadas > 0 ? Infinity : 0,
-                    repeatDelay: 1,
-                  }}
+                  animate={numMinhasChamadas > 0 ? { x: [0, -2, 2, -2, 2, 0] } : { x: 0 }}
+                  transition={{ duration: 0.3, repeat: numMinhasChamadas > 0 ? Infinity : 0, repeatDelay: 1 }}
                 >
                   {numMinhasChamadas > 0 && (
                     <span className="absolute -right-1 -top-2 flex h-5 w-7 items-center justify-center rounded-full bg-red-500 text-base text-white">
                       {numMinhasChamadas < 10 ? numMinhasChamadas : "+9"}
                     </span>
                   )}
-                  <BookUser
-                    size={40}
-                    className="select-none"
-                  />
+                  <BookUser size={40} className="select-none" />
                 </motion.div>
               </motion.button>
             )}
 
-
-
-            {(auten.sessao) && (
+            {auten.sessao && (
               <motion.button
                 key="alerta"
                 layout
@@ -218,49 +181,24 @@ export default function Header() {
                 animate={{ opacity: 1, scale: 1, x: 0 }}
                 exit={{ opacity: 0, scale: 0.7, x: 20 }}
                 transition={{
-                  layout: {
-                    type: "spring",
-                    stiffness: 500,
-                    damping: 35,
-                  },
-                  opacity: {
-                    duration: 0.15,
-                  },
-                  scale: {
-                    type: "spring",
-                    stiffness: 500,
-                    damping: 30,
-                  },
-                  x: {
-                    type: "spring",
-                    stiffness: 500,
-                    damping: 30,
-                  },
+                  layout: { type: "spring", stiffness: 500, damping: 35 },
+                  opacity: { duration: 0.15 },
+                  scale: { type: "spring", stiffness: 500, damping: 30 },
+                  x: { type: "spring", stiffness: 500, damping: 30 },
                 }}
                 onClick={alterarMenuAlertas}
                 className="group relative flex h-full w-12 items-center"
               >
                 <motion.div
-                  animate={
-                    numAlertas > 0
-                      ? { x: [0, -2, 2, -2, 2, 0] }
-                      : { x: 0 }
-                  }
-                  transition={{
-                    duration: 0.3,
-                    repeat: numAlertas > 0 ? Infinity : 0,
-                    repeatDelay: 1,
-                  }}
+                  animate={numAlertas > 0 ? { x: [0, -2, 2, -2, 2, 0] } : { x: 0 }}
+                  transition={{ duration: 0.3, repeat: numAlertas > 0 ? Infinity : 0, repeatDelay: 1 }}
                 >
                   {numAlertas > 0 && (
                     <span className="absolute -right-1 -top-2 flex h-5 w-7 items-center justify-center rounded-full bg-red-500 text-base text-white">
                       {numAlertas < 10 ? numAlertas : "+9"}
                     </span>
                   )}
-                  <AlertTriangle
-                    size={40}
-                    className="select-none"
-                  />
+                  <AlertTriangle size={40} className="select-none" />
                 </motion.div>
               </motion.button>
             )}
@@ -273,39 +211,17 @@ export default function Header() {
                 animate={{ opacity: 1, scale: 1, x: 0 }}
                 exit={{ opacity: 0, scale: 0.7, x: 20 }}
                 transition={{
-                  layout: {
-                    type: "spring",
-                    stiffness: 500,
-                    damping: 35,
-                  },
-                  opacity: {
-                    duration: 0.15,
-                  },
-                  scale: {
-                    type: "spring",
-                    stiffness: 500,
-                    damping: 30,
-                  },
-                  x: {
-                    type: "spring",
-                    stiffness: 500,
-                    damping: 30,
-                  },
+                  layout: { type: "spring", stiffness: 500, damping: 35 },
+                  opacity: { duration: 0.15 },
+                  scale: { type: "spring", stiffness: 500, damping: 30 },
+                  x: { type: "spring", stiffness: 500, damping: 30 },
                 }}
                 onClick={alterarMenuNotificacoes}
                 className="group relative flex h-full w-12 items-center"
               >
                 <motion.div
-                  animate={
-                    numNotificacoes > 0
-                      ? { x: [0, -2, 2, -2, 2, 0] }
-                      : { x: 0 }
-                  }
-                  transition={{
-                    duration: 0.3,
-                    repeat: numNotificacoes > 0 ? Infinity : 0,
-                    repeatDelay: 1,
-                  }}
+                  animate={numNotificacoes > 0 ? { x: [0, -2, 2, -2, 2, 0] } : { x: 0 }}
+                  transition={{ duration: 0.3, repeat: numNotificacoes > 0 ? Infinity : 0, repeatDelay: 1 }}
                 >
                   {numNotificacoes > 0 && (
                     <span className="absolute -right-1 -top-2 flex h-5 w-7 items-center justify-center rounded-full bg-red-500 text-base text-white">
@@ -313,32 +229,19 @@ export default function Header() {
                     </span>
                   )}
                   {numNotificacoes > 0 ? (
-                    <BellRing
-                      size={40}
-                      className="select-none"
-                    />
+                    <BellRing size={40} className="select-none" />
                   ) : (
-                    <Bell
-                      size={40}
-                      className="select-none"
-                    />
+                    <Bell size={40} className="select-none" />
                   )}
                 </motion.div>
               </motion.button>
             )}
 
-
-
-
             <motion.button
               type="button"
               onClick={alterarTema}
-              animate={{
-                backgroundColor: darkMode ? "#333333" : "#bcb8b8",
-              }}
-              transition={{
-                backgroundColor: { duration: 0.2 },
-              }}
+              animate={{ backgroundColor: darkMode ? "#333333" : "#bcb8b8" }}
+              transition={{ backgroundColor: { duration: 0.2 } }}
               className="flex h-7 w-12 items-center rounded-lg p-0.5"
             >
               <motion.div
@@ -354,9 +257,7 @@ export default function Header() {
               />
             </motion.button>
 
-
-            {(auten.sessao) && (
-
+            {auten.sessao && (
               <motion.button
                 key="logout"
                 layout
@@ -364,441 +265,283 @@ export default function Header() {
                 animate={{ opacity: 1, scale: 1, x: 0 }}
                 exit={{ opacity: 0, scale: 0.7, x: 20 }}
                 transition={{
-                  layout: {
-                    type: "spring",
-                    stiffness: 500,
-                    damping: 35,
-                  },
-                  opacity: {
-                    duration: 0.15,
-                  },
-                  scale: {
-                    type: "spring",
-                    stiffness: 500,
-                    damping: 30,
-                  },
-                  x: {
-                    type: "spring",
-                    stiffness: 500,
-                    damping: 30,
-                  },
+                  layout: { type: "spring", stiffness: 500, damping: 35 },
+                  opacity: { duration: 0.15 },
+                  scale: { type: "spring", stiffness: 500, damping: 30 },
+                  x: { type: "spring", stiffness: 500, damping: 30 },
                 }}
                 type="button"
                 onClick={auten.logout}
-                className="flex gap-2 h-7 ml-10 w-32 items-center p-0.5"
+                className="flex gap-2 h-7 ml-10 w-32 items-center p-0.5 group"
               >
-
-                <span className="text-3xl ">Sair </span>
-
-                <DoorClosed
-                  size={40}
-                  className="select-none group-hover:hidden"
-                />
-
-                <DoorOpen
-                  size={40}
-                  className="hidden select-none group-hover:block"
-                />
+                <span className="text-3xl">Sair </span>
+                <DoorClosed size={40} className="select-none group-hover:hidden" />
+                <DoorOpen size={40} className="hidden select-none group-hover:block" />
               </motion.button>
             )}
           </AnimatePresence>
-
         </div>
-      </motion.header >
+      </motion.header>
 
       <AnimatePresence mode='wait'>
         {/* OVERLAY */}
-        {
-          (menuAbertoEsquerdo || menuAbertoNotificacoes || menuAbertoAlertas || menuAbertoMinhasChamadas) && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={fecharMenus}
-              className={`fixed inset-0 ${menuAbertoEsquerdo ? "z-[299]" : "z-[999]"
-                } bg-black/40`} />
-          )
-        }
+        {(menuAbertoEsquerdo || menuAbertoNotificacoes || menuAbertoAlertas || menuAbertoMinhasChamadas) && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={fecharMenus}
+            className={`fixed inset-0 ${menuAbertoEsquerdo ? "z-[299]" : "z-[999]"} bg-black/40`}
+          />
+        )}
 
-        {
-          menuAbertoMinhasChamadas && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 10 }}
-              transition={{
-                type: "spring",
-                stiffness: 400,
-                damping: 30,
-              }}
-              onClick={(e) => e.stopPropagation()}
-              className={`
-              fixed left-1/2 top-1/3 z-[1000]
-              w-[min(90vw,900px)]
-              -translate-x-1/2 -translate-y-1/2
-              overflow-hidden rounded-2xl border shadow-2xl
-              ${darkMode
-                  ? "border-zinc-700 bg-zinc-900 text-zinc-100"
-                  : "border-zinc-200 bg-white text-zinc-900"
-                }
-              `}
-            >
-              {/* HEADER */}
-              <div
-                className={`
-                flex items-center justify-between
-                border-b px-5 py-4
-                ${darkMode
-                    ? "border-zinc-700"
-                    : "border-zinc-200"
-                  }
-              `}
-              >
-                <div className="flex items-center gap-3">
-                  <BookUser
-                    size={28}
-                    className="select-none"
-                  />
-
-                  <h2 className="text-lg font-semibold">
-                    Minhas Chamadas
-                  </h2>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={fecharMenus}
-                  className={`
-            rounded-lg px-3 py-1 text-sm
-            transition-colors
-            ${darkMode
-                      ? "hover:bg-zinc-800"
-                      : "hover:bg-zinc-100"
-                    }
-          `}
-                >
-                  Fechar
-                </button>
+        {/* =========================================
+            MENU MINHAS CHAMADAS
+        ========================================= */}
+        {menuAbertoMinhasChamadas && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 10 }}
+            transition={{ type: "spring", stiffness: 400, damping: 30 }}
+            onClick={(e) => e.stopPropagation()}
+            className={`fixed left-1/2 top-1/3 z-[1000] w-[min(90vw,900px)] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl border shadow-2xl ${darkMode ? "border-zinc-700 bg-zinc-900 text-zinc-100" : "border-zinc-200 bg-white text-zinc-900"
+              }`}
+          >
+            <div className={`flex items-center justify-between border-b px-5 py-4 ${darkMode ? "border-zinc-700" : "border-zinc-200"}`}>
+              <div className="flex items-center gap-3">
+                <BookUser size={28} className="select-none" />
+                <h2 className="text-lg font-semibold">Minhas Chamadas</h2>
               </div>
+              <button
+                type="button"
+                onClick={fecharMenus}
+                className={`rounded-lg px-3 py-1 text-sm transition-colors ${darkMode ? "hover:bg-zinc-800" : "hover:bg-zinc-100"}`}
+              >
+                Fechar
+              </button>
+            </div>
 
-              {/* CONTENT */}
-              <div className="max-h-[60vh] overflow-y-auto p-5">
-                <Paginacao
-                  pagina={pagChamadas.pagina}
-                  totalPaginas={pagChamadas.totalPaginas}
-                  setPagina={pagChamadas.setPagina}
-                  darkMode={darkMode}
-                />
-                {numMinhasChamadas > 0 ? (
-                  <div className="space-y-3">
-                    {megaInfoChamadas?.individual[meuId].chamadasNovas
-                      ?.slice(pagChamadas.inicio, pagChamadas.fim)
-                      .map((nova) => (
-                        <CardChamadaNova key={nova.id} nova={nova} />
-                      ))}
-                  </div>
-                ) : (
-                  <div className="flex min-h-32 items-center justify-center">
-                    <p
-                      className={
-                        darkMode
-                          ? "text-zinc-400"
-                          : "text-zinc-500"
-                      }
+            <div className="max-h-[60vh] overflow-y-auto p-5">
+              <Paginacao pagina={pagChamadas.pagina} totalPaginas={pagChamadas.totalPaginas} setPagina={pagChamadas.setPagina} darkMode={darkMode} />
+              {numMinhasChamadas > 0 ? (
+                <div className="space-y-3">
+                  {megaInfoChamadas?.individual[meuId].chamadasNovas
+                    ?.slice(pagChamadas.inicio, pagChamadas.fim)
+                    .map((nova) => (
+                      <CardChamadaNova key={nova.id} nova={nova} />
+                    ))}
+                </div>
+              ) : (
+                <div className="flex min-h-32 items-center justify-center">
+                  <p className={darkMode ? "text-zinc-400" : "text-zinc-500"}>Sem chamadas no momento.</p>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
+
+        {/* =========================================
+            MENU ALERTAS DE INVENTÁRIO (O que implementamos)
+        ========================================= */}
+        {menuAbertoAlertas && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 10 }}
+            transition={{ type: "spring", stiffness: 400, damping: 30 }}
+            onClick={(e) => e.stopPropagation()}
+            className={`fixed left-1/2 top-1/3 z-[1000] w-[min(90vw,900px)] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl border shadow-2xl ${darkMode ? "border-zinc-700 bg-zinc-900 text-zinc-100" : "border-zinc-200 bg-white text-zinc-900"
+              }`}
+          >
+            <div className={`flex items-center justify-between border-b px-5 py-4 ${darkMode ? "border-zinc-700" : "border-zinc-200"}`}>
+              <div className="flex items-center gap-3">
+                <AlertTriangle size={28} className="select-none text-red-500" />
+                <h2 className="text-lg font-semibold">Alertas de Software</h2>
+              </div>
+              <button
+                type="button"
+                onClick={fecharMenus}
+                className={`rounded-lg px-3 py-1 text-sm transition-colors ${darkMode ? "hover:bg-zinc-800" : "hover:bg-zinc-100"}`}
+              >
+                Fechar
+              </button>
+            </div>
+
+            <div className="max-h-[60vh] overflow-y-auto p-5">
+              <Paginacao
+                pagina={pagAlertas.pagina}
+                totalPaginas={pagAlertas.totalPaginas}
+                setPagina={pagAlertas.setPagina}
+                darkMode={darkMode}
+              />
+
+              {carregandoAlertas ? (
+                <div className="flex min-h-32 items-center justify-center">
+                  <p className={darkMode ? "text-zinc-400" : "text-zinc-500"}>Buscando alertas no servidor...</p>
+                </div>
+              ) : numAlertas > 0 ? (
+                <div className="space-y-3">
+
+                  {/* Fatiamento (Slice) conectando o hook de paginação com os dados do banco */}
+                  {alertas.slice(pagAlertas.inicio, pagAlertas.fim).map((alerta) => (
+                    <div
+                      key={`${alerta.maquina_id}-${alerta.programa_id}`}
+                      className={`flex flex-col gap-3 rounded-xl border p-4 transition-colors ${darkMode ? "border-red-900/50 bg-red-950/20" : "border-red-200 bg-red-50/50"
+                        }`}
                     >
-                      Sem chamadas no momento.
-                    </p>
-                  </div>
-                )}
-              </div>
-            </motion.div>
-          )
-        }
+                      {/* Título do Alerta */}
+                      <div className="flex items-center gap-2 border-b border-inherit pb-2">
+                        <ShieldAlert size={18} className={darkMode ? "text-red-400" : "text-red-600"} />
+                        <span className={`font-semibold ${darkMode ? "text-red-400" : "text-red-700"}`}>
+                          Software Restrito Detectado
+                        </span>
+                      </div>
 
-
-        {
-          menuAbertoAlertas && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 10 }}
-              transition={{
-                type: "spring",
-                stiffness: 400,
-                damping: 30,
-              }}
-              onClick={(e) => e.stopPropagation()}
-              className={`
-              fixed left-1/2 top-1/3 z-[1000]
-              w-[min(90vw,900px)]
-              -translate-x-1/2 -translate-y-1/2
-              overflow-hidden rounded-2xl border shadow-2xl
-              ${darkMode
-                  ? "border-zinc-700 bg-zinc-900 text-zinc-100"
-                  : "border-zinc-200 bg-white text-zinc-900"
-                }
-              `}
-            >
-              {/* HEADER */}
-              <div
-                className={`
-                flex items-center justify-between
-                border-b px-5 py-4
-                ${darkMode
-                    ? "border-zinc-700"
-                    : "border-zinc-200"
-                  }
-              `}
-              >
-                <div className="flex items-center gap-3">
-                  <AlertTriangle
-                    size={28}
-                    className="select-none"
-                  />
-
-                  <h2 className="text-lg font-semibold">
-                    Alertas
-                  </h2>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={fecharMenus}
-                  className={`
-            rounded-lg px-3 py-1 text-sm
-            transition-colors
-            ${darkMode
-                      ? "hover:bg-zinc-800"
-                      : "hover:bg-zinc-100"
-                    }
-          `}
-                >
-                  Fechar
-                </button>
-              </div>
-
-              {/* CONTENT */}
-              <div className="max-h-[60vh] overflow-y-auto p-5">
-                {numAlertas > 0 ? (
-                  <div className="space-y-3">
-                    {/* Alertas entrarão aqui */}
-                  </div>
-                ) : (
-                  <div className="flex min-h-32 items-center justify-center">
-                    <p
-                      className={
-                        darkMode
-                          ? "text-zinc-400"
-                          : "text-zinc-500"
-                      }
-                    >
-                      Nenhum alerta no momento.
-                    </p>
-                  </div>
-                )}
-              </div>
-            </motion.div>
-          )
-        }
-
-
-
-        {
-          menuAbertoNotificacoes && (
-            <motion.div
-              initial={{
-                opacity: 0,
-                scale: 0.9,
-                y: 10
-              }}
-              animate={{
-                opacity: 1,
-                scale: 1,
-                y: 0
-              }}
-              exit={{
-                opacity: 0,
-                scale: 0.9,
-                y: 10
-              }}
-              transition={{
-                type: "spring",
-                stiffness: 400,
-                damping: 30,
-              }}
-              onClick={(e) => e.stopPropagation()}
-              className={`
-              fixed left-1/2 top-1/3 z-[1000]
-              w-[min(1100vw,900px)]
-              -translate-x-1/2 -translate-y-1/2
-              overflow-hidden rounded-2xl border shadow-2xl
-              ${darkMode
-                  ? "border-zinc-700 bg-zinc-900 text-zinc-100"
-                  : "border-zinc-200 bg-white text-zinc-900"
-                }
-              `}
-            >
-              {/* HEADER */}
-              <div
-                className={`
-                flex items-center justify-between
-                border-b px-5 py-4
-                ${darkMode
-                    ? "border-zinc-700"
-                    : "border-zinc-200"
-                  }
-                `}
-              >
-                <div className="flex items-center gap-3">
-                  <Bell
-                    size={28}
-                    className="select-none"
-                  />
-
-                  <h2 className="text-lg font-semibold">
-                    Notificações
-                  </h2>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={fecharMenus}
-                  className={`
-                  rounded-lg px-3 py-1 text-sm
-                  transition-colors
-                  ${darkMode
-                      ? "hover:bg-zinc-800"
-                      : "hover:bg-zinc-100"
-                    }
-                `}
-                >
-                  Fechar
-                </button>
-              </div>
-
-              <div className="max-h-[60vh] overflow-hidden p-5">
-                <Paginacao
-                  pagina={pagNotificacoes.pagina}
-                  totalPaginas={pagNotificacoes.totalPaginas}
-                  setPagina={pagNotificacoes.setPagina}
-                  darkMode={darkMode}
-                />
-                {numNotificacoes > 0 ? (
-                  <div className="space-y-3">
-                    {megaInfoChamadas?.geral?.listaParadas?.slice(
-                      pagNotificacoes.inicio,
-                      pagNotificacoes.fim)
-                      .map((parada) => (
-                        <div
-                          key={parada.id}
-                          className={`
-                        rounded-xl border p-4
-                          ${darkMode
-                              ? "border-zinc-700 bg-zinc-800/60"
-                              : "border-zinc-200 bg-zinc-50"
-                            }
-                        `}
-                        >
-                          <div className="mb-2 flex items-start justify-between gap-3">
-                            <h3 className="text-base font-semibold leading-snug">
-                              {parada.titulo}
-                            </h3>
-                            {parada.categoria && (
-                              <span
-                                className={`
-                              shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium
-                                ${darkMode
-                                    ? "bg-zinc-700 text-zinc-200"
-                                    : "bg-zinc-200 text-zinc-700"
-                                  }
-                              `}
-                              >
-                                {parada.categoria}
-                              </span>
-                            )}
-                          </div>
-
-                          {parada.descricao && (
-                            <p
-                              className={`
-                            mb-3 break-words text-sm leading-relaxed
-                            ${darkMode ? "text-zinc-300" : "text-zinc-600"}
-                          `}
-                            >
-                              {parada.descricao}
-                            </p>
-                          )}
-
-                          <div
-                            className={`
-                          flex flex-row justify-between gap-1 border-t pt-3 text-sm
-                          ${darkMode ? "border-zinc-700" : "border-zinc-200"}
-                        `}
-                          >
-                            <div>
-                              {parada.requerente && (
-                                <div className="flex gap-2">
-                                  <span
-                                    className={
-                                      darkMode ? "text-zinc-500" : "text-zinc-400"
-                                    }
-                                  >
-                                    Requerente:
-                                  </span>
-                                  <span className="font-medium">{parada.requerente}</span>
-                                </div>
-                              )}
-                              {parada.email_requerente && (
-                                <div className="flex gap-2">
-                                  <span
-                                    className={
-                                      darkMode ? "text-zinc-500" : "text-zinc-400"
-                                    }
-                                  >
-                                    E-mail:
-                                  </span>
-                                  <span className="truncate">{parada.email_requerente}</span>
-                                </div>
-                              )}
-                            </div>
-                            <div className="h-auto w-auto pr-10">
-                              <motion.button
-                                onClick={() =>
-                                  assumirChamada(parada.id, auten.tecnicoLogado!.id)
-                                }
-                                className="w-50 h-full rounded-lg text-2xl font-semibold"
-                                animate={{}}
-                                whileHover={{
-                                  backgroundColor: "#1111bb",
-                                  color: "#fff"
-                                }}
-                              >
-                                ATENDER
-                              </motion.button>
-                            </div>
-                          </div>
+                      {/* Grid de Informações */}
+                      <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+                        <div className="flex items-center gap-2 text-sm">
+                          <MonitorSmartphone size={16} className={darkMode ? "text-zinc-400" : "text-zinc-500"} />
+                          <span className={darkMode ? "text-zinc-300" : "text-zinc-700"}>
+                            <strong className="mr-1">Máquina:</strong>
+                            {alerta.nome_computador}
+                          </span>
                         </div>
-                      ))}
-                  </div>
-                ) : (
-                  <div className="flex min-h-32 items-center justify-center">
-                    <p
-                      className={
-                        darkMode
-                          ? "text-zinc-400"
-                          : "text-zinc-500"
-                      }
-                    >
-                      Nenhuma notificação no momento.
-                    </p>
-                  </div>
-                )}
+
+                        <div className="flex items-center gap-2 text-sm">
+                          <User size={16} className={darkMode ? "text-zinc-400" : "text-zinc-500"} />
+                          <span className={darkMode ? "text-zinc-300" : "text-zinc-700"}>
+                            <strong className="mr-1">Usuário:</strong>
+                            {alerta.usuario_atual}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className={`mt-1 rounded-md p-3 text-sm font-medium border ${darkMode ? "bg-zinc-900/50 border-zinc-800 text-zinc-300" : "bg-white border-zinc-200 text-zinc-700"
+                        }`}>
+                        <span className="text-red-500 mr-2">Programa:</span>
+                        {alerta.nome_programa}
+                      </div>
+                      <div className={`flex flex-row justify-end gap-3 border-t pt-3 mt-1 ${darkMode ? "border-red-900/30" : "border-red-200/50"}`}>
+
+                        <button
+                          type="button"
+                          disabled={permitindo}
+                          onClick={() => permitir({ maquinaId: alerta.maquina_id, programaId: alerta.programa_id })}
+                          className={`
+                            flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold shadow-sm transition-all
+                            ${darkMode
+                              ? "bg-zinc-800 text-zinc-300 hover:bg-zinc-700 hover:text-white border border-zinc-700"
+                              : "bg-white text-zinc-700 hover:bg-zinc-50 border border-zinc-300"
+                            }
+                            ${permitindo ? "opacity-50 cursor-not-allowed" : ""}
+                          `}
+                        >
+                          <ShieldCheck size={18} className="text-green-500" />
+                          {permitindo ? "Aprovando..." : "Permitir Exceção"}
+                        </button>
+                      </div>
+                    </div>
+
+                  ))}
+                </div>
+              ) : (
+                <div className="flex min-h-32 items-center justify-center">
+                  <p className={darkMode ? "text-zinc-400" : "text-zinc-500"}>
+                    Nenhuma infração de software detectada. Tudo limpo!
+                  </p>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
+
+        {/* =========================================
+            MENU NOTIFICAÇÕES 
+        ========================================= */}
+        {menuAbertoNotificacoes && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 10 }}
+            transition={{ type: "spring", stiffness: 400, damping: 30 }}
+            onClick={(e) => e.stopPropagation()}
+            className={`fixed left-1/2 top-1/3 z-[1000] w-[min(1100vw,900px)] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl border shadow-2xl ${darkMode ? "border-zinc-700 bg-zinc-900 text-zinc-100" : "border-zinc-200 bg-white text-zinc-900"
+              }`}
+          >
+            <div className={`flex items-center justify-between border-b px-5 py-4 ${darkMode ? "border-zinc-700" : "border-zinc-200"}`}>
+              <div className="flex items-center gap-3">
+                <Bell size={28} className="select-none" />
+                <h2 className="text-lg font-semibold">Notificações</h2>
               </div>
-            </motion.div>
-          )
-        }
+              <button
+                type="button"
+                onClick={fecharMenus}
+                className={`rounded-lg px-3 py-1 text-sm transition-colors ${darkMode ? "hover:bg-zinc-800" : "hover:bg-zinc-100"}`}
+              >
+                Fechar
+              </button>
+            </div>
+
+            <div className="max-h-[60vh] overflow-hidden p-5">
+              <Paginacao pagina={pagNotificacoes.pagina} totalPaginas={pagNotificacoes.totalPaginas} setPagina={pagNotificacoes.setPagina} darkMode={darkMode} />
+              {numNotificacoes > 0 ? (
+                <div className="space-y-3">
+                  {megaInfoChamadas?.geral?.listaParadas?.slice(pagNotificacoes.inicio, pagNotificacoes.fim).map((parada) => (
+                    <div
+                      key={parada.id}
+                      className={`rounded-xl border p-4 ${darkMode ? "border-zinc-700 bg-zinc-800/60" : "border-zinc-200 bg-zinc-50"}`}
+                    >
+                      <div className="mb-2 flex items-start justify-between gap-3">
+                        <h3 className="text-base font-semibold leading-snug">{parada.titulo}</h3>
+                        {parada.categoria && (
+                          <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium ${darkMode ? "bg-zinc-700 text-zinc-200" : "bg-zinc-200 text-zinc-700"}`}>
+                            {parada.categoria}
+                          </span>
+                        )}
+                      </div>
+                      {parada.descricao && (
+                        <p className={`mb-3 break-words text-sm leading-relaxed ${darkMode ? "text-zinc-300" : "text-zinc-600"}`}>
+                          {parada.descricao}
+                        </p>
+                      )}
+                      <div className={`flex flex-row justify-between gap-1 border-t pt-3 text-sm ${darkMode ? "border-zinc-700" : "border-zinc-200"}`}>
+                        <div>
+                          {parada.requerente && (
+                            <div className="flex gap-2">
+                              <span className={darkMode ? "text-zinc-500" : "text-zinc-400"}>Requerente:</span>
+                              <span className="font-medium">{parada.requerente}</span>
+                            </div>
+                          )}
+                          {parada.email_requerente && (
+                            <div className="flex gap-2">
+                              <span className={darkMode ? "text-zinc-500" : "text-zinc-400"}>E-mail:</span>
+                              <span className="truncate">{parada.email_requerente}</span>
+                            </div>
+                          )}
+                        </div>
+                        <div className="h-auto w-auto pr-10">
+                          <motion.button
+                            onClick={() => assumirChamada(parada.id, auten.tecnicoLogado!.id)}
+                            className="w-50 h-full rounded-lg text-2xl font-semibold"
+                            whileHover={{ backgroundColor: "#1111bb", color: "#fff" }}
+                          >
+                            ATENDER
+                          </motion.button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="flex min-h-32 items-center justify-center">
+                  <p className={darkMode ? "text-zinc-400" : "text-zinc-500"}>Nenhuma notificação no momento.</p>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
       </AnimatePresence >
     </>
   );
 }
-

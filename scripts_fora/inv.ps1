@@ -1,5 +1,15 @@
 $supabaseUrl = "https://eofkiyvsslugkfmjbgqn.supabase.co"
-$supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVvZmtpeXZzc2x1Z2tmbWpiZ3FuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ1NTg5NzYsImV4cCI6MjEwMDEzNDk3Nn0.ZWQLDrDToCYTM58QaET0ig14IgXShI0WKbTxn4Iatbcllkçç"
+$supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVvZmtpeXZzc2x1Z2tmbWpiZ3FuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ1NTg5NzYsImV4cCI6MjEwMDEzNDk3Nn0.ZWQLDrDToCYTM58QaET0ig14IgXShI0WKbTxn4Iatbc"
+
+# ==========================================
+# COLETA DE DADOS
+# ==========================================
+
+$paths = @(
+    "HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*",
+    "HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*",
+    "HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*"
+)
 
 $paths = @(
     "HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*",
@@ -12,7 +22,7 @@ Where-Object { $_.DisplayName } |
 Select-Object @{Name = 'nome_exibicao'; Expression = { $_.DisplayName } },
 @{Name = 'versao'; Expression = { $_.DisplayVersion } },
 @{Name = 'publicador'; Expression = { $_.Publisher } } |
-Sort-Object nome_exibicao
+Sort-Object nome_exibicao, versao, publicador -Unique
 
 $monitores = Get-CimInstance -Namespace root\wmi -ClassName WmiMonitorID -ErrorAction SilentlyContinue |
 ForEach-Object {
@@ -106,8 +116,12 @@ $hd = Get-PhysicalDisk | ForEach-Object {
         Where-Object { $_.DriveLetter }
     }
 
-    $totalSpace = ($volumes | Measure-Object Size -Sum).Sum
-    $freeSpace = ($volumes | Measure-Object SizeRemaining -Sum).Sum
+    $totalSpace = 0
+    $freeSpace = 0
+    if ($volumes) {
+        $totalSpace = ($volumes | Measure-Object Size -Sum).Sum
+        $freeSpace = ($volumes | Measure-Object SizeRemaining -Sum).Sum
+    }
 
     [PSCustomObject]@{
         modelo  = $disk.FriendlyName
@@ -156,7 +170,13 @@ Select-Object `
 @{Name = 'status'; Expression = { $_.Status } } |
 Sort-Object pnp_class, nome
 
-$ipPublico = (Invoke-RestMethod -Uri "https://api.ipify.org").Trim()
+
+$ipPublico = "Desconhecido"
+try {
+    $ipPublico = (Invoke-RestMethod -Uri "https://api.ipify.org" -TimeoutSec 5).Trim()
+}
+catch {
+}
 
 $ipsInternos = (
     Get-NetIPAddress -AddressFamily IPv4 |
@@ -164,6 +184,10 @@ $ipsInternos = (
         $_.PrefixOrigin -ne 'WellKnown'
     }
 ).IPAddress -join ' '
+
+# ==========================================
+# ESTRUTURAÇÃO DO PAYLOAD E ENVIO
+# ==========================================
 
 $payload = [PSCustomObject]@{
     nome_computador      = $user.Name
@@ -178,8 +202,8 @@ $payload = [PSCustomObject]@{
     sistema_operacional  = $os.Caption
     versao_so            = $os.Version
     arquitetura          = $os.OSArchitecture
-    ram                  = $rams
-    memoria              = $hd
+    ram                  = @($rams)
+    memoria              = @($hd)
 
     ips_internos         = $ipsInternos
     ip_publico           = $ipPublico
@@ -215,7 +239,4 @@ try {
     $response
 }
 catch {
-
-    if ($_.ErrorDetails.Message) {
-    }
 }
