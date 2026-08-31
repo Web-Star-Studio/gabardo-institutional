@@ -115,7 +115,6 @@ function LinhaChamada({
     colunasData,
     darkMode,
     formatarData,
-    onSelecionar,
     meuId,
     onAcaoClick
 }: LinhaChamadaProps) {

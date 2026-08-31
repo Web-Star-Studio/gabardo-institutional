@@ -21,11 +21,6 @@ function FiltrosChamadasProvider({ children }: { children: React.ReactNode }) {
     tecnicosChamadas
   } = useDados();
 
-  const dadosProntos =
-    chamadas.isSuccess &&
-    tecnicos.isSuccess &&
-    tecnicosChamadas.isSuccess;
-
   const chamadasPorId = useMemo<Map<string, Chamada>>(() => {
     return new Map(
       (chamadas.data ?? []).map((chamada) => [

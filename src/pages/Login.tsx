@@ -94,7 +94,7 @@ export default function Login() {
 
       if (erros !== '') throw new Error;
 
-      const { data, error } = await supabase.rpc('criar_chamada', {
+      const { error } = await supabase.rpc('criar_chamada', {
         p_titulo: tituloChamada,
         p_descricao: detalhesChamada,
         p_email: emailChamada,

@@ -1,33 +1,17 @@
 import { AnimatePresence, motion } from "motion/react";
-import { useState } from "react";
 import FlowingMenu from './MenuAnimado';
 
 import { useHeader } from '../../contextos/Header';
 
-import itemsMenu, { type ItemMenu } from "./items-menu";
 
 export default function MenuEsquerdo() {
-  const { fecharMenus, darkMode, menuAbertoEsquerdo } = useHeader();
+  const { darkMode, menuAbertoEsquerdo } = useHeader();
 
   const demoItems = [
     { link: '#', text: 'Chamadas', image: 'help.png' },
     { link: '#', text: 'Câmeras', image: 'cctv.png' },
 
   ];
-
-  const [categoriaAberta, setCategoriaAberta] =
-    useState<string | null>(null);
-  const [categoriaHover, setCategoriaHover] =
-    useState<string | null>(null);
-  const [submenuHover, setSubmenuHover] =
-    useState<string | null>(null);
-
-
-  const alternarCategoria = (categoria: string) => {
-    setCategoriaAberta((categoriaAtual) =>
-      categoriaAtual === categoria ? null : categoria,
-    );
-  };
 
   return (
     <AnimatePresence initial={false}>

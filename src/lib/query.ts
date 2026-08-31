@@ -90,11 +90,6 @@ export function pegarChamadas(enabled = true) {
     queryKey: ['chamadas'],
     enabled,
 queryFn: async () => {
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
   const { data, error } = await supabase
     .from("chamadas")
     .select("*, tecnico_chamadas(id_tecnico)");
