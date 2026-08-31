@@ -140,3 +140,89 @@ export function pegarTecnicosChamadas(enabled = true) {
             return data satisfies Tables<"tecnico_chamadas">[];        }
     });
 }
+
+export function pegarProgramas(enabled = true) {
+    useRealtimeTable("programas", "programas");
+
+    return useQuery({
+        queryKey: ["programas"],
+        enabled,
+
+        queryFn: async () => {
+
+            const { data, error } = await supabase
+                .from("programas")
+                .select(`
+                    id,
+                    nome,
+                    versao,
+                    publisher,
+                    flag,
+                    maquinas_programas(count)
+                `)
+                .order("nome", {
+                    ascending: true
+                });
+
+            if (error) {
+                console.error("Erro ao buscar programas:", error);
+                throw error;
+            }
+
+            return data.map((programa) => ({
+                id: programa.id,
+                nome: programa.nome,
+                versao: programa.versao,
+                publisher: programa.publisher,
+                flag: programa.flag,
+
+                quantidade_maquinas:
+                    programa.maquinas_programas?.[0]?.count ?? 0,
+            }));
+        },
+    });
+}
+
+export function pegarMaquinas(enabled = true) {
+    useRealtimeTable("maquinas", "maquinas");
+
+    return useQuery({
+        queryKey: ["maquinas"],
+        enabled,
+
+        queryFn: async () => {
+            const { data, error } = await supabase
+                .from("maquinas")
+                .select(`
+                    id,
+                    nome_computador,
+                    dominio,
+                    usuario_atual,
+                    fabricante,
+                    modelo,
+                    familia_sistema,
+                    placa_mae_fabricante,
+                    placa_mae_produto,
+                    placa_mae_serial,
+                    sistema_operacional,
+                    versao_so,
+                    arquitetura,
+                    ultimo_visto,
+                    criado_em,
+                    ip_publico,
+                    ip_interno
+                `)
+                .order("nome_computador", {
+                    ascending: true,
+                });
+
+            if (error) {
+                throw new Error(
+                    `Erro ao buscar máquinas: ${error.message}`
+                );
+            }
+
+            return data as Tables<"maquinas">[];
+        },
+    });
+}

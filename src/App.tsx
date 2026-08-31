@@ -6,7 +6,10 @@ import Header from './componentes/Header';
 
 import Login from "@/pages/Login";
 import Principal from "@/pages/Painel";
+import Softwares from "@/pages/Softwares";
+import Usuarios from "@/pages/Usuarios";
 import LoggedRoute from "@/pages/LoggedRoutes";
+
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
@@ -14,26 +17,31 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 function App() {
   return (
     <>
-      <AutenticacaoProvider>
-        <DadosProvider>
+      <BrowserRouter>
+        <AutenticacaoProvider>
+          <DadosProvider>
 
-          <FiltrosChamadasProvider>
-            <HeaderProvider>
-              <Header />
-              <BrowserRouter>
+            <FiltrosChamadasProvider>
+              <HeaderProvider>
+                <Header />
+
                 <Routes>
                   <Route path="/" element={<Login />} />
 
                   <Route element={<LoggedRoute />}>
-                    <Route path="/painel" element={<Principal />} />
+                    <Route path="/Painel" element={<Principal />} />
+                    <Route path="/Softwares" element={<Softwares />} />
+                    <Route path="/Usuarios" element={<Usuarios />} />
+
                   </Route>
                 </Routes>
-              </BrowserRouter>
-              {/*<DashboardHeader />*/}
-            </HeaderProvider>
-          </FiltrosChamadasProvider>
-        </DadosProvider>
-      </AutenticacaoProvider>
+
+                {/*<DashboardHeader />*/}
+              </HeaderProvider>
+            </FiltrosChamadasProvider>
+          </DadosProvider>
+        </AutenticacaoProvider>
+      </BrowserRouter>
     </>
   )
 }

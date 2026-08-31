@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from "motion/react";
 import FlowingMenu from './MenuAnimado';
+import { useEffect, useState } from 'react';
 
 import { useHeader } from '../../contextos/Header';
 
@@ -7,9 +8,18 @@ import { useHeader } from '../../contextos/Header';
 export default function MenuEsquerdo() {
   const { darkMode, menuAbertoEsquerdo } = useHeader();
 
+  const [usuarioLogo, setUsuarioLogo] = useState('');
+
+  useEffect(() => {
+    setUsuarioLogo((darkMode ? "/usuario.png" : "/usuario2.png"));
+  }, [darkMode]);
+
   const demoItems = [
-    { link: '#', text: 'Chamadas', image: 'help.png' },
-    { link: '#', text: 'Câmeras', image: 'cctv.png' },
+    { link: '/Painel', text: 'Chamadas', image: 'help.png' },
+    { link: '/Cameras', text: 'Câmeras', image: 'cctv.png' },
+    { link: '/Softwares', text: 'Softwares', image: 'software.png' },
+    { link: '/Usuarios', text: 'Usuários', image: usuarioLogo },
+    { link: '/Contratos', text: 'Contratos', image: 'documentos.png' },
 
   ];
 
@@ -60,42 +70,27 @@ export default function MenuEsquerdo() {
               borderBottomWidth: 1,
               borderBottomStyle: "solid",
             }}
-            className="mb-5 px-2 pb-4"
+            className="flex justify-center mb-5 px-2 pb-4"
           >
             <motion.h2
               animate={{
                 color: darkMode
                   ? "#a5b4fc"
-                  : "#4f46e5",
+                  : "#040404",
               }}
-              className="text-2xl font-bold tracking-widest"
+              className="text-4xl font-bold tracking-widest"
             >
               MENU
             </motion.h2>
 
-            <motion.p
-              animate={{
-                color: darkMode
-                  ? "#a1a1aa"
-                  : "#71717a",
-              }}
-              className="mt-1 text-xs font-medium uppercase tracking-wider"
-            >
-              Escolha uma opção:
-            </motion.p>
+
           </motion.div>
 
           <div className="flex-1 overflow-y-auto pr-1">
             <AnimatePresence mode="wait" initial={false}>
               <div style={{ height: 'auto', position: 'relative' }}>
                 <FlowingMenu items={demoItems}
-                  speed={11}
-                  textColor="#f2f2f5"
-                  bgColor="#120F17"
-                  marqueeBgColor="#f3f2f4"
-                  marqueeTextColor="#070707"
-                  borderColor="#ffffff"
-                />
+                  speed={11} />
               </div>
 
             </AnimatePresence>

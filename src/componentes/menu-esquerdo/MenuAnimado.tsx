@@ -1,5 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { gsap } from 'gsap';
+import { Link } from 'react-router-dom';
+import { useHeader } from '@/contextos/Header';
 
 interface MenuItemData {
   link: string;
@@ -26,24 +28,28 @@ interface MenuItemProps extends MenuItemData {
   isFirst: boolean;
 }
 
+
 const FlowingMenu: React.FC<FlowingMenuProps> = ({
   items = [],
-  speed = 15,
-  textColor = '#fff',
-  bgColor = '#120F17',
-  marqueeBgColor = '#fff',
-  marqueeTextColor = '#120F17',
-  borderColor = '#fff'
+  speed = 15
 }) => {
+
+  const { darkMode } = useHeader();
+
+  const finalTextColor = (darkMode ? '#fff' : '#000');
+  const finalBgColor = (darkMode ? '#120F17' : '#fff');
+  const marqueeBgColor = darkMode ? '#fff' : '#000';
+  const marqueeTextColor = darkMode ? '#120F17' : '#fff';
+  const borderColor = darkMode ? '#fff' : '#000';
   return (
-    <div className="w-full h-full overflow-hidden" style={{ backgroundColor: bgColor }}>
+    <div className="w-full h-full overflow-hidden" style={{ backgroundColor: finalBgColor }}>
       <nav className="flex flex-col h-full m-0 p-0">
         {items.map((item, idx) => (
           <MenuItem
             key={idx}
             {...item}
             speed={speed}
-            textColor={textColor}
+            textColor={finalTextColor}
             marqueeBgColor={marqueeBgColor}
             marqueeTextColor={marqueeTextColor}
             borderColor={borderColor}
@@ -154,15 +160,15 @@ const MenuItem: React.FC<MenuItemProps> = ({
       ref={itemRef}
       style={{ borderTop: isFirst ? 'none' : `1px solid ${borderColor}` }}
     >
-      <a
+      <Link
         className="flex items-center justify-center h-full relative cursor-pointer uppercase no-underline font-semibold text-[4vh]"
-        href={link}
+        to={link}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         style={{ color: textColor }}
       >
         {text}
-      </a>
+      </Link>
       <div
         className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none translate-y-[101%]"
         ref={marqueeRef}
