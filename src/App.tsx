@@ -9,7 +9,7 @@ import Principal from "@/pages/Painel";
 import Softwares from "@/pages/Softwares";
 import Usuarios from "@/pages/Usuarios";
 import LoggedRoute from "@/pages/LoggedRoutes";
-
+import Psi from "@/pages/Psi";
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
@@ -32,7 +32,7 @@ function App() {
                     <Route path="/Painel" element={<Principal />} />
                     <Route path="/Softwares" element={<Softwares />} />
                     <Route path="/Usuarios" element={<Usuarios />} />
-
+                    <Route path="/PSI" element={<Psi />} />
                   </Route>
                 </Routes>
 
