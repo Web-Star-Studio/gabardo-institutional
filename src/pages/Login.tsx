@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useHeader } from '@/contextos/Header';
 import { useAutenticacao } from "@/contextos/Autenticacao";
 import LiquidEther from '@/componentes/animacoes/Fumaca';
-import { MessageSquarePlus, User2, ArrowLeft } from 'lucide-react';
+import { MessageSquarePlus, Shield, User2, ArrowLeft } from 'lucide-react';
 import FoldText from '@/componentes/personalizados/TextoChamado';
 
 import { useNavigate } from 'react-router-dom';
@@ -50,6 +50,12 @@ export default function Login() {
   const inputBg = darkMode ? '#1c1c21' : '#F9F9F7'
   const accent = darkMode ? '#3b83f638' : '#1904fd28'
   const cursorzinho = 'cursor-target';
+
+  const arquivo = "/PSI.pdf";
+
+  const abrirPDF = () => {
+    window.open(arquivo, '_blank');
+  }
 
   const submitChamada = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -256,7 +262,7 @@ export default function Login() {
                   creaseShading={0.65}
                   fontSize={44}
                   fontWeight={800}
-                  color={(darkMode ? "#8e83ff" : "#1b16b3")}
+                  color={(darkMode ? "#bebcdb" : "#161626")}
                 />
               </motion.div>
             </motion.div>
@@ -476,19 +482,39 @@ export default function Login() {
                               justify-center
                             `}
                             animate={{ color: text }}
-                            whileHover={{ scale: 1.2 }}
+                            whileHover={{ scale: 1.1 }}
                             transition={{
                               duration: 0.3,
                               ease: "easeOut"
                             }}
                           >
                             <MessageSquarePlus size={120} strokeWidth={2} />
-                            <motion.span className="text-4xl pt-6">Criar chamada</motion.span>
+                            <motion.span className="text-3xl pt-6">Criar chamada</motion.span>
                           </motion.button>
+                          <motion.button
+                            onClick={abrirPDF}
+                            className={`
+                              flex 
+                              flex-col 
+                              flex-1 
+                              items-center
+                              justify-center
+                            `}
+                            animate={{ color: text }}
+                            whileHover={{ scale: 1.1 }}
+                            transition={{
+                              duration: 0.3,
+                              ease: "easeOut"
+                            }}
+                          >
+                            <Shield size={120} strokeWidth={2} />
+                            <motion.span className="text-2xl pt-6">Política de segurança da Informação</motion.span>
+                          </motion.button>
+
                           <motion.button
                             onClick={() => setAba("login")}
                             animate={{ color: text }}
-                            whileHover={{ scale: 1.2 }}
+                            whileHover={{ scale: 1.1 }}
                             transition={{
                               duration: 0.3,
                               ease: "easeOut"
@@ -496,7 +522,7 @@ export default function Login() {
                             className="flex flex-col flex-1 items-center justify-center"
                           >
                             <User2 size={120} strokeWidth={2} />
-                            <motion.span className="text-4xl pt-6">Login</motion.span>
+                            <motion.span className="text-3xl pt-6">Login</motion.span>
                           </motion.button>
                         </motion.div>
                       </motion.div>

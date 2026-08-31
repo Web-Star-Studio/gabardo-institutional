@@ -35,76 +35,53 @@ function FiltrosChamadasProvider({ children }: { children: React.ReactNode }) {
     );
   }, [chamadas.data]);
 
+  const criaMetricas = () => ({
+    numeroFinalizadasAtrasadas: 0,
+    numeroFinalizadas: 0,
+    numeroParadas: 0,
+    numeroEmAndamento: 0,
+    numeroPausadas: 0,
+    numeroAtrasadas: 0,
+    listaFinalizadasAtrasadas: [],
+    listaFinalizadas: [],
+    listaParadas: [],
+    listaEmAndamento: [],
+    listaPausadas: [],
+    listaAtrasadas: [],
+    chamadasBaixas: [],
+    chamadasMedias: [],
+    chamadasAltas: [],
+    chamadasUrgentes: [],
+    chamadasNovas: [],
+    chamadasVelhas: [],
+  });
+
+
   const megaInfoChamadas = useMemo<DetalhesCompletos>(() => {
+
+    if (chamadas.isSuccess || !tecnicos.isSuccess || !tecnicosChamadas.isSuccess) {
+      return {
+        geral: criaMetricas(),
+        individual: {},
+      }
+    }
 
     const repetidas = new Set<string>();
 
     const dados: DetalhesCompletos = {
-      geral: {
-        numeroFinalizadasAtrasadas: 0,
-        numeroFinalizadas: 0,
-        numeroParadas: 0,
-        numeroEmAndamento: 0,
-        numeroPausadas: 0,
-        numeroAtrasadas: 0,
-
-        listaFinalizadasAtrasadas: [],
-        listaFinalizadas: [],
-        listaParadas: [],
-        listaEmAndamento: [],
-        listaPausadas: [],
-        listaAtrasadas: [],
-
-        chamadasBaixas: [],
-        chamadasMedias: [],
-        chamadasAltas: [],
-        chamadasUrgentes: [],
-
-        chamadasNovas: [],
-        chamadasVelhas: [],
-      },
-
+      geral: criaMetricas(),
       individual: {},
     };
 
-    tecnicos.data?.forEach((tecnico) => {
-      dados.individual[tecnico.id] = {
-        numeroFinalizadasAtrasadas: 0,
-        numeroFinalizadas: 0,
-        numeroParadas: 0,
-        numeroEmAndamento: 0,
-        numeroPausadas: 0,
-        numeroAtrasadas: 0,
-
-        listaFinalizadasAtrasadas: [],
-        listaFinalizadas: [],
-        listaParadas: [],
-        listaEmAndamento: [],
-        listaPausadas: [],
-        listaAtrasadas: [],
-
-        chamadasBaixas: [],
-        chamadasMedias: [],
-        chamadasAltas: [],
-        chamadasUrgentes: [],
-
-        chamadasNovas: [],
-        chamadasVelhas: [],
-      };
+    tecnicos.data.forEach((tecnico) => {
+      dados.individual[tecnico.id] = criaMetricas();
     });
 
     tecnicosChamadas.data?.forEach((chamada) => {
       const chamadaAtual = chamadasPorId.get(chamada.id_chamada);
 
       if (!chamadaAtual) return;
-      /*
-      -- 1 = Fechado com atraso
-      -- 2 = Fechado
-      -- 3 = Não atendido
-      -- 4 = Pausado
-      -- 5 = Aberto
-      -- 6 = Atrasado
-      */
+
       if (chamada.id_tecnico) {
         switch (chamadaAtual.status) {
           case 1:
@@ -263,7 +240,6 @@ function FiltrosChamadasProvider({ children }: { children: React.ReactNode }) {
         repetidas.add(chamadaAtual.id);
       }
     });
-    console.log(dados);
     return dados;
   }, [
     chamadas.data,

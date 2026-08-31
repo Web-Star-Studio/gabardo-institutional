@@ -84,14 +84,10 @@ function AutenticacaoProvider({
 
   useEffect(() => {
     const recuperarSessao = async () => {
-      console.log("🔵 Recuperando sessão...");
 
       const {
         data: { session },
       } = await supabase.auth.getSession();
-
-      console.log("🟢 Sessão recuperada:", session);
-
 
       setSessao(session);
       setUser(session?.user ?? null);
