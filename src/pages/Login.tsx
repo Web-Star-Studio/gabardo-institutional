@@ -508,7 +508,7 @@ export default function Login() {
                             }}
                           >
                             <Shield size={120} strokeWidth={2} />
-                            <motion.span className="text-2xl pt-6">Política de segurança da Informação</motion.span>
+                            <motion.span className="text-2xl pt-6">Política de Segurança da Informação</motion.span>
                           </motion.button>
 
                           <motion.button
