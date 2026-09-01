@@ -54,7 +54,7 @@ function FiltrosChamadasProvider({ children }: { children: React.ReactNode }) {
 
   const megaInfoChamadas = useMemo<DetalhesCompletos>(() => {
 
-    if (chamadas.isSuccess || !tecnicos.isSuccess || !tecnicosChamadas.isSuccess) {
+    if (!chamadas.isSuccess || !tecnicos.isSuccess || !tecnicosChamadas.isSuccess) {
       return {
         geral: criaMetricas(),
         individual: {},
