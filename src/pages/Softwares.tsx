@@ -69,7 +69,7 @@ export default function Softwares() {
 
             </motion.div>
 
-            <TabelaSoftwares />
+            <TabelaSoftwares pesquisa={pesquisa} />
 
         </motion.div>
 

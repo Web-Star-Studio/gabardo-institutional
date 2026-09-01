@@ -2,11 +2,12 @@ import { useDados } from "@/contextos/Dados";
 import { useAutenticacao } from "@/contextos/Autenticacao";
 import { useHeader } from "@/contextos/Header";
 import { motion, AnimatePresence } from 'motion/react';
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import useTimerFormatado from '@/hooks/useTimerFormatado';
 import { BotaoAcoesChamada } from './BotaoAcoesChamada';
 import { ModalAcoes } from './ModalAcoes';
 import { ModalCooperacoes } from './ModalCooperacoes';
+import MiniSearch from 'minisearch';
 
 type Coluna = {
     id: string;
@@ -30,6 +31,10 @@ type LinhaChamadaProps = {
 type BadgeProps = {
     label: string;
     className: string;
+};
+
+type TabelaChamadasProps = {
+    pesquisa: string;
 };
 
 const PRIORIDADES = {
@@ -244,7 +249,9 @@ function LinhaChamada({
     );
 }
 
-export default function TabelaChamadas() {
+export default function TabelaChamadas({
+    pesquisa,
+}: TabelaChamadasProps) {
     const { chamadas } = useDados();
     const [selecionarChamada, setSelecionarChamada] = useState<string | null>(null);
     const [modalAberto, setModalAberto] = useState<'acoes' | 'cooperacao' | null>(null);
@@ -254,12 +261,63 @@ export default function TabelaChamadas() {
 
     const itensPorPagina = 25;
 
-    const totalItens = chamadas.data?.length ?? 0;
-
-    const totalPaginas = Math.ceil(totalItens / itensPorPagina);
 
     const inicio = (pagina - 1) * itensPorPagina;
     const fim = inicio + itensPorPagina;
+
+    const miniSearch = useMemo(() => {
+        const search = new MiniSearch({
+            fields: [
+                'titulo',
+                'descricao',
+                'categoria',
+                'email_requerente',
+                'requerente',
+            ],
+            storeFields: [
+                'id',
+                'titulo',
+                'descricao',
+                'categoria',
+                'email_requerente',
+                'requerente',
+                'prioridade',
+                'status',
+                'data_atendeu',
+                'data_criacao',
+                'data_finalizacao',
+                'prazo_final',
+                'segundos_restantes',
+            ],
+        });
+
+        if (chamadas.data) {
+            search.addAll(chamadas.data);
+        }
+
+        return search;
+    }, [chamadas.data]);
+
+    const chamadasFiltradas = useMemo(() => {
+        const termo = pesquisa.trim();
+
+        if (!termo) {
+            return chamadas.data ?? [];
+        }
+
+        return miniSearch
+            .search(termo, {
+                prefix: true,
+                fuzzy: 0.2,
+            })
+            .map((resultado) => resultado);
+    }, [pesquisa, miniSearch, chamadas.data]);
+
+    const totalItens = chamadasFiltradas.length;
+    const chamadasPagina = chamadasFiltradas.slice(inicio, fim);
+
+
+    const totalPaginas = Math.ceil(totalItens / itensPorPagina);
 
     const paginasVisiveis = () => {
         const paginas: (number | "...")[] = [];
@@ -294,8 +352,6 @@ export default function TabelaChamadas() {
         return paginas;
     };
 
-    const chamadasPagina = chamadas.data?.slice(inicio, fim) ?? [];
-
     const { darkMode } = useHeader();
 
     const colunasData = [
@@ -319,6 +375,10 @@ export default function TabelaChamadas() {
             timeZone: "America/Sao_Paulo",
         }).format(new Date(data));
     };
+
+    useEffect(() => {
+        setPagina(1);
+    }, [pesquisa]);
 
     const colunas: Coluna[] = [
         {

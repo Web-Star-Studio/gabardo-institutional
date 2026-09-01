@@ -67,7 +67,7 @@ export default function Usuarios() {
                 </motion.div>
             </motion.div>
 
-            <TabelaUsuarios />
+            <TabelaUsuarios pesquisa={pesquisa}/>
 
         </motion.div>
 

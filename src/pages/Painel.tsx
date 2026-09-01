@@ -78,7 +78,7 @@ export default function Principal() {
         </motion.button>
       </motion.div>
 
-      <TabelaChamadas />
+      <TabelaChamadas pesquisa={pesquisa} />
 
     </motion.div>
 

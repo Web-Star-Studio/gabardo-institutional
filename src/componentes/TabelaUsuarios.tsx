@@ -1,7 +1,12 @@
 import { pegarMaquinas } from "@/lib/query";
 import { useHeader } from "@/contextos/Header";
 import { motion } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
+import MiniSearch from "minisearch";
+
+type TabelaUsuariosProps = {
+    pesquisa: string;
+};
 
 type Coluna = {
     id: string;
@@ -73,7 +78,9 @@ function LinhaUsuario({
     );
 }
 
-export default function TabelaUsuarios() {
+export default function TabelaUsuarios({
+    pesquisa,
+}: TabelaUsuariosProps) {
 
     const maquinas = pegarMaquinas();
     const { darkMode } = useHeader();
@@ -82,41 +89,90 @@ export default function TabelaUsuarios() {
 
     const itensPorPagina = 25;
 
-    /*
-     * Sempre que a quantidade de máquinas mudar,
-     * garantimos que a página atual continue válida.
-     */
-    useEffect(() => {
-        const total = maquinas.data?.length ?? 0;
-        const paginas = Math.max(1, Math.ceil(total / itensPorPagina));
+    const miniSearch = useMemo(() => {
+        const search = new MiniSearch({
+            fields: [
+                "nome_computador",
+                "usuario_atual",
+                "dominio",
+                "fabricante",
+                "modelo",
+                "sistema_operacional",
+                "versao_so",
+                "arquitetura",
+                "ip_interno",
+                "ip_publico",
+            ],
 
-        setPagina((paginaAtual) =>
-            Math.min(paginaAtual, paginas)
-        );
+            storeFields: [
+                "id",
+                "nome_computador",
+                "dominio",
+                "usuario_atual",
+                "fabricante",
+                "modelo",
+                "familia_sistema",
+                "placa_mae_fabricante",
+                "placa_mae_produto",
+                "placa_mae_serial",
+                "sistema_operacional",
+                "versao_so",
+                "arquitetura",
+                "ultimo_visto",
+                "criado_em",
+                "ip_publico",
+                "ip_interno",
+            ],
+        });
+
+        if (maquinas.data) {
+            search.addAll(maquinas.data);
+        }
+
+        return search;
     }, [maquinas.data]);
 
-    const totalItens = maquinas.data?.length ?? 0;
+    const maquinasFiltradas = useMemo(() => {
+        const termo = pesquisa.trim();
+
+        if (!termo) {
+            return maquinas.data ?? [];
+        }
+
+        return miniSearch.search(termo, {
+            prefix: true,
+            fuzzy: 0.1,
+        });
+    }, [
+        pesquisa,
+        miniSearch,
+        maquinas.data,
+    ]);
+
+
+    const totalItens = maquinasFiltradas.length;
 
     const totalPaginas = Math.max(
         1,
         Math.ceil(totalItens / itensPorPagina)
     );
 
+    useEffect(() => {
+        setPagina(1);
+    }, [pesquisa, maquinasFiltradas.length,]);
+
+    useEffect(() => {
+        setPagina((paginaAtual) =>
+            Math.min(paginaAtual,
+                totalPaginas));
+    }, [totalPaginas]);
+
     const inicio = (pagina - 1) * itensPorPagina;
     const fim = inicio + itensPorPagina;
 
     const maquinasPagina =
-        maquinas.data?.slice(inicio, fim) ?? [];
+        maquinasFiltradas.slice(inicio, fim) ?? [];
 
-    /*
-     * Gera:
-     *
-     * 1 2 3 4 5 6 7
-     *
-     * ou
-     *
-     * 1 ... 4 5 6 ... 20
-     */
     const paginasVisiveis = () => {
         const paginas: (number | "...")[] = [];
 

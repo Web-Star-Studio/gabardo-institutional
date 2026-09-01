@@ -1,7 +1,12 @@
 import { motion } from "motion/react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import MiniSearch from "minisearch";
 import { pegarProgramas } from "@/lib/query";
 import { useHeader } from "@/contextos/Header";
+
+type TabelaSoftwaresProps = {
+    pesquisa: string;
+};
 
 type Coluna = {
     id: string;
@@ -66,25 +71,58 @@ function LinhaSoftware({
     );
 }
 
-export default function TabelaSoftwares() {
+export default function TabelaSoftwares({
+    pesquisa,
+}: TabelaSoftwaresProps) {
 
     const { darkMode } = useHeader();
 
     const programas = pegarProgramas();
 
+    const miniSearch = useMemo(() => {
+        const search = new MiniSearch({
+            fields: [
+                "nome",
+                "versao",
+                "publisher",
+            ],
+
+            storeFields: [
+                "id",
+                "nome",
+                "versao",
+                "publisher",
+                "flag",
+                "quantidade_maquinas",
+            ],
+        });
+
+        if (programas.data) {
+            search.addAll(programas.data);
+        }
+
+        return search;
+    }, [programas.data]);
+
+    const programasFiltrados = useMemo(() => {
+        const termo = pesquisa.trim();
+
+        if (!termo) {
+            return programas.data ?? [];
+        }
+
+        return miniSearch.search(termo, {
+            prefix: true,
+            fuzzy: 0.1,
+        });
+    }, [pesquisa, miniSearch, programas.data]);
+
     const [pagina, setPagina] = useState(1);
 
     const itensPorPagina = 25;
 
-    /*
-     * Volta para a primeira página quando
-     * a quantidade de páginas muda.
-     */
-    useEffect(() => {
-        setPagina(1);
-    }, [programas.data?.length]);
+    const totalItens = programasFiltrados.length;
 
-    const totalItens = programas.data?.length ?? 0;
 
     const totalPaginas = Math.ceil(
         totalItens / itensPorPagina
@@ -94,7 +132,8 @@ export default function TabelaSoftwares() {
     const fim = inicio + itensPorPagina;
 
     const programasPagina =
-        programas.data?.slice(inicio, fim) ?? [];
+        programasFiltrados.slice(inicio, fim);
+
 
     const paginasVisiveis = () => {
 
@@ -190,6 +229,10 @@ export default function TabelaSoftwares() {
             </h1>
         );
     }
+
+    useEffect(() => {
+        setPagina(1);
+    }, [pesquisa, programasFiltrados.length]);
 
     return (
         <>
@@ -345,12 +388,11 @@ export default function TabelaSoftwares() {
                                         px-3
                                         py-2
 
-                                        ${
-                                            pagina === item
-                                                ? darkMode
-                                                    ? "bg-white text-black"
-                                                    : "bg-black text-white"
-                                                : ""
+                                        ${pagina === item
+                                            ? darkMode
+                                                ? "bg-white text-black"
+                                                : "bg-black text-white"
+                                            : ""
                                         }
                                     `}
                                 >
