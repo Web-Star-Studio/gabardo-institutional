@@ -29,16 +29,26 @@ export default function Login() {
   const [tituloChamada, setTituloChamada] = useState("");
   const [detalhesChamada, setDetalhesChamada] = useState("");
   const [categoriaChamada, setCategoriaChamada] = useState("- Selecione uma categoria -");
+  const [prioridadeChamada, setPrioridadeChamada] = useState("- Selecione a prioridade -");
   const [helperChamada, setHelperChamada] = useState("");
   const [erroChamada, setErroChamada] = useState<string | null>('');
   const [carregandoChamada, setCarregandoChamada] = useState(false);
   const [menuCategoria, setMenuCategoria] = useState(false);
+  const [menuPrioridade, setMenuPrioridade] = useState(false);
   const [idUser, setidUser] = useState<string | null>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const [chamadaEnviada, setChamadaEnviada] = useState(false);
 
-  const abrirCategoria = () => setMenuCategoria(anterior => !anterior);
+  const abrirCategoria = () => {
+    setMenuPrioridade(false);
+    setMenuCategoria(anterior => !anterior);
+  }
+  const abrirPrioridade = () => {
+    setMenuCategoria(false);
+    setMenuPrioridade(anterior => !anterior);
+  }
+
 
   const bg = darkMode ? '#020202' : '#f7f7f9'
   const card = darkMode ? '#1414178b' : '#ffffff98'
@@ -83,6 +93,10 @@ export default function Login() {
         erros += '\nPor favor, selecione o tema!';
         errosContagem++;
       }
+      if (prioridadeChamada == "- Selecione a prioridade -") {
+        erros += '\nPor favor, selecione a prioridade!';
+        errosContagem++;
+      }
       if (detalhesChamada.length < 8) {
         erros += `\nPor favor, dê mais detalhes!`;
         errosContagem++;
@@ -97,6 +111,7 @@ export default function Login() {
       const { error } = await supabase.rpc('criar_chamada', {
         p_titulo: tituloChamada,
         p_descricao: detalhesChamada,
+        p_prioridade: prioridadeChamada,
         p_email: emailChamada,
         p_requerente: nomeChamada,
         p_categoria: categoriaChamada,
@@ -114,6 +129,8 @@ export default function Login() {
       setEmailChamada('');
       setDetalhesChamada('');
       setCategoriaChamada('- Selecione uma categoria -');
+      setPrioridadeChamada('- Selecione a prioridade -');
+
       setTituloChamada("");
       chamadoFoi();
 
@@ -548,7 +565,7 @@ export default function Login() {
                     transition={{ duration: 0.5 }}
                   >
                     <motion.div
-                      className="rounded-sm border pt-5 px-6 pb-15 shadow-xl"
+                      className="rounded-sm border pt-5 px-4 pb-15 shadow-xl"
                       animate={{
                         background: card,
                         borderColor: border
@@ -583,18 +600,17 @@ export default function Login() {
                         onAnimationComplete={() => setAnimarMouse(true)}
                         onAnimationStart={() => setAnimarMouse(false)}
                       >
-                        <motion.div className='flex flex-row justify-around'>
+                        <motion.div className='flex flex-row justify-between gap-6'>
                           <motion.div className="flex flex-col gap-4">
+
                             <motion.div>
                               <motion.label className="block text-xs font-mono tracking-widest uppercase mb-2" style={{ color: muted }}>
-                                Seu e-mail:
+                                Seu nome:
                               </motion.label>
                               <motion.input
-                                type="email"
-                                autoComplete="email"
-                                value={emailChamada}
-                                onChange={e => setEmailChamada(e.target.value)}
-                                placeholder="usuario@transgabardo.com.br"
+                                value={nomeChamada}
+                                onChange={e => setNomeChamada(e.target.value)}
+                                placeholder="Ex: Pedro Silva"
                                 className={`w-full px-4 py-3 text-sm border outline-none rounded-sm ${cursorzinho}`}
                                 animate={{
                                   background: inputBg,
@@ -608,30 +624,127 @@ export default function Login() {
 
                             <motion.div>
                               <motion.label className="block text-xs font-mono tracking-widest uppercase mb-2" style={{ color: muted }}>
-                                Título:
+                                Prioridade:
                               </motion.label>
                               <motion.div className="relative">
-                                <motion.input
-                                  value={tituloChamada}
-                                  onChange={e => setTituloChamada(e.target.value)}
-                                  placeholder="Ex: Problema de conexão"
-                                  className={`w-full px-4 py-3 pr-11 text-sm border outline-none rounded-sm ${cursorzinho}`}
-                                  animate={{ background: inputBg, borderColor: border, color: text }}
+                                <motion.button
+                                  type="button"
+                                  onClick={() => abrirPrioridade()}
+                                  value={prioridadeChamada}
+                                  onChange={e => setPrioridadeChamada(e.target.value)}
+                                  className={`w-65 text-left px-4 py-3 pr-11 text-sm outline-none rounded-t-sm ${cursorzinho}`}
+                                  animate={{
+                                    background: inputBg,
+                                    color: text,
+                                    borderTop: `1px solid ${border}`,
+                                    borderBottom: menuPrioridade ? "1px solid transparent" : `1px solid ${border}`,
+                                    borderLeft: `1px solid ${border}`,
+                                    borderRight: `1px solid ${border}`,
+                                  }}
                                   onFocus={e => (e.target.style.borderColor = accent)}
                                   onBlur={e => (e.target.style.borderColor = border)}
-                                />
+                                >
+                                  <motion.p
+                                    animate={{
+                                      color: prioridadeChamada == "- Selecione a prioridade -" ? muted : text,
+                                    }}
+                                  >
+                                    {prioridadeChamada}
+                                  </motion.p>
+
+                                  <AnimatePresence>
+                                    {menuPrioridade && (
+                                      <motion.div
+                                        initial={{ opacity: 0, y: -10, scaleY: 0.95 }}
+                                        exit={{ opacity: 0, y: -10, scaleY: 0.95 }}
+                                        className="absolute left-0 top-full w-full rounded-b-sm shadow-lg z-50"
+                                        animate={{
+                                          opacity: 1,
+                                          y: 0,
+                                          scaleY: 1,
+                                          background: inputBg,
+                                          borderColor: border,
+                                          borderBottom: `1px solid ${border}`,
+                                          borderTop: menuPrioridade ? "1px solid transparent" : `1px solid ${border}`,
+                                          borderLeft: `1px solid ${border}`,
+                                          borderRight: `1px solid ${border}`,
+                                        }}
+                                      >
+                                        <motion.p
+                                          onClick={() => setPrioridadeChamada('Baixa')}
+                                          animate={{
+                                            color: text,
+                                          }}
+                                          whileHover={{
+                                            backgroundColor: "#0a38b7",
+                                            color: "white",
+                                          }}
+                                          className={`${cursorzinho} px-4 py-2`}
+                                        >
+                                          Baixa
+                                        </motion.p>
+
+                                        <motion.p
+                                          onClick={() => setPrioridadeChamada('Média')}
+                                          animate={{
+                                            color: text,
+                                          }}
+                                          whileHover={{
+                                            backgroundColor: "#0a38b7",
+                                            color: "white",
+                                          }}
+                                          className={`${cursorzinho} px-4 py-2`}
+                                        >
+                                          Média
+                                        </motion.p>
+
+
+                                        <motion.p
+                                          onClick={() => setPrioridadeChamada('Alta')}
+                                          animate={{
+                                            color: text,
+                                          }}
+                                          whileHover={{
+                                            backgroundColor: "#0a38b7",
+                                            color: "white",
+                                          }}
+                                          className={`${cursorzinho} px-4 py-2`}
+                                        >
+                                          Alta
+                                        </motion.p>
+
+
+                                        <motion.p
+                                          onClick={() => setPrioridadeChamada('Crítica')}
+                                          animate={{
+                                            color: text,
+                                          }}
+                                          whileHover={{
+                                            backgroundColor: "#0a38b7",
+                                            color: "white",
+                                          }}
+                                          className={`${cursorzinho} px-4 py-2`}
+                                        >
+                                          Crítica
+                                        </motion.p>
+                                      </motion.div>
+                                    )}
+                                  </AnimatePresence>
+                                </motion.button>
                               </motion.div>
                             </motion.div>
                           </motion.div>
                           <motion.div className="flex flex-col min-w-55 gap-4">
                             <motion.div>
                               <motion.label className="block text-xs font-mono tracking-widest uppercase mb-2" style={{ color: muted }}>
-                                Seu nome:
+                                Seu e-mail:
                               </motion.label>
                               <motion.input
-                                value={nomeChamada}
-                                onChange={e => setNomeChamada(e.target.value)}
-                                placeholder="Ex: Pedro Silva"
+                                type="email"
+                                autoComplete="email"
+                                value={emailChamada}
+                                onChange={e => setEmailChamada(e.target.value)}
+                                placeholder="usuario@transgabardo.com.br"
                                 className={`w-full px-4 py-3 text-sm border outline-none rounded-sm ${cursorzinho}`}
                                 animate={{
                                   background: inputBg,
@@ -787,6 +900,26 @@ export default function Login() {
                             </motion.div>
                           </motion.div>
                         </motion.div>
+
+
+                        <motion.div>
+                          <motion.label className="block text-xs font-mono tracking-widest uppercase mb-2" style={{ color: muted }}>
+                            Título:
+                          </motion.label>
+                          <motion.div className="relative">
+                            <motion.input
+                              value={tituloChamada}
+                              onChange={e => setTituloChamada(e.target.value)}
+                              placeholder="Ex: Problema de conexão"
+                              className={`w-full px-4 py-3 pr-11 text-sm border outline-none rounded-sm ${cursorzinho}`}
+                              animate={{ background: inputBg, borderColor: border, color: text }}
+                              onFocus={e => (e.target.style.borderColor = accent)}
+                              onBlur={e => (e.target.style.borderColor = border)}
+                            />
+                          </motion.div>
+                        </motion.div>
+
+
                         <motion.div className="flex flex-col gap-4">
                           <motion.div>
                             <motion.label className="block pl-2 text-xs font-mono tracking-widest uppercase mb-2" style={{ color: muted }}>

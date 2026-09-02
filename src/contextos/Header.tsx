@@ -12,12 +12,14 @@ function HeaderProvider({ children }: { children: React.ReactNode }) {
   const [menuAbertoNotificacoes, abrirMenuNotificacoes] = useState(false);
   const [menuAbertoAlertas, abrirMenuAlertas] = useState(false);
   const [menuAbertoMinhasChamadas, abrirMenuMinhasChamadas] = useState(false);
+  const [menuAbertoChamadas, abrirMenuChamadas] = useState(false);
 
   const fecharMenus = () => {
     abrirMenuEsquerdo(false);
     abrirMenuNotificacoes(false);
     abrirMenuAlertas(false);
     abrirMenuMinhasChamadas(false);
+    abrirMenuChamadas(false);
   };
 
   useEffect(() => {
@@ -38,6 +40,10 @@ function HeaderProvider({ children }: { children: React.ReactNode }) {
 
   const alterarMenuEsquerdo = () => {
     abrirMenuEsquerdo((prev) => !prev);
+  };
+
+  const alterarMenuChamadas = () => {
+    abrirMenuChamadas((prev) => !prev);
   };
 
   const alterarMenuNotificacoes = () => {
@@ -65,6 +71,8 @@ function HeaderProvider({ children }: { children: React.ReactNode }) {
         menuAbertoNotificacoes,
         menuAbertoAlertas,
         menuAbertoMinhasChamadas,
+        menuAbertoChamadas,
+        alterarMenuChamadas,
         alterarMenuNotificacoes,
         alterarMenuAlertas,
         alterarMenuMinhasChamadas

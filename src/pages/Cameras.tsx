@@ -1,11 +1,13 @@
 import CamerasMap from '@/componentes/CamerasMap';
-import Camera from '@/componentes/Camera';
+import PortaoCam from '@/componentes/cams/Portao';
+import FrenteCam from '@/componentes/cams/Frente';
 
 export default function Cameras() {
     return (
         <>
-            {/*< CamerasMap />*/}
-            <Camera camId='dvr2_cam3' />
+            {/* < CamerasMap /> */}
+            {/* <PortaoCam /> */}
+            <FrenteCam />
         </>
     );
 }

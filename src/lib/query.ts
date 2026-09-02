@@ -226,3 +226,177 @@ export function pegarMaquinas(enabled = true) {
         },
     });
 }
+
+export function pegarMaquinasCPUs(enabled = true) {
+    useRealtimeTable("maquina_cpus", "maquina_cpus");
+
+    return useQuery({
+        queryKey: ["maquina_cpus"],
+        enabled,
+
+        queryFn: async () => {
+            const { data, error } = await supabase
+                .from("maquina_cpus")
+                .select("*");
+
+            if (error) {
+                throw new Error(
+                    `Erro ao buscar CPUs: ${error.message}`
+                );
+            }
+
+            return data as Tables<"maquina_cpus">[];
+        },
+    });
+}
+
+
+export function pegarMaquinasGPUs(enabled = true) {
+    useRealtimeTable("maquina_gpus", "maquina_gpus");
+
+    return useQuery({
+        queryKey: ["maquina_gpus"],
+        enabled,
+
+        queryFn: async () => {
+            const { data, error } = await supabase
+                .from("maquina_gpus")
+                .select("*");
+
+            if (error) {
+                throw new Error(
+                    `Erro ao buscar GPUs: ${error.message}`
+                );
+            }
+
+            return data as Tables<"maquina_gpus">[];
+        },
+    });
+}
+
+
+export function pegarMaquinasHDs(enabled = true) {
+    useRealtimeTable("maquina_hds", "maquina_hds");
+
+    return useQuery({
+        queryKey: ["maquina_hds"],
+        enabled,
+
+        queryFn: async () => {
+            const { data, error } = await supabase
+                .from("maquina_hds")
+                .select("*");
+
+            if (error) {
+                throw new Error(
+                    `Erro ao buscar HDs: ${error.message}`
+                );
+            }
+
+            return data as Tables<"maquina_hds">[];
+        },
+    });
+}
+
+
+export function pegarMaquinasRAMs(enabled = true) {
+    useRealtimeTable("maquina_rams", "maquina_rams");
+
+    return useQuery({
+        queryKey: ["maquina_rams"],
+        enabled,
+
+        queryFn: async () => {
+            const { data, error } = await supabase
+                .from("maquina_rams")
+                .select("*");
+
+            if (error) {
+                throw new Error(
+                    `Erro ao buscar memórias RAM: ${error.message}`
+                );
+            }
+
+            return data as Tables<"maquina_rams">[];
+        },
+    });
+}
+
+export function pegarMaquinasProgramas(enabled = true) {
+    useRealtimeTable("maquinas_programas", "maquinas_programas");
+
+    return useQuery({
+        queryKey: ["maquinas_programas"],
+        enabled,
+
+        queryFn: async () => {
+            const { data, error } = await supabase
+                .from("maquinas_programas")
+                .select(`
+                    *,
+                    programas (
+                        id,
+                        nome,
+                        versao,
+                        publisher,
+                        flag
+                    )
+                `);
+
+            if (error) {
+                throw new Error(
+                    `Erro ao buscar programas das máquinas: ${error.message}`
+                );
+            }
+
+            return data;
+        },
+    });
+}
+
+export function pegarMaquinasMonitores(enabled = true) {
+    useRealtimeTable("maquina_monitores", "maquina_monitores");
+
+    return useQuery({
+        queryKey: ["maquina_monitores"],
+        enabled,
+
+        queryFn: async () => {
+            const { data, error } = await supabase
+                .from("maquina_monitores")
+                .select("*");
+
+            if (error) {
+                throw new Error(
+                    `Erro ao buscar monitores: ${error.message}`
+                );
+            }
+
+            return data as Tables<"maquina_monitores">[];
+        },
+    });
+}
+
+
+export function pegarMaquinasDadosBrutos(enabled = true) {
+    useRealtimeTable("maquina_dados_brutos", "maquina_dados_brutos");
+
+    return useQuery({
+        queryKey: ["maquina_dados_brutos"],
+        enabled,
+
+        queryFn: async () => {
+            const { data, error } = await supabase
+                .from("maquina_dados_brutos")
+                .select("*");
+
+            if (error) {
+                throw new Error(
+                    `Erro ao buscar dados brutos das máquinas: ${error.message}`
+                );
+            }
+
+            return data as Tables<"maquina_dados_brutos">[];
+        },
+    });
+}
