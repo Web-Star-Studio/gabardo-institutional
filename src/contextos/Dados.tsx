@@ -7,7 +7,8 @@ import {
   pegarChamadas,
   pegarAndamentos,
   pegarMaquinas,
-  pegarProgramas
+  pegarProgramas,
+  usePegarAlertas
 } from "@/lib/query";
 import { useAutenticacao } from "./Autenticacao";
 import { supabase } from "@/lib/supabase";
@@ -36,6 +37,7 @@ function DadosProvider({ children }: { children: React.ReactNode }) {
   const chamadas = pegarChamadas(!carregandoAuth && !!sessao);
   const maquinas = pegarMaquinas();
   const programas = pegarProgramas();
+  const alertasUsuarios = usePegarAlertas();
 
   const tecnicos = pegarTecnicos(!carregandoAuth && !!sessao);
   const andamentos = pegarAndamentos(!carregandoAuth && !!sessao);
@@ -52,7 +54,8 @@ function DadosProvider({ children }: { children: React.ReactNode }) {
         tecnicosChamadas,
         assumirChamada,
         maquinas,
-        programas
+        programas,
+        alertasUsuarios
       }}
     >
       {children}

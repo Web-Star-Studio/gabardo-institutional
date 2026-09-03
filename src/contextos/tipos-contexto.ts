@@ -41,7 +41,7 @@ export type DadosContextType = {
     assumirChamada: (idChamada: string, idTecnico: string) => void;
     maquinas: UseQueryResult<Tables<"maquinas">[], Error>;
     programas: UseQueryResult<Tables<"programas">[], Error>;
-
+    alertasUsuarios: ReturnType<typeof import("@/lib/query").usePegarAlertas>;
   }
 
 export type AutenticacaoContextType = {

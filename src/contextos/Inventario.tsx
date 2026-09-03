@@ -10,7 +10,6 @@ import {
   pegarMaquinasMonitores,
   pegarMaquinasProgramas,
   pegarMaquinasDadosBrutos,
-  usePegarAlertas,
 } from '@/lib/query';
 
 import { useDados } from '@/contextos/Dados';
@@ -24,7 +23,7 @@ function InventarioProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const { maquinas, programas } = useDados();
+  const { maquinas, programas, alertasUsuarios } = useDados();
 
   const cpus = pegarMaquinasCPUs();
   const gpus = pegarMaquinasGPUs();
@@ -36,7 +35,7 @@ function InventarioProvider({
 
   const dadosBrutos = pegarMaquinasDadosBrutos();
 
-  const alertas = usePegarAlertas();
+  const  alertas = alertasUsuarios;
 
 
   const value = useMemo<InventarioContextType>(

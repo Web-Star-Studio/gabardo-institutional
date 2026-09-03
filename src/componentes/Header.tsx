@@ -21,7 +21,7 @@ import { CardChamadaNova } from '@/componentes/MinhasChamadas';
 import { Paginacao } from '@/componentes/Paginacao';
 import { usePaginacao } from '@/hooks/usePaginacao';
 
-import { usePegarAlertas, usePermitirSoftware } from '@/lib/query';
+import { usePermitirSoftware } from '@/lib/query';
 import MenuEsquerdo from './menu-esquerdo/MenuEsquerdo';
 
 import logo from '../assets/128x128.png';
@@ -43,12 +43,13 @@ export default function Header() {
   } = useHeader();
 
   const { megaInfoChamadas } = useFiltrosChamadas();
-  const { assumirChamada } = useDados();
+  const { assumirChamada, alertasUsuarios } = useDados();
   const auten = useAutenticacao();
   const meuId = auten.user?.id!;
 
+
   // 1. Busca os alertas do banco usando React Query
-  const { data: alertasRaw, isLoading: carregandoAlertas } = usePegarAlertas();
+  const { data: alertasRaw, isLoading: carregandoAlertas } = alertasUsuarios;
   const { mutate: permitir, isPending: permitindo } = usePermitirSoftware();
 
   // 2. Filtra apenas os alertas que NÃO foram permitidos (infrações ativas)

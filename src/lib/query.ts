@@ -36,6 +36,8 @@ export const pegarAlertas = async () => {
 };
 
 export const usePegarAlertas = () => {
+    useRealtimeTable("maquinas_programas_flags", "alertas_inventario");
+
   return useQuery({
     queryKey: ['alertas_inventario'],
     queryFn: pegarAlertas

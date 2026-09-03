@@ -9,8 +9,11 @@ import App from './App.tsx'
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 61,
+      staleTime: 0,
       gcTime: 1000 * 60 * 60 * 12,
+      refetchOnMount: "always",
+      refetchOnWindowFocus: true,
+      refetchOnReconnect: true,
     },
   },
 })
@@ -23,7 +26,17 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <PersistQueryClientProvider
       client={queryClient}
-      persistOptions={{ persister }}
+      persistOptions={{
+        persister,
+        dehydrateOptions: {
+          shouldDehydrateQuery: (query) => {
+            const data = query.state.data;
+
+            return query.state.status === "success" &&
+              (!Array.isArray(data) || data.length > 0);
+          },
+        },
+      }}
     > 
       <App />
     </PersistQueryClientProvider>

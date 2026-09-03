@@ -9,7 +9,7 @@
 
 import { createContext, useContext, useMemo } from 'react';
 import { type FiltrosChamadasContextType } from './tipos-contexto';
-import { useDados } from './Dados';
+import { useDados } from '@/contextos/Dados';
 import type { DetalhesCompletos, Chamada } from './tipos-contexto';
 
 const FiltrosChamadasContext = createContext<FiltrosChamadasContextType | null>(null);
@@ -78,6 +78,9 @@ function FiltrosChamadasProvider({ children }: { children: React.ReactNode }) {
       if (!chamadaAtual) return;
 
       if (chamada.id_tecnico) {
+        dados.individual[chamada.id_tecnico] ??= criaMetricas();
+
+
         switch (chamadaAtual.status) {
           case 1:
             dados.individual[chamada.id_tecnico]
