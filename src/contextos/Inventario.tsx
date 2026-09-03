@@ -1,39 +1,96 @@
 'use client';
 
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useMemo } from 'react';
+
 import {
-  pegarProgramas,
-  pegarMaquinas
-} from "@/lib/query";
+  pegarMaquinasCPUs,
+  pegarMaquinasGPUs,
+  pegarMaquinasHDs,
+  pegarMaquinasRAMs,
+  pegarMaquinasMonitores,
+  pegarMaquinasProgramas,
+  pegarMaquinasDadosBrutos,
+  usePegarAlertas,
+} from '@/lib/query';
+
+import { useDados } from '@/contextos/Dados';
 
 import type { InventarioContextType } from './tipos-contexto';
 
 const InventarioContext = createContext<InventarioContextType | null>(null);
 
-function InventarioProvider({ children }: { children: React.ReactNode }) {
+function InventarioProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const { maquinas, programas } = useDados();
 
-    const maquinas = pegarMaquinas();
-    const programas = pegarProgramas();
+  const cpus = pegarMaquinasCPUs();
+  const gpus = pegarMaquinasGPUs();
+  const hds = pegarMaquinasHDs();
+  const rams = pegarMaquinasRAMs();
+  const monitores = pegarMaquinasMonitores();
+
+  const maquinasProgramas = pegarMaquinasProgramas();
+
+  const dadosBrutos = pegarMaquinasDadosBrutos();
+
+  const alertas = usePegarAlertas();
+
+
+  const value = useMemo<InventarioContextType>(
+    () => ({
+      maquinas,
+      programas,
+
+      cpus,
+      gpus,
+      hds,
+      rams,
+      monitores,
+
+      maquinasProgramas,
+
+      dadosBrutos,
+
+      alertas,
+    }),
+    [
+      maquinas,
+      programas,
+
+      cpus,
+      gpus,
+      hds,
+      rams,
+      monitores,
+
+      maquinasProgramas,
+
+      dadosBrutos,
+
+      alertas,
+    ]
+  );
 
   return (
-    <DadosContext.Provider
-      value={{
-        chamadas,
-        andamentos,
-        tecnicos,
-        tecnicosChamadas,
-        assumirChamada
-      }}
-    >
+    <InventarioContext.Provider value={value}>
       {children}
-    </DadosContext.Provider>
+    </InventarioContext.Provider>
   );
 }
 
-export function useDados() {
-  const context = useContext(DadosContext);
-  if (!context) throw new Error('useDados deve ser usado dentro do Header');
+export function useInventario() {
+  const context = useContext(InventarioContext);
+
+  if (!context) {
+    throw new Error(
+      'useInventario deve ser usado dentro de um InventarioProvider'
+    );
+  }
+
   return context;
 }
 
-export { DadosProvider };
+export { InventarioProvider };

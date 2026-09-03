@@ -1,8 +1,9 @@
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { useState, useEffect, useMemo } from "react";
 import MiniSearch from "minisearch";
-import { pegarProgramas } from "@/lib/query";
+import { useDados } from "@/contextos/Dados";
 import { useHeader } from "@/contextos/Header";
+import UsuarioCompleto from "@/componentes/UsuariosCompletos";
 
 type TabelaSoftwaresProps = {
     pesquisa: string;
@@ -19,12 +20,14 @@ type LinhaSoftwareProps = {
     linha: any;
     colunas: readonly Coluna[];
     darkMode: boolean;
+    aoClicar: () => void;
 };
 
 function LinhaSoftware({
     linha,
     colunas,
     darkMode,
+    aoClicar,
 }: LinhaSoftwareProps) {
 
     return (
@@ -37,6 +40,8 @@ function LinhaSoftware({
                 opacity: 1,
                 y: 0,
             }}
+            onClick={aoClicar}
+            className="cursor-pointer"
         >
             {colunas.map((coluna) => {
 
@@ -77,9 +82,19 @@ export default function TabelaSoftwares({
 
     const { darkMode } = useHeader();
 
-    const programas = pegarProgramas();
+    const { programas } = useDados();
+
+    const [modalInfo, setModalInfo] =
+        useState(false);
+
+    const [programaSelecionado, setProgramaSelecionado] =
+        useState<number | null>(null);
+
+    const [pagina, setPagina] =
+        useState(1);
 
     const miniSearch = useMemo(() => {
+
         const search = new MiniSearch({
             fields: [
                 "nome",
@@ -102,9 +117,11 @@ export default function TabelaSoftwares({
         }
 
         return search;
+
     }, [programas.data]);
 
     const programasFiltrados = useMemo(() => {
+
         const termo = pesquisa.trim();
 
         if (!termo) {
@@ -115,25 +132,65 @@ export default function TabelaSoftwares({
             prefix: true,
             fuzzy: 0.1,
         });
-    }, [pesquisa, miniSearch, programas.data]);
 
-    const [pagina, setPagina] = useState(1);
+    }, [
+        pesquisa,
+        miniSearch,
+        programas.data,
+    ]);
 
     const itensPorPagina = 25;
 
-    const totalItens = programasFiltrados.length;
+    const totalItens =
+        programasFiltrados.length;
 
+    const totalPaginas =
+        Math.ceil(
+            totalItens / itensPorPagina
+        );
 
-    const totalPaginas = Math.ceil(
-        totalItens / itensPorPagina
-    );
+    const inicio =
+        (pagina - 1) * itensPorPagina;
 
-    const inicio = (pagina - 1) * itensPorPagina;
-    const fim = inicio + itensPorPagina;
+    const fim =
+        inicio + itensPorPagina;
 
     const programasPagina =
-        programasFiltrados.slice(inicio, fim);
+        programasFiltrados.slice(
+            inicio,
+            fim
+        );
 
+    /*
+     * IMPORTANTE:
+     * O useEffect precisa ficar ANTES
+     * dos returns de loading/error.
+     */
+    useEffect(() => {
+        if (!modalInfo) return;
+
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === "Escape") {
+                setModalInfo(false);
+                setProgramaSelecionado(null);
+            }
+        };
+
+        window.addEventListener("keydown", handleKeyDown);
+
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [modalInfo]);
+
+    useEffect(() => {
+
+        setPagina(1);
+
+    }, [
+        pesquisa,
+        programasFiltrados.length,
+    ]);
 
     const paginasVisiveis = () => {
 
@@ -141,7 +198,11 @@ export default function TabelaSoftwares({
 
         if (totalPaginas <= 7) {
 
-            for (let i = 1; i <= totalPaginas; i++) {
+            for (
+                let i = 1;
+                i <= totalPaginas;
+                i++
+            ) {
                 paginas.push(i);
             }
 
@@ -154,15 +215,17 @@ export default function TabelaSoftwares({
             paginas.push("...");
         }
 
-        const inicioPaginas = Math.max(
-            2,
-            pagina - 1
-        );
+        const inicioPaginas =
+            Math.max(
+                2,
+                pagina - 1
+            );
 
-        const fimPaginas = Math.min(
-            totalPaginas - 1,
-            pagina + 1
-        );
+        const fimPaginas =
+            Math.min(
+                totalPaginas - 1,
+                pagina + 1
+            );
 
         for (
             let i = inicioPaginas;
@@ -172,7 +235,10 @@ export default function TabelaSoftwares({
             paginas.push(i);
         }
 
-        if (pagina < totalPaginas - 3) {
+        if (
+            pagina <
+            totalPaginas - 3
+        ) {
             paginas.push("...");
         }
 
@@ -215,6 +281,7 @@ export default function TabelaSoftwares({
     ] as const;
 
     if (programas.isPending) {
+
         return (
             <h1>
                 Carregando softwares...
@@ -223,6 +290,7 @@ export default function TabelaSoftwares({
     }
 
     if (programas.isError) {
+
         return (
             <h1>
                 Erro ao carregar softwares
@@ -230,12 +298,10 @@ export default function TabelaSoftwares({
         );
     }
 
-    useEffect(() => {
-        setPagina(1);
-    }, [pesquisa, programasFiltrados.length]);
-
     return (
         <>
+            {/* TABELA */}
+
             <motion.div
                 animate={{
                     color: darkMode
@@ -248,6 +314,7 @@ export default function TabelaSoftwares({
                     shadow-sm
                 "
             >
+
                 <motion.table
                     className="
                         w-full
@@ -256,6 +323,7 @@ export default function TabelaSoftwares({
                 >
 
                     <thead>
+
                         <motion.tr
                             initial={{
                                 opacity: 0,
@@ -267,65 +335,81 @@ export default function TabelaSoftwares({
                             }}
                         >
 
-                            {colunas.map((coluna) => (
+                            {colunas.map(
+                                (coluna) => (
 
-                                <motion.th
-                                    key={coluna.id}
-                                    style={{
-                                        width: coluna.width,
-                                        textAlign: coluna.align,
-                                    }}
-                                    animate={{
-                                        borderColor:
-                                            darkMode
-                                                ? "#ffffff31"
-                                                : "#00000055",
-                                    }}
-                                    whileHover={{
-                                        backgroundColor:
-                                            darkMode
-                                                ? "#18181a"
-                                                : "#f4f4f5",
-                                    }}
-                                    className="
-                                        border
-                                        sticky
-                                        top-0
-                                        z-10
-                                        px-5
-                                        py-4
-                                        text-xs
-                                        font-semibold
-                                        uppercase
-                                        tracking-wider
-                                        backdrop-blur-sm
-                                    "
-                                >
-                                    {coluna.header}
-                                </motion.th>
+                                    <motion.th
+                                        key={coluna.id}
+                                        style={{
+                                            width: coluna.width,
+                                            textAlign: coluna.align,
+                                        }}
+                                        animate={{
+                                            borderColor:
+                                                darkMode
+                                                    ? "#ffffff31"
+                                                    : "#00000055",
+                                        }}
+                                        whileHover={{
+                                            backgroundColor:
+                                                darkMode
+                                                    ? "#18181a"
+                                                    : "#f4f4f5",
+                                        }}
+                                        className="
+                                            border
+                                            sticky
+                                            top-0
+                                            z-10
+                                            px-5
+                                            py-4
+                                            text-xs
+                                            font-semibold
+                                            uppercase
+                                            tracking-wider
+                                            backdrop-blur-sm
+                                        "
+                                    >
+                                        {coluna.header}
+                                    </motion.th>
 
-                            ))}
+                                )
+                            )}
 
                         </motion.tr>
+
                     </thead>
 
                     <tbody>
 
-                        {programasPagina.map((linha) => (
+                        {programasPagina.map(
+                            (linha) => (
 
-                            <LinhaSoftware
-                                key={linha.id}
-                                linha={linha}
-                                colunas={colunas}
-                                darkMode={darkMode}
-                            />
+                                <LinhaSoftware
+                                    key={linha.id}
+                                    linha={linha}
+                                    colunas={colunas}
+                                    darkMode={darkMode}
+                                    aoClicar={() => {
 
-                        ))}
+                                        setProgramaSelecionado(
+                                            linha.id
+                                        );
+
+                                        setModalInfo(true);
+
+                                    }}
+                                />
+
+                            )
+                        )}
 
                     </tbody>
 
                 </motion.table>
+
             </motion.div>
+
 
             {/* PAGINAÇÃO */}
 
@@ -348,7 +432,9 @@ export default function TabelaSoftwares({
 
                     <button
                         onClick={() =>
-                            setPagina((p) => p - 1)
+                            setPagina(
+                                (p) => p - 1
+                            )
                         }
                         disabled={pagina === 1}
                         className="
@@ -362,6 +448,7 @@ export default function TabelaSoftwares({
                     >
                         Anterior
                     </button>
+
 
                     {paginasVisiveis().map(
                         (item, index) =>
@@ -402,9 +489,12 @@ export default function TabelaSoftwares({
                             )
                     )}
 
+
                     <button
                         onClick={() =>
-                            setPagina((p) => p + 1)
+                            setPagina(
+                                (p) => p + 1
+                            )
                         }
                         disabled={
                             pagina === totalPaginas
@@ -424,6 +514,85 @@ export default function TabelaSoftwares({
                 </motion.div>
 
             )}
+
+
+            {/* MODAL DO SOFTWARE */}
+
+            <AnimatePresence>
+                {modalInfo && programaSelecionado !== null && (
+                    <motion.div
+                        key="modal-software"
+                        className="
+                fixed
+                inset-0
+                z-[1000]
+                flex
+                items-center
+                justify-center
+            "
+                        animate={{ height: 'auto' }}
+                    >
+                        {/* OVERLAY */}
+                        <motion.div
+                            className="
+                    absolute
+                    inset-0
+                    z-0
+                    bg-black/40
+                "
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => {
+                                setModalInfo(false);
+                                setProgramaSelecionado(null);
+                            }}
+                        />
+
+                        {/* CONTEÚDO */}
+                        <motion.div
+                            className="
+                    relative
+                    z-10
+                    w-full
+                    max-w-5xl
+                    max-h-[90vh]
+                    overflow-y-auto
+                "
+                            initial={{
+                                opacity: 0,
+                                scale: 0.95,
+                                y: 20,
+                                height: 0,
+                            }}
+                            animate={{
+                                opacity: 1,
+                                scale: 1,
+                                y: 0,
+                                height: "auto",
+                            }}
+                            exit={{
+                                opacity: 0,
+                                scale: 0.95,
+                                y: 20,
+                                height: 0,
+                            }}
+                            transition={{
+                                duration: 0.2,
+                                ease: "easeInOut",
+                            }}
+                            onClick={(event) => {
+                                event.stopPropagation();
+                            }}
+                        >
+                            <UsuarioCompleto
+                                programa_id={programaSelecionado}
+                            />
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
         </>
     );
 }

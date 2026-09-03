@@ -2,6 +2,7 @@ import { HeaderProvider } from './contextos/Header';
 import { DadosProvider } from './contextos/Dados';
 import { AutenticacaoProvider } from './contextos/Autenticacao';
 import { FiltrosChamadasProvider } from './contextos/FiltrosChamadas';
+import { InventarioProvider } from './contextos/Inventario';
 import Header from './componentes/Header';
 
 import Login from "@/pages/Login";
@@ -23,22 +24,25 @@ function App() {
 
             <FiltrosChamadasProvider>
               <HeaderProvider>
-                <Header />
+                <InventarioProvider>
+                  <Header />
 
-                <Routes>
-                  <Route path="/" element={<Login />} />
+                  <Routes>
+                    <Route path="/" element={<Login />} />
 
-                  <Route element={<LoggedRoute />}>
-                    <Route path="/Painel" element={<Principal />} />
-                    <Route path="/Softwares" element={<Softwares />} />
-                    <Route path="/Usuarios" element={<Usuarios />} />
-                    <Route path="/PSI" element={<Navigate to="/PSI.pdf" replace />} />
-                    <Route path="/Cameras" element={<Cameras />} />
+                    <Route element={<LoggedRoute />}>
+                      <Route path="/Painel" element={<Principal />} />
+                      <Route path="/Softwares" element={<Softwares />} />
+                      <Route path="/Usuarios" element={<Usuarios />} />
+                      <Route path="/PSI" element={<Navigate to="/PSI.pdf" replace />} />
+                      <Route path="/Cameras" element={<Cameras />} />
 
-                  </Route>
-                </Routes>
+                    </Route>
+                  </Routes>
 
-                {/*<DashboardHeader />*/}
+                  {/*<DashboardHeader />*/}
+                </InventarioProvider>
+
               </HeaderProvider>
             </FiltrosChamadasProvider>
           </DadosProvider>

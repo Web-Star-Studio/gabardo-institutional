@@ -39,6 +39,9 @@ export type DadosContextType = {
     tecnicos: UseQueryResult<Tables<"tecnicos">[], Error>;
     tecnicosChamadas: UseQueryResult<Tables<"tecnico_chamadas">[], Error>;
     assumirChamada: (idChamada: string, idTecnico: string) => void;
+    maquinas: UseQueryResult<Tables<"maquinas">[], Error>;
+    programas: UseQueryResult<Tables<"programas">[], Error>;
+
   }
 
 export type AutenticacaoContextType = {
@@ -52,6 +55,31 @@ export type AutenticacaoContextType = {
     limparErro: () => void;
     carregandoAuth : boolean;
 }
+
+export type InventarioContextType = {
+  maquinas: ReturnType<typeof import("@/lib/query").pegarMaquinas>;
+  programas: UseQueryResult<{
+    flag: boolean;
+    id: number;
+    nome: string;
+    publisher: string | null;
+    versao: string | null;
+}[], Error>
+
+  cpus: ReturnType<typeof import("@/lib/query").pegarMaquinasCPUs>;
+  gpus: ReturnType<typeof import("@/lib/query").pegarMaquinasGPUs>;
+  hds: ReturnType<typeof import("@/lib/query").pegarMaquinasHDs>;
+  rams: ReturnType<typeof import("@/lib/query").pegarMaquinasRAMs>;
+  monitores: ReturnType<typeof import("@/lib/query").pegarMaquinasMonitores>;
+
+  maquinasProgramas: ReturnType< typeof import("@/lib/query").pegarMaquinasProgramas >;
+  dadosBrutos: ReturnType< typeof import("@/lib/query").pegarMaquinasDadosBrutos >;
+
+  alertas: ReturnType< typeof import("@/lib/query").usePegarAlertas >;
+
+}
+
+
 
 export type FiltrosChamadasContextType = {
   megaInfoChamadas: DetalhesCompletos;
