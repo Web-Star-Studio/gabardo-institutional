@@ -12,45 +12,73 @@ export default function FrenteCam() {
             }}
             className='grid grid-cols-3 pt-20'
         >
-            <iframe
-                src={`http://10.1.3.132:8888/dvr7_cam9`}
-                className="pointer-events-none aspect-[8/5.5] bg-black"
-                allow="autoplay; fullscreen"
-            />
 
-            <iframe
-                src={`http://10.1.3.132:8888/dvr7_cam1`}
-                className="pointer-events-none aspect-[8/5.5] bg-black"
-                allow="autoplay; fullscreen"
-            />
             <iframe
                 src={`http://10.1.3.132:8888/dvr7_cam2`}
                 className="pointer-events-none aspect-[8/5.5] bg-black"
                 allow="autoplay; fullscreen"
             />
             <iframe
-                src={`http://10.1.3.132:8888/dvr7_cam7`}
+                src={`http://10.1.3.132:8888/dvr7_cam27`}
+                className="pointer-events-none aspect-[8/5.5] bg-black"
+                allow="autoplay; fullscreen"
+            />
+            <iframe
+                src={`http://10.1.3.132:8888/dvr7_cam1`}
+                className="pointer-events-none aspect-[8/5.5] bg-black"
+                allow="autoplay; fullscreen"
+            />
+            <iframe
+                src={`http://10.1.3.132:8888/dvr7_cam19`}
                 className="pointer-events-none aspect-[8/5.5] bg-black"
                 allow="autoplay; fullscreen; autoplay"
             />
-            <iframe
-                src={`http://10.1.3.132:8888/dvr7_cam8`}
-                className="pointer-events-none aspect-[8/5.5] bg-black"
-                allow="autoplay; fullscreen"
-            />
+
 
 
             <iframe
-                src={`http://10.1.3.132:8888/dvr4_cam16`}
+                src={`http://10.1.3.132:8888/dvr7_cam17`}
                 className="pointer-events-none aspect-[8/5.5] bg-black"
                 allow="autoplay; fullscreen"
             />
 
             <iframe
-                src={`http://10.1.3.132:8888/dvr4_cam2`}
+                src={`http://10.1.3.132:8888/dvr7_cam18`}
                 className="pointer-events-none aspect-[8/5.5] bg-black"
                 allow="autoplay; fullscreen"
             />
+            <iframe
+                src={`http://10.1.3.132:8888/dvr7_cam21`}
+                className="pointer-events-none aspect-[8/5.5] bg-black"
+                allow="autoplay; fullscreen"
+            />
+            <iframe
+                src={`http://10.1.3.132:8888/dvr7_cam20`}
+                className="pointer-events-none aspect-[8/5.5] bg-black"
+                allow="autoplay; fullscreen"
+            />            <iframe
+                src={`http://10.1.3.132:8888/dvr7_cam3`}
+                className="pointer-events-none aspect-[8/5.5] bg-black"
+                allow="autoplay; fullscreen"
+            />
+
+            <iframe
+                src={`http://10.1.3.132:8888/dvr7_cam24`}
+                className="pointer-events-none aspect-[8/5.5] bg-black"
+                allow="autoplay; fullscreen"
+            />
+
+            <iframe
+                src={`http://10.1.3.132:8888/dvr7_cam26`}
+                className="pointer-events-none aspect-[8/5.5] bg-black"
+                allow="autoplay; fullscreen "
+            />
+            <iframe
+                src={`http://10.1.3.132:8888/dvr7_cam23`}
+                className="pointer-events-none aspect-[8/5.5] bg-black"
+                allow="autoplay; fullscreen col-span-1"
+            />
+
         </motion.div>
     );
 }

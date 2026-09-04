@@ -835,7 +835,7 @@ export default function TabelaUsuarios({
                                     w-full
                                     max-w-5xl
                                     max-h-[90vh]
-                                    overflow-y-auto
+                                    overflow-y-hidden
                                 "
                                 initial={{
                                     opacity: 0,

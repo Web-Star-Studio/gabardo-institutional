@@ -65,7 +65,6 @@ export default function Header() {
   const pagChamadas = usePaginacao(numMinhasChamadas, 10);
   const pagNotificacoes = usePaginacao(numNotificacoes, 10);
 
-  // NOVA INSTÂNCIA: Paginação conectada ao total de alertas ativos
   const pagAlertas = usePaginacao(numAlertas, 10);
 
   useEffect(() => {
@@ -306,7 +305,7 @@ export default function Header() {
             exit={{ opacity: 0, scale: 0.9, y: 10 }}
             transition={{ type: "spring", stiffness: 400, damping: 30 }}
             onClick={(e) => e.stopPropagation()}
-            className={`fixed left-1/2 top-1/3 z-[1000] w-[min(90vw,900px)] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl border shadow-2xl ${darkMode ? "border-zinc-700 bg-zinc-900 text-zinc-100" : "border-zinc-200 bg-white text-zinc-900"
+            className={`fixed left-1/2 top-1/3 z-[1000] w-[min(90vw,900px)] -translate-x-1/2 -translate-y-1/2  rounded-2xl border shadow-2xl ${darkMode ? "border-zinc-700 bg-zinc-900 text-zinc-100" : "border-zinc-200 bg-white text-zinc-900"
               }`}
           >
             <div className={`flex items-center justify-between border-b px-5 py-4 ${darkMode ? "border-zinc-700" : "border-zinc-200"}`}>
@@ -352,7 +351,7 @@ export default function Header() {
             exit={{ opacity: 0, scale: 0.9, y: 10 }}
             transition={{ type: "spring", stiffness: 400, damping: 30 }}
             onClick={(e) => e.stopPropagation()}
-            className={`fixed left-1/2 top-1/3 z-[1000] w-[min(90vw,900px)] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl border shadow-2xl ${darkMode ? "border-zinc-700 bg-zinc-900 text-zinc-100" : "border-zinc-200 bg-white text-zinc-900"
+            className={`fixed left-1/2 top-1/3 z-[1000] w-[min(90vw,900px)] -translate-x-1/2 -translate-y-1/2  rounded-2xl border shadow-2xl ${darkMode ? "border-zinc-700 bg-zinc-900 text-zinc-100" : "border-zinc-200 bg-white text-zinc-900"
               }`}
           >
             <div className={`flex items-center justify-between border-b px-5 py-4 ${darkMode ? "border-zinc-700" : "border-zinc-200"}`}>
@@ -369,7 +368,7 @@ export default function Header() {
               </button>
             </div>
 
-            <div className="max-h-[60vh] overflow-y-auto p-5">
+            <div className="max-h-[60vh] p-5">
               <Paginacao
                 pagina={pagAlertas.pagina}
                 totalPaginas={pagAlertas.totalPaginas}
@@ -467,7 +466,7 @@ export default function Header() {
             exit={{ opacity: 0, scale: 0.9, y: 10 }}
             transition={{ type: "spring", stiffness: 400, damping: 30 }}
             onClick={(e) => e.stopPropagation()}
-            className={`fixed left-1/2 top-1/3 z-[1000] w-[min(1100vw,900px)] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl border shadow-2xl ${darkMode ? "border-zinc-700 bg-zinc-900 text-zinc-100" : "border-zinc-200 bg-white text-zinc-900"
+            className={`overflow-y-auto h-200 pb-10 fixed left-1/2 top-1/2 z-[1000] w-[min(1100vw,900px)] -translate-x-1/2 -translate-y-1/2  rounded-2xl border shadow-2xl ${darkMode ? "border-zinc-700 bg-zinc-900 text-zinc-100" : "border-zinc-200 bg-white text-zinc-900"
               }`}
           >
             <div className={`flex items-center justify-between border-b px-5 py-4 ${darkMode ? "border-zinc-700" : "border-zinc-200"}`}>
@@ -484,7 +483,7 @@ export default function Header() {
               </button>
             </div>
 
-            <div className="max-h-[60vh] overflow-hidden p-5">
+            <div className="max-h-[60vh]  p-5">
               <Paginacao pagina={pagNotificacoes.pagina} totalPaginas={pagNotificacoes.totalPaginas} setPagina={pagNotificacoes.setPagina} darkMode={darkMode} />
               {numNotificacoes > 0 ? (
                 <div className="space-y-3">

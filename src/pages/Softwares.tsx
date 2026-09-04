@@ -37,7 +37,7 @@ export default function Softwares() {
                         animate={{ opacity: 1, y: 0, color: text }}
                         className="text-5xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100"
                     >
-                        Todas os softwares
+                        Todos os softwares
                     </motion.h2>
 
                     <motion.div className="relative w-full mt-5">

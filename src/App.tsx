@@ -10,6 +10,7 @@ import Principal from "@/pages/Painel";
 import Softwares from "@/pages/Softwares";
 import Usuarios from "@/pages/Usuarios";
 import Cameras from "@/pages/Cameras";
+import Contratos from "@/pages/Contratos";
 import LoggedRoute from "@/pages/LoggedRoutes";
 import { Navigate } from "react-router-dom";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -36,6 +37,7 @@ function App() {
                       <Route path="/Usuarios" element={<Usuarios />} />
                       <Route path="/PSI" element={<Navigate to="/PSI.pdf" replace />} />
                       <Route path="/Cameras" element={<Cameras />} />
+                      <Route path="/Contratos" element={<Contratos />} />
 
                     </Route>
                   </Routes>

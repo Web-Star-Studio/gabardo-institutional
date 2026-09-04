@@ -10,10 +10,15 @@ export default function PortaoCam() {
             animate={{
                 backgroundColor: darkMode ? '#181818' : '#fff',
             }}
-            className='grid grid-cols-3 pt-20'
+            className='grid min-h-screen grid-cols-2 pt-20'
         >
             <iframe
                 src={`http://10.1.3.132:8888/dvr1_cam1`}
+                className="pointer-events-none aspect-[8/5.5] bg-black"
+                allow="autoplay; fullscreen"
+            />
+            <iframe
+                src={`http://10.1.3.132:8888/dvr3_cam13`}
                 className="pointer-events-none aspect-[8/5.5] bg-black"
                 allow="autoplay; fullscreen"
             />
@@ -27,25 +32,14 @@ export default function PortaoCam() {
                 className="pointer-events-none aspect-[8/5.5] bg-black"
                 allow="autoplay; fullscreen; autoplay"
             />
-            <iframe
-                src={`http://10.1.3.132:8888/dvr3_cam13`}
-                className="pointer-events-none aspect-[8/5.5] bg-black"
-                allow="autoplay; fullscreen"
-            />
+
             <iframe
                 src={`http://10.1.3.132:8888/dvr2_cam9`}
                 className="pointer-events-none aspect-[8/5.5] bg-black"
                 allow="autoplay; fullscreen"
             />
-
             <iframe
-                src={`http://10.1.3.132:8888/dvr4_cam16`}
-                className="pointer-events-none aspect-[8/5.5] bg-black"
-                allow="autoplay; fullscreen"
-            />
-
-            <iframe
-                src={`http://10.1.3.132:8888/dvr4_cam2`}
+                src={`http://10.1.3.132:8888/dvr2_cam11`}
                 className="pointer-events-none aspect-[8/5.5] bg-black"
                 allow="autoplay; fullscreen"
             />

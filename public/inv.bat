@@ -1,9 +1,9 @@
+powershell.exe -ExecutionPolicy Bypass -Command "Invoke-Expression (Get-Content '%~f0' | Select-Object -Skip 4 | Out-String)"
+goto :EOF
+
+:POWERSHELL
 $supabaseUrl = "https://eofkiyvsslugkfmjbgqn.supabase.co"
 $supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVvZmtpeXZzc2x1Z2tmbWpiZ3FuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ1NTg5NzYsImV4cCI6MjEwMDEzNDk3Nn0.ZWQLDrDToCYTM58QaET0ig14IgXShI0WKbTxn4Iatbc"
-
-# ==========================================
-# COLETA DE DADOS
-# ==========================================
 
 $paths = @(
     "HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*",
@@ -184,10 +184,6 @@ $ipsInternos = (
         $_.PrefixOrigin -ne 'WellKnown'
     }
 ).IPAddress -join ' '
-
-# ==========================================
-# ESTRUTURAÇÃO DO PAYLOAD E ENVIO
-# ==========================================
 
 $payload = [PSCustomObject]@{
     nome_computador      = $user.Name
